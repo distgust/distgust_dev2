@@ -1,0 +1,12 @@
+.login-section{
+    padding: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.form-title{
+    text-align: center;
+}
+.form-container{
+    display: flex;
+    justify-content: center;
+}

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Pattarasawan</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Athiti:wght@300&display=swap');
+.wrapper {
+   display: block;
+   min-height: 100%; /* real browsers */
+   height: auto !important; /* real browsers */
+   height: 100%; /* IE6 bug */
+   margin-bottom: -10vh; /* กำหนด margin-bottom ให้ติดลบเท่ากับความสูงของ footer */
+}
+* {
+  box-sizing: border-box;
+}
+html ,body {
+    font-family: Athiti;
+    height: 100%; /* ให้ html และ body สูงเต็มจอภาพไว้ก่อน */
+
+}
+
+/* Style the header */
+header {
+    padding: 10px;
+    text-align: center;
+    font-size: 35px;
+    color: white;
+    background-image: url("cover2.jpg");
+    background-size: cover;
+}
+
+/* Create two columns/boxes that floats next to each other */
+nav {
+    float: left;
+    width: 30%;
+    height: 90vh; /* only for demonstration, should be removed */
+    background: #ccc;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Style the list inside the menu */
+nav ul {
+  list-style-type: none;
+  padding: 0;
+
+}
+
+nav ul li {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+article {
+  float: left;
+  padding: 20px;
+  width: 70%;
+  background-color: #f1f1f1;
+  height: 90vh; /* only for demonstration, should be removed */
+  overflow: auto;
+}
+
+/* Clear floats after the columns */
+section::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the footer */
+footer {
+    background-color: #777;
+    height: 10vh; /* ความสูงของ footer */
+    display: block;
+    text-align: center;
+    color: white;
+    margin-top: 0px;
+    display: flex;
+    justify-content: center;
+    
+}
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@media (max-width: 600px) {
+  nav, article {
+    width: 100%;
+    height: auto;
+  }
+}
+</style>
+</head>
+<body>
+    <header>
+        <h2>Pattarasawan Sritad</h2>
+    </header>
+    <div class="wrapper">
+
+    <nav>
+        <ul>
+            <li><a href="http://www.udontech.ac.th/web59/">วิทยาลัย เทคนิคอุดรธานี</a></li>
+            <li><a href="http://www.youtube.com">youtube</a></li>
+            <li><a href="http://www.google.co.th">google</a></li>
+        </ul>
+    </nav>
+
+    <article>
+        <div class="container">
+            <h1>สถานที่ท่องเที่ยวในจังหวัดอุดรธานี</h1>
+            <div class="container">
+                <h2>วัดป่าภูก้อน</h2>
+                <image src="https://img.kapook.com/u/2018/supattra_wat/Udon/don.jpg"/>
+                <p>ตั้งอยู่ในเขตป่าสงวนแห่งชาติป่านายูงและป่าน้ำโสม ตำบลบ้านก้อง อำเภอนายูง เป็นวัดป่าแห่งการวิปัสสนา โดดเด่นด้วยความสวยงามของโครงสร้างการออกแบบทางสถาปัตยกรรมขององค์พระพุทธรูปหินอ่อน พระวิหาร ศาลาราย และอาคารรอบลานเขา โดยพระวิหารมีลักษณะสถาปัตยกรรมไทยประยุกต์สมัยรัตนโกสินทร์ ภายในพระวิหารตกแต่งด้วยพุทธประวัติ พระพุทธไสยาสน์โลกนาถศาสดามหามุนีหินอ่อนสีขาว สร้างขึ้นเนื่องในโอกาสมหามงคลที่พระบาทสมเด็จพระปรมินทรมหาภูมิพลอดุลยเดช ทรงเจริญพระชนมพรรษาครบ 7 รอบ สอบถามข้อมูลเพิ่มเติมได้ที่ โทรศัพท์ 082 835 0668, 090 747 2228 และเว็บไซต์ watpaphukon.org</p>
+            </div>
+            <div class="container">
+                <h2>พุทธอุทยาน วัดป่าดงไร่</h2>
+                <image src="https://img.kapook.com/u/2018/supattra_wat/Udon/don9.jpg"/>
+                <p>         ตั้งอยู่ที่อำเภอหนองหาน ชื่นชมกับพระอุโบสถกลางน้ำรูปดอกบัวแห่งเดียวในเมืองไทย มีสะพานทอดยาวเป็นทางเดินเชื่อมไปยังตัวพระอุโบสถ ภายในพระอุโบสถจะพบกับพระพุทธรูปสวย ล้อมรอบด้วยภาพวาดฝาผนังบอกเล่าเรื่องราวพุทธประวัติของพระพุทธเจ้า ไหว้พระเสร็จแล้ว ก็ออกมาให้อาหารปลาตรงบริเวณหนองน้ำรอบพระอุโบสถกันต่อ เรียกได้ว่าอิ่มบุญ สุขใจกันถ้วนหน้า สอบถามข้อมูลเพิ่มเติมได้ที่ โทรศัพท์ 086 229 7739 หรือ เฟซบุ๊ก วัดสันติวนาราม(ดงไร่)</p>
+            </div>
+            <div class="container">
+                <h2>พิพิทธภัณฑสถานบ้านเชียง</h2>
+                <image src="https://img.kapook.com/u/2018/supattra_wat/Udon/don6.jpg"/>
+                <p>         แหล่งท่องเที่ยวและแหล่งเรียนรู้ทางโบราณคดีสำคัญของไทย ที่ให้นักท่องเที่ยวรับรู้ถึงการดำรงชีวิตสมัยก่อนประวัติศาสตร์ย้อนหลังไปกว่า 5,000 ปี แสดงให้เห็นถึงร่องรอยทั้งทางด้านวัฒนธรรมและภูมิปัญญาของมนุษย์ ทั้ง เครื่องมือในการดำรงชีวิต และการสร้างสังคมวัฒนธรรมของมนุษย์ ที่สืบเนื่องต่อกันมาเป็นระยะเวลายาวนาน รวมถึงยังครอบคลุมไปถึงแหล่งโบราณคดีในภาคตะวันออกเฉียงเหนืออีกกว่าร้อยแห่งด้วย</p>
+            </div>   
+            <div class="container">
+                <h2>ทะเลบัวแดง</h2>
+                <image src="https://img.kapook.com/u/2018/supattra_wat/Udon/don11.jpg"/>
+                <p>         ตั้งอยู่ที่บึงหนองหาน อำเภอกุมภวาปี แหล่งท่องเที่ยวธรรมชาติสวย ที่นักท่องเที่ยวจะได้เห็นบึงบัวแดงขนาดใหญ่ ออกดอกชูช่อโผล่พ้นน้ำ โดยจะบานในช่วงฤดูหนาวเป็นประจำทุกปี ทางชุมชนมีการจัดเรือนำเที่ยวพานักท่องเที่ยวไปเที่ยวชมทะเลบัวแดงกันอย่างใกล้ชิด ช่วงเวลาที่เหมาะสมสำหรับการชมทะเลบัวแดง จะอยู่ในช่วง 06.00-11.00 น. โดยเฉพาะยามเช้าที่จะได้เห็นดอกบัวแดงชูช่อล้อกับสายหมอกบาง ๆ รับกับแสงตะวันสีทองอย่างสวยงาม สามารถสอบถามข้อมูลเพิ่มเติมได้ที่ คุณไพรสิทธิ์ สุขรมย์ (ประธานกลุ่มเรือฯ) โทรศัพท์ 08 9395 0871</p>
+            </div>   
+            <div class="container">
+                <h2>อุทยานประวัติศาสตร์ภูพระบาท</h2>
+                <image src="https://img.kapook.com/u/2018/supattra_wat/Udon/don5.jpg"/>
+                <p>ตั้งอยู่บริเวณเชิงเขาภูพาน เป็นอุทยานที่แสดงถึงอารยธรรมของมนุษย์ รวมทั้งบ่งบอกถึงการเปลี่ยนแปลงของสภาพภูมิประเทศ ซึ่งมีโครงสร้างส่วนใหญ่เป็นหินทรายที่ถูกขัดเกลาจากกระบวนการกัดกร่อนทางธรรมชาติ ทำให้เกิดเป็นโขดหินน้อยใหญ่รูปร่างต่าง ๆ กัน ไฮไลท์สำคัญที่นักท่องเที่ยวต้องเดินทางมาชมให้ได้ คือ "หอนางอุสา" ต้นตำนานนิทานพื้นบ้านเรื่องนางอุสา-ท้าวบารส ซึ่งตั้งตระหง่านเป็นเอกลักษณ์อันโดดเด่นของอุทยานประวัติศาสตร์ภูพระบาทนั่นเอง สอบถามข้อมูลเพิ่มเติมได้ที่ โทรศัพท์ 042 21 9837 หรือ เฟซบุ๊ก อุทยานประวัติศาสตร์ภูพระบาท</p>
+            </div>  
+        </div>
+
+    </article>
+</div>
+
+<footer>
+    <p>Footer</p>
+</footer>
+
+</body>
+</html>

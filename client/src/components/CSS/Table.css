@@ -1,0 +1,16 @@
+.table-control.users-table{
+    min-width: 100%;
+    border-collapse: collapse;
+}
+.table-control.users-table tr{
+    text-align: center;
+    border: .5px solid #CE5A67;
+}
+.table-control.users-table tr th.id{
+    width: 50%;
+    border: .5px solid #CE5A67;
+}
+.table-control.users-table tr th.username,td{
+    width: 25%;
+    border: .5px solid #CE5A67;
+}

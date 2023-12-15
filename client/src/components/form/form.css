@@ -1,0 +1,134 @@
+.form-control{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.form-w-500{
+    min-width: 400px;
+    max-width: 500px;
+}
+.form-w-700{
+    min-width: 700px;
+    max-width: 800px;
+}
+.w-100{
+    width: 100%;
+}
+.w-50{
+    width: 50%;
+}
+.form-row{
+    text-align: center;
+}
+.form-container{
+    display: inline-block;
+    width: 70%;
+}
+.form-control label{
+    float: left;
+    width: 20%;
+    max-width: 300px;
+    margin-top: 6px;
+    padding: 10px;
+    resize: vertical;
+    font-size: 15px;
+    text-align: start;
+    display: block;
+}
+.form-control input{
+    float: left;
+    width: 80%;
+    margin-top: 6px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    
+}
+.form-control textarea{
+    float: left;
+    width: 70%;
+    margin-top: 6px;
+    padding-left: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    line-height: 3;
+}
+.form-control input[type=submit] {
+    background-color: #325D79;
+    font-family: Anuphan;
+    font-weight: 500;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+}
+.form-control .btn-submit{
+    width: 300px;
+}
+.form-control input.btn-submit[type=submit]:hover{
+    box-shadow: 0 4px 8px 0 #325D79, 0 6px 10px 0 #325D79;
+}
+.form-control .form-row input.btn-submit:disabled{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  box-shadow: none;
+}
+.form-control .form-row::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.form-control .form-err-span{
+    float: right;
+    margin: o;
+}
+.form-err-span .err-span-text{
+    color: #CE5A67;
+    margin:0;
+    font-weight: 50;
+}
+  /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 768px) {
+    .form-w-700{
+        min-width: 500px;
+        
+    }
+    .form-w-500{
+        min-width: 100%;
+    }
+    .form-control input {
+        width: 100%;
+        margin-top: 0;
+    }
+    .form-control label{
+        text-align: left;
+        width: 100%;
+        margin-top: 10px;
+        padding: 0;
+    }
+    .form-row{
+        max-width: 100%;
+    }
+    input[type=submit]{
+        margin-top: 6px;
+        width: 50%;
+    }
+    .form-control textarea{
+        width: 100%;
+        margin-top: 0;
+    }
+   
+}
+@media screen and (max-width: 425px) {
+    .form-w-700{
+        min-width: 100%;
+        
+    }
+    .form-w-500{
+        min-width: 100%;
+    }
+}

@@ -1,0 +1,41 @@
+nav {
+    min-height: 100vh;
+    height: 100%; /* only for demonstration, should be removed */
+    background-color: #F4BF96;
+    margin-right: 0;
+    position: fixed;
+    width: 200px;
+    margin-top: 69px;
+}
+
+/* Style the list inside the menu */
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #F4BF96;
+}
+.menu {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: block;
+    color: #000;
+    font-family: 'Anuphan', sans-serif;
+    font-size: 10px;
+    text-align: center;
+    text-decoration: none;
+}
+.menu.active {
+    background-color: #04AA6D;
+    color: white;
+}
+
+.menu:hover:not(.active) {
+    background-color: #CE5A67;
+    color: white;
+}
+@media screen and (max-width: 1024px) {
+    nav {
+        visibility: hidden;
+    }
+}
