@@ -10,32 +10,41 @@ const RegisterForm = () =>{
         setInputs(values => ({...values, [name]: value}));
     };
    
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         //console.log(inputs);
         //console.log(inputs.username)
-        fetch('http://localhost:3001/api/register', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(inputs),
-        })
-        .then((res) => {
-            if(!res.ok) throw new Error(res.status);
-            else return res.json();
-        })
-        .then((data) => {
-            if(data.code){
-                console.log('ERROR : ',data.errno,'\nERR_CODE : ',data.code,'\nERR_MESSAGE : ',data.sqlMessage);
-                alert('ERROR : '+data.sqlMessage);
-            }else{
-                console.log("DATA STORED",data.response); 
-            }
-        })
-        .catch((err) => {
-            console.log('ERROR!',err);
-        });
         event.preventDefault();
+        try{
+            const req = await fetch('http://localhost:3001/api/try_to_register', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(inputs),
+            });
+
+            const res = await req.json();
+            //console.log("server response this :", res);
+            if(res.status === 'error'){
+                //console.error('ERROR : ', res.response_data.errno,'\nERR_CODE : ', 
+                //res.response_data.code,'\nERR_MESSAGE : ',res.response_data.sqlMessage);
+                switch(res.response_data.code){
+                    default:
+                        console.error(res.response_data.code)
+                        break;
+                    case 'ER_DUP_ENTRY':
+                        alert('ERROR : กรุณาใช้ Username อื่น')
+                    break;
+                    case 'EMPTY_ENTRY':
+                        alert('ERROR : ตรวจสอบข้อมูลที่กรอก')
+                    break;
+                }
+            }else{
+                alert("DATA STORED", res.response_data); 
+            }
+        }catch(error){
+            console.error("There has been a problem with your fetch operation:", error);
+        }
     }
     return(
         <div className='form-container'>

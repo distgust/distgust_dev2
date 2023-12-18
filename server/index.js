@@ -22,58 +22,6 @@ const pool = mysql.createPool({
    database:   'FishingSportManagerDB',
 });
 
-// promises query function //
-const InsertData = (TableName,Datas) => new Promise((resolve,reject) => {
-   const SqlInsert = 'INSERT INTO '+TableName+' SET ?';
-   pool.query(SqlInsert,Datas,(error,result) => {
-      if(error){
-         return reject(error);
-      }
-      return resolve(result);
-   });
-});
-// insert to userstable //
-app.post('/api/try_to_register' ,async (req,res) => {
-   try{
-      let hasher = await bcrypt.hash(req.body.password,saltround,async (err,hashedpw)=>{
-         if(err){return};
-         const tablename = 'UsersTable';
-         const datas = {
-            UserUN: req.body.username,
-            UserPW: hashedpw,
-            UserR: 'user'
-         };
-         try{
-            const insert = await InsertData(tablename,datas);
-            res.status(201),json({status:"success",data:insert});
-         }catch(err){
-            res.status(500).json({status:"error to insert",data:err});
-         }
-      })
-   }catch(error){
-      res.status(500).json({status:"error hash",data:error});
-   }
-});
-// insert to NewsTable //
-app.post('/api/addnewspost' , async (req, res) => {
-   try{
-      const tablename = 'NewsTable';
-      const datas = {
-         NewsHeader: req.body.NewsHeader,
-         NewsLocation: req.body.NewsLocation,
-         NewsMatchDate: req.body.NewsMatchDate,
-         NewsContent: req.body.NewsContent
-      };
-
-      const insert = await InsertData(tablename,datas);
-
-      res.status(201).json({status:"success",data: insert});
-   } catch(error){
-      //console.log(error.errno);
-      res.status(500).json({status:"error",data: error});
-   }
-});
-
 // test db connection function //
 const testDBConn = () => {
    return new Promise((resolve, reject) => {
@@ -97,18 +45,75 @@ testDBConn()
     console.error(error);
    });
 
+//                         //
+
+// promises query function //
+const InsertData = (TableName,Datas) => new Promise((resolve,reject) => {
+   const SqlInsert = 'INSERT INTO '+TableName+' SET ?';
+   pool.query(SqlInsert,Datas,(error,result) => {
+      if(error){
+         return reject(error);
+      }
+      return resolve(result);
+   });
+});
+//                      //
+
+// insert to userstable //
+app.post('/api/try_to_register' ,async (req,res) => {
+   try{
+         await bcrypt.hash(req.body.password,saltround,async (err,hashedpw)=>{
+         if(err){return};
+         const tablename = 'UsersTable';
+         const datas = {
+            UserUN: req.body.username,
+            UserPW: hashedpw,
+            UserR: 'user'
+         };
+         try{
+            const insert = await InsertData(tablename,datas);
+            res.status(201),json({status:"success",response_data:insert});
+         }catch(err){
+            res.status(500).json({status:"error",response_data:err});
+         }
+      })
+   }catch(error){
+      res.status(500).json({status:"error hash",response_data:error});
+   }
+});
+// insert to NewsTable //
+app.post('/api/addnewspost' , async (req, res) => {
+   try{
+      const tablename = 'NewsTable';
+      const datas = {
+         NewsHeader: req.body.NewsHeader,
+         NewsLocation: req.body.NewsLocation,
+         NewsMatchDate: req.body.NewsMatchDate,
+         NewsContent: req.body.NewsContent
+      };
+
+      const insert = await InsertData(tablename,datas);
+
+      res.status(201).json({status:"success",data: insert});
+   } catch(error){
+      //console.log(error.errno);
+      res.status(500).json({status:"error",data: error});
+   }
+});
+
+
 //  insert register data  //
 app.post('/api/register',(req ,res) => {
    pool.getConnection((err, conn)=>{
       if(err){res.status(500).json(err);return};
       if((req.body.username == "")||(req.body.password == "")){res.json({"massage":"please input valid"});return};
-      bcryt.hash(req.body.password,saltround,(err,hashedpw)=>{
+      bcrypt.hash(req.body.password,saltround,(err,hashedpw)=>{
          const data =  {UserUN:req.body.username,UserPW:hashedpw,UserR:'user'};
          let sql = "INSERT INTO UsersTable SET ?";
          conn.query(sql,data,(err, results) => {
             conn.release();
             if(err) {res.json(err);return};
-               res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+               res.json({"status": 200, "error": null, "response_data": results});
          });
       })
    })
