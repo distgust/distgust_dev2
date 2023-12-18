@@ -22,6 +22,31 @@ const pool = mysql.createPool({
    database:   'FishingSportManagerDB',
 });
 
+// test db connection function //
+const testDBConn = () => {
+   return new Promise((resolve, reject) => {
+      pool.getConnection((err,conn) => {
+         if(err){
+            reject(err);
+            return;
+         }else{
+            conn.release();
+            resolve("DB connection OK");
+         }
+      });
+   });
+};
+// use testDBConn to test database connection //
+testDBConn()
+   .then(results => {
+    console.log(results);
+   })
+   .catch(error => {
+    console.error(error);
+   });
+
+//                         //
+
 // promises query function //
 const InsertData = (TableName,Datas) => new Promise((resolve,reject) => {
    const SqlInsert = 'INSERT INTO '+TableName+' SET ?';
@@ -32,6 +57,8 @@ const InsertData = (TableName,Datas) => new Promise((resolve,reject) => {
       return resolve(result);
    });
 });
+//                      //
+
 // insert to userstable //
 app.post('/api/try_to_register' ,async (req,res) => {
    try{
@@ -74,28 +101,6 @@ app.post('/api/addnewspost' , async (req, res) => {
    }
 });
 
-// test db connection function //
-const testDBConn = () => {
-   return new Promise((resolve, reject) => {
-      pool.getConnection((err,conn) => {
-         if(err){
-            reject(err);
-            return;
-         }else{
-            conn.release();
-            resolve("DB connection OK");
-         }
-      });
-   });
-};
-// use testDBConn to test database connection //
-testDBConn()
-   .then(results => {
-    console.log(results);
-   })
-   .catch(error => {
-    console.error(error);
-   });
 
 //  insert register data  //
 app.post('/api/register',(req ,res) => {
