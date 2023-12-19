@@ -71,11 +71,11 @@ const RegisterForm = () =>{
             </div>
 
             <div className='form-row'>
-            <div className='form-err-span' hidden={!(((inputs.username === '') || (inputs.email === '') || (inputs.tel === '') || (inputs.password === '')) 
-                    || (inputs.fullname === '') || (Object.keys(inputs).length !== 5))} ><p className="err-span-text">กรุณากรอกข้อมูลให้ครบทุกช่อง</p></div>
                 <input className='btn-submit' disabled={((inputs.username === '') || (inputs.email === '') || (inputs.tel === '') || (inputs.password === '')) 
                     || (inputs.fullname === '') || (Object.keys(inputs).length !== 5)}  type='submit' value='ยืนยัน'/>
             </div>
+            <div className='form-err-span' hidden={!(((inputs.username === '') || (inputs.email === '') || (inputs.tel === '') || (inputs.password === '')) 
+                    || (inputs.fullname === '') || (Object.keys(inputs).length !== 5))} ><p className="err-span-text">กรุณากรอกข้อมูลให้ครบทุกช่อง</p></div>
         </form>
         </div>
     );
