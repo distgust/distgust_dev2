@@ -1,68 +1,33 @@
 const express = require("express")
 const bodyParser = require('body-parser')
 const cors = require("cors")
-const mysql = require("mysql")
+var jwt = require("jsonwebtoken")
+const db = require('./modules/db')
+
+// ---------------------------------------------------- //
+const app = express();
 const jsonParser = bodyParser.json()
 const bcrypt = require("bcrypt")
+const InsertData = require("./modules/db")
 const saltround = 10
-var jwt = require("jsonwebtoken")
-const { useAsyncError } = require("react-router-dom")
 const secret = 'A140B3715_c'
-
-const app = express();
-//  use Libary  //
 app.use(cors());
 app.use(bodyParser.json());
-
-const pool = mysql.createPool({
-   host:   'localhost',
-   user:   'root',
-   port:   '3306',
-   password:   '12345678',
-   database:   'FishingSportManagerDB',
-});
-
-// test db connection function //
-const testDBConn = () => {
-   return new Promise((resolve, reject) => {
-      pool.getConnection((err,conn) => {
-         if(err){
-            reject(err);
-            return;
-         }else{
-            conn.release();
-            resolve("DB connection OK");
-         }
-      });
-   });
-};
+// --------------------------------------------------- //
 // use testDBConn to test database connection //
-testDBConn()
+db.TestDBConn()
    .then(results => {
     console.log(results);
    })
    .catch(error => {
     console.error(error);
    });
-
-//                         //
-
-// promises query function //
-const InsertData = (TableName,Datas) => new Promise((resolve,reject) => {
-   const SqlInsert = 'INSERT INTO '+TableName+' SET ?';
-   pool.query(SqlInsert,Datas,(error,result) => {
-      if(error){
-         return reject(error);
-      }
-      return resolve(result);
-   });
-});
-//                      //
+// -------------------------------------------------- //
 
 // insert to userstable //
-app.post('/api/try_to_register' ,async (req,res) => {
+app.post('/api/register' ,async (req,res) => {
    try{
-         await bcrypt.hash(req.body.password,saltround,async (err,hashedpw)=>{
+      await bcrypt.hash(req.body.password,saltround,async (err,hashedpw)=>{
          if(err){return};
          const tablename = 'UsersTable';
          const datas = {
@@ -71,10 +36,10 @@ app.post('/api/try_to_register' ,async (req,res) => {
             UserR: 'user'
          };
          try{
-            const insert = await InsertData(tablename,datas);
+            const insert = await db.InsertData(tablename,datas);
             res.status(201),json({status:"success",response_data:insert});
          }catch(err){
-            res.status(500).json({status:"error",response_data:err});
+            res.status(400).json({status:"error INSERT",response_data:err});
          }
       })
    }catch(error){
@@ -91,9 +56,7 @@ app.post('/api/addnewspost' , async (req, res) => {
          NewsMatchDate: req.body.NewsMatchDate,
          NewsContent: req.body.NewsContent
       };
-
-      const insert = await InsertData(tablename,datas);
-
+      const insert = await db.InsertData(tablename,datas);
       res.status(201).json({status:"success",data: insert});
    } catch(error){
       //console.log(error.errno);
@@ -101,42 +64,20 @@ app.post('/api/addnewspost' , async (req, res) => {
    }
 });
 
-
-//  insert register data  //
-app.post('/api/register',(req ,res) => {
-   pool.getConnection((err, conn)=>{
-      if(err){res.status(500).json(err);return};
-      if((req.body.username == "")||(req.body.password == "")){res.json({"massage":"please input valid"});return};
-      bcrypt.hash(req.body.password,saltround,(err,hashedpw)=>{
-         const data =  {UserUN:req.body.username,UserPW:hashedpw,UserR:'user'};
-         let sql = "INSERT INTO UsersTable SET ?";
-         conn.query(sql,data,(err, results) => {
-            conn.release();
-            if(err) {res.json(err);return};
-               res.json({"status": 200, "error": null, "response_data": results});
-         });
-      })
-   })
-});
-
 // show UsersTable //
-app.get('/api/showuser',(req,res) =>{
-   pool.getConnection((err,conn) =>{
-      if(err){
-         res.status(500).json(err);
-         return
+app.get('/api/showuser', async (req,res) =>{
+   try{
+      const table = 'UsersTable';
+      const SelectedData = await db.SelectData(table);
+      if(SelectedData.length <= 0){
+         res.status(204).json({status:"error",data: error});
       }else{
-         console.log("ok");
-         res.status(200);
-      };
-      // start query data  //
-      let sql = "SELECT * FROM UsersTable";
-      conn.query(sql,(err,results)=>{
-         conn.release();
-         err ? res.status(500).json({status:'error',data:err}):res.json({status:'success',result:(results)});
-      });
-   });
-}); 
+         res.status(200).json({status:"success",data: SelectedData});
+      }
+   }catch(error){
+      res.status(500).json({status:"error",data: error});
+   }
+})
 
 //  check login //
 app.post('/api/login',jsonParser,(req,res) => {
@@ -152,7 +93,7 @@ app.post('/api/login',jsonParser,(req,res) => {
          bcryt.compare(passN,results[0].UserPW,(err,logged)=>{
             if(logged){
                conn.release();
-               var token = jwt.sign({ username: usernameN,userRole:results[0].UserR }, secret,{expiresIn:'1h'});
+               var token = jwt.sign({ username: usernameN,userRole:results[0].UserR }, secret ,{expiresIn:'1h'});
                res.json({status:"ok",message:"logged in",token:token})
             }else{
                conn.release();
