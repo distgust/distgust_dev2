@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require("cors")
 var jwt = require("jsonwebtoken")
 const db = require('./modules/db')
-
+const mysql = require('mysql')
 // ---------------------------------------------------- //
 const app = express();
 const jsonParser = bodyParser.json()
@@ -81,6 +81,13 @@ app.get('/api/showuser', async (req,res) =>{
 
 //  check login //
 app.post('/api/login',jsonParser,(req,res) => {
+   const pool =  mysql.createPool({
+      host:   '192.168.0.102',
+      user:   'root',
+      port:   '3306',
+      password:   'PASSWORD',
+      database:   'FishingSportManagerDB',
+   });
    let usernameN = req.body.username;
    let passN = req.body.password;
    pool.getConnection((err,conn)=>{
@@ -90,7 +97,7 @@ app.post('/api/login',jsonParser,(req,res) => {
          if(err){res.status(500).json(err);return}
          if(results.length == 0){res.json({status:'error',message:'no have this user.',err});return}
          //if(results[0].UserPW == passN){res.json({status:'login success'})};
-         bcryt.compare(passN,results[0].UserPW,(err,logged)=>{
+         bcrypt.compare(passN,results[0].UserPW,(err,logged)=>{
             if(logged){
                conn.release();
                var token = jwt.sign({ username: usernameN,userRole:results[0].UserR }, secret ,{expiresIn:'1h'});
@@ -102,6 +109,24 @@ app.post('/api/login',jsonParser,(req,res) => {
          })
       })
    })
+})
+// new login api //
+app.post('/api/test/login',jsonParser, async (req,res) => {
+   const { username, password } = req.body;
+   const data = await db.Login(username);
+   try{
+      bcrypt.compare(password,data[0].UserPW,(err,logged)=>{
+         //console.log(logged)
+         if(logged){
+            var token = jwt.sign({ username: data[0].UserUN,userRole:data[0].UserR }, secret ,{expiresIn:'1h'});
+            res.status(200).json({status:"success",message:"logged in",token:token})
+         }else{
+            res.status(400).json({status:"error",message:"wrong password",data:err})
+         };
+      })
+   }catch(error){
+      res.status(400).json({ error: 'User not found' });
+   }
 })
 
 // authentication login //

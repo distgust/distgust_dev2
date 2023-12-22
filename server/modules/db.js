@@ -2,10 +2,10 @@ const { json } = require("body-parser");
 const mysql = require("mysql");
 const { resolvePath } = require("react-router-dom");
 const pool =  mysql.createPool({
-    host:   'localhost',
+    host:   '192.168.0.102',
     user:   'root',
     port:   '3306',
-    password:   '12345678',
+    password:   'PASSWORD',
     database:   'FishingSportManagerDB',
  });
  // test db connection function //
@@ -42,15 +42,15 @@ const SelectData = (TableName) => new Promise((resolve,reject) => {
         return resolve(result)
     })
 })
-const Login = (un,pw) => new Promise((resolve,reject) => {
+
+const Login = (un) => new Promise((resolve,reject) => {
     const sql = "SELECT * FROM UsersTable WHERE UserUN=?";
-    pool.query(sql,[un,pw],(err,results,Fields) => {
+    pool.query(sql,[un],(err,results,Fields) => {
         if(err){
-            return reject(error)
+            return reject(err)
         }
-        if(results.length <= 0){
-            return JSON.stringify({status:"error",message:"dont have this username"})
-        }
+        return resolve(results)
     })
 })
-module.exports = {TestDBConn,InsertData,SelectData};
+
+module.exports = {TestDBConn,InsertData,SelectData,Login};

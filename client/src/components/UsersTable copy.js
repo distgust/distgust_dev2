@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react";
 import './CSS/Table.css'
-const UsersTable = (ResultData) => {
+const UsersTable2 = (ResultData) => {
     const [datas, setDatas] = useState([]);
     //console.log((datas))
 
@@ -40,4 +40,4 @@ const UsersTable = (ResultData) => {
     )
 }
 
-export default UsersTable
+export default UsersTable2
