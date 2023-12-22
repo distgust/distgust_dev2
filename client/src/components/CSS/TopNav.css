@@ -4,6 +4,9 @@ ul.topnav {
     padding: 0;
     overflow: hidden;
     background-color: #EFEEEE;
+    position: fixed;
+    width: 100%;
+    margin-bottom: 0;
 }
 .topnav-li{
     text-align: center;

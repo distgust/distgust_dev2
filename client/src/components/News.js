@@ -1,22 +1,22 @@
+import { useState } from "react";
 import NewsContainer from "./NewsContainer";
-
-    const Data = [
-        {
-            ID:'1',
-            NewsHeader:'แมทท์หมื่น สองหัว ประจำเดือนธันวาคม ลงทะเบียนคันละ 350 บาท',
-            NewsLocation:'บ่อตกปลา หนองโป่งนกเป้า เทศบาลตำบลโนนสูง ตำบลโนนสูง อำเภอเมือง จังหวัดอุดรธานี',
-            NewsMatchDate:'วันที่: 03-12-2566',
-            NewsContent:'Consequat dolore mollit veniam elit ad commodo fugiat excepteur anim deserunt.Nulla occaecat ipsum voluptate cillum voluptate reprehenderit commodo velit non est proident occaecat reprehenderit.',
-        },
-        {
-            ID:'2',
-            NewsHeader:'แมทท์แสนหนึ่งหัว ห้าหมื่นสองหัว ลงทะเบียนคันละ 700 บาท',
-            NewsLocation:'บ้านสามพร้าว ตำบลหมากแข้ง อำเภอเมือง จังหวัดอุดรธานี',
-            NewsMatchDate:'วันที่: วว-ดด-ปปปป',
-            NewsContent:'Consequat dolore mollit veniam elit ad commodo fugiat excepteur anim deserunt.Nulla occaecat ipsum voluptate cillum voluptate reprehenderit commodo velit non est proident occaecat reprehenderit.',
-        }
-    ];
+import { useEffect } from "react";
+    
 const ContentNews = () => {
+    const [NewsDatas, setNewsDatas] = useState([]);
+    
+    //fetch newstable
+    useEffect(() => {
+        fetch('http://localhost:3000/api/news', {
+            method: 'GET',
+            headers:{
+                'Content-type' : 'application/json'
+            }
+        })
+        .then((response) => response.json())
+        .then((result) => setNewsDatas(result.data))
+        .catch((error) => console.error('Error fetching data:', error));
+    },[]);
     return (
     <div className='section'>
         <div className="section-header">
@@ -24,10 +24,10 @@ const ContentNews = () => {
             <p className="section-header-date">การแข่งขัน</p>
         </div>
         <div className='row-2'>
-            {Data.map((NewsProps)=>{
+            {NewsDatas.map((NewsProps)=>{
                 return(
                     <NewsContainer NewsHeader={NewsProps.NewsHeader} NewsLocation={NewsProps.NewsLocation} 
-                    NewsMatchDate={NewsProps.NewsMatchDate} NewsContent={NewsProps.NewsContent} key={NewsProps.ID}/>
+                    NewsMatchDate={NewsProps.NewsMatchDate} NewsContent={NewsProps.NewsContent} key={NewsProps.NewsID}/>
                     )
                 })}
         </div>              

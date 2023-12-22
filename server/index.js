@@ -68,17 +68,31 @@ app.post('/api/addnewspost' , async (req, res) => {
 app.get('/api/showuser', async (req,res) =>{
    try{
       const table = 'UsersTable';
-      const SelectedData = await db.SelectData(table);
-      if(SelectedData.length <= 0){
+      const Datas = await db.SelectData(table);
+      if(Datas.length <= 0){
          res.status(204).json({status:"error",data: error});
       }else{
-         res.status(200).json({status:"success",data: SelectedData});
+         res.status(200).json({status:"success",data: Datas});
       }
    }catch(error){
       res.status(500).json({status:"error",data: error});
    }
 })
-
+// show NewsTable //
+app.get('/api/news', async (req,res) => {
+   try{
+      const table = 'NewsTable'
+      const Datas = await db.SelectData(table);
+      if(Datas.length <= 0){
+         res.status(204).json({status:"error",data: error});
+      }else{
+         res.status(200).json({status:"success",data: Datas});
+      }
+   }
+   catch(error){
+      res.status(500).json({status:"error",data: error});
+   }
+})
 //  check login //
 app.post('/api/login',jsonParser,(req,res) => {
    const pool =  mysql.createPool({
@@ -128,7 +142,28 @@ app.post('/api/test/login',jsonParser, async (req,res) => {
       res.status(400).json({ error: 'User not found' });
    }
 })
-
+// Middleware to verify JWT token
+const verifyToken = (req, res, next) => {
+   const token = req.headers['authorization'];
+ 
+   if (!token) {
+     return res.status(401).send('Unauthorized');
+   }
+ 
+   jwt.verify(token, secretKey, (err, user) => {
+     if (err) {
+       return res.status(403).send('Invalid token');
+     }
+     req.user = user;
+     next();
+   });
+ };
+ // Example route that requires authentication
+app.get('/secure-route', verifyToken, (req, res) => {
+   // Access user details from req.user
+   res.json({ message: 'This is a secure route', user: req.user });
+ });
+ 
 // authentication login //
 app.post('/api/auth',(req,res,next)=>{
    try{

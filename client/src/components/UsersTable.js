@@ -2,19 +2,18 @@ import { useState,useEffect } from "react";
 import './CSS/Table.css'
 const UsersTable = (ResultData) => {
     const [datas, setDatas] = useState([]);
-    //console.log((datas))
 
     useEffect(() => {
       // Fetch data from the server
-      fetch('http://localhost:3000/api/showuser', {
-        method: 'GET',
-        headers: {
-            'Content-type' : 'application/json'
+        fetch('http://localhost:3000/api/showuser', {
+            method: 'GET',
+            headers: {
+                'Content-type' : 'application/json'
         }
         })
-        .then(response => response.json())
-        .then(data => setDatas(data.result))
-        .catch(error => console.error('Error fetching data:', error));
+        .then((response) => response.json())
+        .then((result) => setDatas(result.data))
+        .catch((error) => console.error('Error fetching data:', error));
     },[]);
     //const dataobj = JSON.parse(datas);
     //console.log(data)
@@ -22,10 +21,10 @@ const UsersTable = (ResultData) => {
         <table className="table-control users-table">
             <thead>
                 <tr>
-                    <th className="id">UserID</th>
-                    <th className="username">Username</th>
-                    <th>role</th>
-                </tr>
+                <td className="id">UserID</td>
+                <td className="username">Username</td>
+                <td>role</td>
+                </tr> 
             </thead>
             <tbody>
                 {datas.map((item) => (

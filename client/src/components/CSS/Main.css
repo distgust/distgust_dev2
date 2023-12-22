@@ -1,18 +1,15 @@
 main{
-    background-color: #F5F2ED;
     min-height: 100vh;
-    max-height: 100%;
-    margin-left: 0;
-    overflow:auto;
+    background-color: #F5F2ED;
 }
 main.dashboard{
     background-color: #F5F2ED;
     min-height: 100vh;
-    max-height: 100%;
+    height: auto;
     margin-right: 0;
     margin-left: 8.33%;
-    overflow:auto;
     margin-top: 69px;
+    margin-bottom: 0;
 }
 
 bg-primary{
@@ -68,35 +65,8 @@ bg-primary{
     clear: both;
     display: table;
 }
-/*
-.card- {
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    border-radius: 5%;
-    background-color: #fff9f2;
-    min-width: 600px;
-    padding-bottom: 30px;
-}
-.card- .card-header-{
-    margin-top: 0;
-    margin-bottom: 0;
-    padding-top:20px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-bottom: .5px solid #CE5A67 ;
-    font-family: Anuphan;
-    font-size: 20px;
-}
 
-.card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-}
-*/
 .container {
-    padding: 40px;
-    border: .5px solid #CE5A67;
-    margin: 20px;
     text-align: center;
 }
 
@@ -107,15 +77,16 @@ bg-primary{
 }
 .contents-center{
     text-align: center;
+    justify-content: center;
 }
 .contents-center h4{
     justify-content: left ;
 }
 .container-full-width {
-    padding: 10px;
-    border: .5px solid #CE5A67;
-    margin: 20px;
     width: 100%;
+}
+.mt-100{
+    margin-top: 100px;
 }
 @media screen and (max-width: 600px) {
     .col-6 {
