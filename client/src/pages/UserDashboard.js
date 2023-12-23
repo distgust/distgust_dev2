@@ -37,19 +37,26 @@ const DashBoard = () => {
 
   return (
     <>
-      <DashHeaders pagetitle={pagetitle}/>
-      <div className='row'>
-        <SideNav />
-        <main className="col-11 dashboard">
-          <div className='container'>
-            
-          </div>
+        <DashHeaders pagetitle={pagetitle}/>
+        <div className='row'>
+            <nav className='col-1'>
+                <SideNav />
+            </nav>
+            <main className="col-11 dashboard">
+                <div className='section'>
+                    <h3 className='mb-1'>เพิ่มโพสต์</h3>
+                    <h4 className='mt-1'>นัดหมายการแข่งขัน ประชาสัมพันธ์กิจกรรม</h4>
+                    <div className='container-full-width contents-center'>
 
-          <div className='card-row-1'>
-            
-          </div>
-        </main>
-      </div>
+                    </div>
+                </div>
+                <div className='section'>
+                    <div className='container'>
+
+                    </div>
+                </div>
+            </main>
+        </div>
     </>
     
   );

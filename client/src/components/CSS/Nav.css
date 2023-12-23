@@ -5,7 +5,8 @@ nav {
     margin-right: 0;
     position: fixed;
     width: 200px;
-    margin-top: 69px;
+    top: 69px;
+    position: absolute;
 }
 
 /* Style the list inside the menu */
@@ -14,6 +15,7 @@ nav ul {
   margin: 0;
   padding: 0;
   background-color: #F4BF96;
+  
 }
 .menu {
     padding-top: 10px;

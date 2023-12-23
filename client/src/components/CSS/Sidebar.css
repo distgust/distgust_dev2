@@ -1,0 +1,29 @@
+.sidebar {
+    background-color: #333;
+    color: #fff;
+    transition: all 0.3s ease;
+    position: absolute;
+    margin-top: 0;
+    width: 10;
+  }
+  .sidebar.closed {
+    width: 0;
+    overflow: hidden;
+  }
+  
+.sidebar .toggle-btn {
+    width: 100%;
+    background-color: #555;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin-bottom: 0;
+  }
+.sidebar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #F4BF96;
+    
+  }

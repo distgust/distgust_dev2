@@ -12,6 +12,7 @@ import RegisterPage from './pages/RegisterPage';
 import Nopage from './404';
 import DashBoard from './pages/Dashboard';
 import UsersDashBoard from './pages/UserDashboard';
+import NewDash from './pages/NewDash';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -22,7 +23,9 @@ root.render(
         <Route path="/register" element={<RegisterPage/>}/>
         <Route path="/login" element={<LoginPage />} />
         <Route path='/dashboard' element={<DashBoard/>}/>
-        <Route path='/userdashboard' element={<UsersDashBoard/>}/>    
+        <Route path='/userdashboard' element={<UsersDashBoard/>}/>
+        <Route path='/newdash' element={<NewDash/>}/>
+         
         <Route path="*" element={<Nopage />}/>
       </Routes>
     </BrowserRouter>
