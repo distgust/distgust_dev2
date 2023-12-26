@@ -8,11 +8,14 @@ const RegisterPage = () =>{
     return(
         <>
         <Headers pagetitle={pagetitle}/>
-            <main>
+        
+            <main className="col-12">
             <TopNav/>
-                <div className='container contents-center'>
-                    <h2 className='form-title'>สมัครสมาชิก</h2>
-                    <RegisterForm/>
+                <div className='container-full-width contents-center mt-100'>
+                    <div className='section'>
+                        <h2 className='form-title'>สมัครสมาชิก</h2>
+                        <RegisterForm/>
+                    </div> 
                 </div>
             </main>
         </>

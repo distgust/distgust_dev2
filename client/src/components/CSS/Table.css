@@ -1,16 +1,25 @@
 .table-control.users-table{
-    min-width: 100%;
+    background-color: #FFFF;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     border-collapse: collapse;
+    width: 100%;
+    border: 2px solid #efefef;
+    table-layout: fixed;
 }
 .table-control.users-table tr{
     text-align: center;
     border: .5px solid #CE5A67;
+    background-color: #FFFF;
 }
-.table-control.users-table tr th.id{
-    width: 50%;
-    border: .5px solid #CE5A67;
+.table-control.users-table thead > tr >td{
+    color: #efefef;
+    font-family: Chonburi;
+    background-color: #325D79;
+    height: 2rem;
+    padding: 1rem;
 }
-.table-control.users-table tr th.username,td{
+.table-control.users-table tr td{
     width: 25%;
-    border: .5px solid #CE5A67;
+    border: .5px solid #325D79;
 }

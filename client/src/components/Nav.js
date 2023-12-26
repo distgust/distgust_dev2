@@ -15,7 +15,7 @@ const menu_arr = [
 //
 const SideNav = () => {
     return(
-           <nav className='col-1'>
+           
                 <ul>
                 {menu_arr.map((menu_props)=>{
                     return(
@@ -23,7 +23,7 @@ const SideNav = () => {
                     )
                 })}
                 </ul>
-            </nav>
+            
     );
 }
 export default SideNav

@@ -32,6 +32,7 @@ const AddNewsForm= () =>{
 
 
     return(
+        <div className='form-container'>
         <form className='form-control form-w-700' onSubmit={HandleSubmit}>
             <div className='form-row' >
                 <label>หัวข้อ</label>
@@ -56,6 +57,7 @@ const AddNewsForm= () =>{
                     type='submit' value='โพสต์'/>
             </div>
         </form>
+        </div>
     )
 }
 

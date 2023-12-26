@@ -11,8 +11,10 @@ const Home = () => {
         <Headers pagetitle={pagetitle}/>
             <main className="col-12">
                 <TopNav/>
-                <ContentNews/>
-                <ContentLastmatch/>
+                <div className='container-full-width mt-100'>
+                    <ContentNews/>
+                    <ContentLastmatch/>
+                </div>
             </main>
     </>
     );

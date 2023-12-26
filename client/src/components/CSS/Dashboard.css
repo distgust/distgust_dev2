@@ -1,0 +1,16 @@
+menu.sector-menu {
+    float: left;
+    width: 10%;
+    padding: 0;
+    background-color: #F4BF96;
+    margin-top: 69px;
+    min-height: 100vh;
+  }
+main.sector-main {
+    float: left;
+    width: 90%;
+    min-height: 100vh;
+    background-color: #F5F2ED;
+    margin-top: 69px;
+    left: 10%;
+}

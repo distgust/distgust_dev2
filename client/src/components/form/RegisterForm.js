@@ -15,7 +15,7 @@ const RegisterForm = () =>{
         //console.log(inputs.username)
         event.preventDefault();
         try{
-            const req = await fetch('http://localhost:3001/api/try_to_register', {
+            const req = await fetch('http://localhost:3001/api/register', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json'
@@ -25,7 +25,7 @@ const RegisterForm = () =>{
 
             const res = await req.json();
             //console.log("server response this :", res);
-            if(res.status === 'error'){
+            if(res.status === 'error INSERT'){
                 //console.error('ERROR : ', res.response_data.errno,'\nERR_CODE : ', 
                 //res.response_data.code,'\nERR_MESSAGE : ',res.response_data.sqlMessage);
                 switch(res.response_data.code){
@@ -74,8 +74,11 @@ const RegisterForm = () =>{
                 <input className='btn-submit' disabled={((inputs.username === '') || (inputs.email === '') || (inputs.tel === '') || (inputs.password === '')) 
                     || (inputs.fullname === '') || (Object.keys(inputs).length !== 5)}  type='submit' value='ยืนยัน'/>
             </div>
+
             <div className='form-err-span' hidden={!(((inputs.username === '') || (inputs.email === '') || (inputs.tel === '') || (inputs.password === '')) 
-                    || (inputs.fullname === '') || (Object.keys(inputs).length !== 5))} ><p className="err-span-text">กรุณากรอกข้อมูลให้ครบทุกช่อง</p></div>
+                || (inputs.fullname === '') || (Object.keys(inputs).length !== 5))} >
+                <p className="err-span-text">กรุณากรอกข้อมูลให้ครบทุกช่อง</p>
+            </div>
         </form>
         </div>
     );

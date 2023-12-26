@@ -11,7 +11,7 @@ const LoginForm = () =>{
     };
    
     const handleSubmit = (event) => {
-        fetch('http://localhost:3001/api/login', {
+        fetch('http://localhost:3001/api/test/login', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -19,14 +19,41 @@ const LoginForm = () =>{
             body: JSON.stringify(inputs),
         })
         .then(res => res.json())
-        .then((data) => {
+        .then(async (data) => {
             console.log(data);
             if(data.status === "error"){
                 alert(data.message);
             }else{
                 localStorage.setItem('token',data.token);
-                alert('logged in');
-                window.location="/dashboard";
+                //alert('logged in');
+                //window.location="/usersdashboard";
+                const token = localStorage.getItem('token');
+                
+                await fetch('http://localhost:3000/api/auth', {
+                    method: 'POST',
+                    headers: {
+                        'Content-type' : 'application/json',
+                        'Authorization' : 'Bearer '+token
+                    }
+                })
+                .then(res => res.json())
+                .then((data) => {
+                    if(data.status === "error"){
+                        localStorage.removeItem('token');
+                        alert('please login',data.message);
+                        window.location = '/login';
+                    }else{
+                        console.log(data.decode)
+                        const user = data.decode
+                        if(user.userRole === "admin"){
+                            window.location="/dashboard";
+                        }else{
+                            window.location="/userdashboard";
+                        }
+                        //alert('authentication successfully');
+                    }
+                })
+                .catch((err) => console.log('ERROR!',err));
             }
         })
         .catch((err) => console.log('ERROR!',err));
