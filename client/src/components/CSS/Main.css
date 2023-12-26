@@ -68,6 +68,8 @@ bg-primary{
 
 .container {
     text-align: center;
+    justify-content: center;
+    display: flex;
 }
 
 .container-border-0 {

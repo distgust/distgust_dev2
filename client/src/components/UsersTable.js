@@ -1,7 +1,9 @@
 import { useState,useEffect } from "react";
 import './CSS/Table.css'
+import Loader from "./Loader";
 const UsersTable = (ResultData) => {
     const [datas, setDatas] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
       // Fetch data from the server
@@ -13,10 +15,17 @@ const UsersTable = (ResultData) => {
         })
         .then((response) => response.json())
         .then((result) => setDatas(result.data))
-        .catch((error) => console.error('Error fetching data:', error));
+        .catch((error) => console.error('Error fetching data:', error))
+        .finally(() => setLoading(false))
+
     },[]);
     //const dataobj = JSON.parse(datas);
     //console.log(data)
+    if (loading) {
+        console.log('loading...')
+        return <Loader/>
+    }
+    
     return(
         <table className="table-control users-table">
             <thead>

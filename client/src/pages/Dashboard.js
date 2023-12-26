@@ -42,7 +42,7 @@ return (
                     </div>
                 </div>
                 <div className='section'>
-                    <div className='container'>
+                    <div className='container-full-width contents-center'>
                         <UsersTable />
                     </div>
                 </div>
