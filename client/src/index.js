@@ -1,18 +1,20 @@
-import './components/CSS/App.css';
-import './components/CSS/Main.css';
 import {React,StrictMode} from 'react';
 import ReactDOM from 'react-dom/client';
-import './components/CSS/index.css';
 import reportWebVitals from './reportWebVitals';
-//import App from './App';
 import { BrowserRouter, Routes,Route } from 'react-router-dom';
+
+import './components/CSS/index.css'
+import './components/CSS/Main.css';
+import './components/CSS/Section.css';
+import './components/CSS/index.css';
+
 import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import Nopage from './404';
 import DashBoard from './pages/Dashboard';
 import UsersDashBoard from './pages/UserDashboard';
 import NewDash from './pages/NewDash';
+import Nopage from './404';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

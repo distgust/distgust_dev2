@@ -11,7 +11,7 @@ const LoginForm = () =>{
     };
    
     const handleSubmit = (event) => {
-        fetch('http://localhost:3001/api/test/login', {
+        fetch('http://192.168.0.101:3001/api/login', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -29,7 +29,7 @@ const LoginForm = () =>{
                 //window.location="/usersdashboard";
                 const token = localStorage.getItem('token');
                 
-                await fetch('http://localhost:3000/api/auth', {
+                await fetch('http://192.168.0.101:3000/api/auth', {
                     method: 'POST',
                     headers: {
                         'Content-type' : 'application/json',

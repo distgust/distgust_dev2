@@ -1,25 +1,11 @@
 import '../components/CSS/TopNav.css';
 import { Link } from 'react-router-dom';
-const TopNav = () => {
-    const TopNav_Li = [
-        {
-            label:'หน้าหลัก',
-            link:'/',
-        },
-        {
-            label:'เข้าสู่ระบบ',
-            link:'/login',
-        },
-        {
-            label:'สมัครสมาชิก',
-            link:'/register',
-        }
-    ];
+const TopNav = ({Li}) => {
     return(
         <ul className="topnav">
-            {TopNav_Li.map((nav_props)=>{
+            {Li.map((nav_props)=>{
                 return(
-                    <li className='topnav-li' key={nav_props.link}><Link to={nav_props.link} className='link' key={nav_props.link}>{nav_props.label}</Link></li>
+                    <li className={nav_props.status} key={nav_props.link}><Link to={nav_props.link} className='link' key={nav_props.link}>{nav_props.label}</Link></li>
                 )
             })}
             <li className="dropdown">

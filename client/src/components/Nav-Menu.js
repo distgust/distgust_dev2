@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
-const Menu = ({label,link}) => {
+const Menu = ({label,link,status}) => {
     return(
         <li>
-            <Link className="menu" to={link}>{label}</Link>
+            <Link className={status} to={link}>{label}</Link>
         </li>
     );
 };

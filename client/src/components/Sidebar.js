@@ -1,29 +1,25 @@
-// Sidebar.js
-import { useState } from 'react';
 import './CSS/Sidebar.css';
+import Menu from './Nav-Menu';
+import { Link } from 'react-router-dom';
 
-const Sidebar = () => {
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!isSidebarOpen);
-  };
-
-  return (
-    <nav className='sidebar'>
-      <button className="toggle-btn" onClick={toggleSidebar}>
-    {isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
-  </button>
-    <div className={`sidebar  ${isSidebarOpen ? 'open' : 'closed'}`}>
-      <ul>
-        <li>Link 1</li>
-        <li>Link 2</li>
-        <li>Link 3</li>
-        {/* Add more links as needed */}
-      </ul>
-    </div>
-    </nav>
-  );
-};
-
-export default Sidebar;
+//
+const SideBar = ({menu_arr}) => {
+    return(
+        <ul>
+            {menu_arr.map((menu_props)=>{
+                return(
+                    <Menu label={menu_props.label} link={menu_props.link} key={menu_props.link} status={menu_props.status} />
+                )
+            })}
+            <li className="sidebar-select-menu">
+            <div className="selecter-menu">การจัดการ</div>
+                <div className="selecter-menu-content">
+                    <Link>mn1</Link>
+                    <Link>mn2</Link>
+                    <Link>mn3</Link>
+                </div>
+            </li>
+        </ul>      
+    );
+}
+export default SideBar

@@ -15,7 +15,7 @@ const RegisterForm = () =>{
         //console.log(inputs.username)
         event.preventDefault();
         try{
-            const req = await fetch('http://localhost:3001/api/register', {
+            const req = await fetch('https://localhost:3001/api/register', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json'
@@ -46,6 +46,7 @@ const RegisterForm = () =>{
             console.error("There has been a problem with your fetch operation:", error);
         }
     }
+    
     return(
         <div className='form-container'>
         <form className="form-control" onSubmit={handleSubmit}>

@@ -1,16 +1,79 @@
-import '../components/CSS/Home.css';
 import Headers from '../components/Header';
 import ContentNews from '../components/News';
 import TopNav from '../components/TopNav';
 import ContentLastmatch from '../components/Lastmatch';
+import Loader from '../components/Loader';
+import { useState,useEffect } from 'react';
 
-let pagetitle = 'หน้าหลัก';
 const Home = () => {
+    const [loading, setLoading] = useState(true);
+    const [logged,setLogged] = useState(false);
+
+    let pagetitle = 'หน้าหลัก';
+    const TopNavLi = [
+        {
+            label:'หน้าหลัก',
+            link:'/',
+            status:'topnav-li',
+        },
+        {
+            label:'เข้าสู่ระบบ',
+            link:'/login',
+            status:'topnav-li',
+        },
+        {
+            label:'สมัครสมาชิก',
+            link:'/register',
+            status:'topnav-li',
+        }
+    ];
+
+    useEffect((tokens)=>{
+        const token = localStorage.getItem('token');
+        fetch('http://192.168.0.101:3000/api/auth', {
+            method: 'POST',
+            headers: {
+                'Content-type' : 'application/json',
+                'Authorization' : 'Bearer '+token
+            }
+        })
+        .then(response => response.json())
+        .then((result) => {
+            if(result.status === "error"){
+                return
+            }else{
+                tokens = result.decode
+                console.log(tokens)
+                setLogged(true)
+            }
+        })
+        .catch((err) => console.log('ERROR!',err ))
+        .finally(() => setLoading(false))
+    },[])
+    
+    if (loading) {
+        console.log('loading...')
+        return <Loader/>
+    }
+    if(logged){
+        
+        TopNavLi.splice(1,2,{
+            label:'แดชบอร์ด',
+            link:'/dashboard',
+            status:'topnav-li',
+        })
+    }
+    TopNavLi.forEach(element => {
+        if(element.label === pagetitle){
+            element.status += " active"
+        }
+    });
   return (
+    
     <>
-        <Headers pagetitle={pagetitle}/>
+        <Headers pagetitle={pagetitle} logged={logged}/>
             <main className="col-12">
-                <TopNav/>
+                <TopNav Li={TopNavLi}/>
                 <div className='container-full-width mt-100'>
                     <ContentNews/>
                     <ContentLastmatch/>

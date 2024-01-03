@@ -23,3 +23,47 @@
     width: 25%;
     border: .5px solid #325D79;
 }
+.table-control.users-table td {
+    overflow:scroll;
+}
+
+/*-------------------------------*/
+.table-control.score-table{
+    background-color: #FFFF;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-collapse: collapse;
+    width: 100%;
+    border: 2px solid #efefef;
+    table-layout: fixed;
+}
+.table-control.score-table > thead > tr > td{
+    color: #efefef;
+    font-family: Chonburi;
+    background-color: #325D79;
+    border: 2px solid #efefef;
+    padding: 1rem;
+
+}
+.table-control.score-table > tbody > tr{
+    text-align: center;
+    background-color: #FFFF;
+    color: #325D79;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font: 1em;
+    font-weight: 800;
+}
+
+.table-control.score-table tr td{
+    width: 100%;
+    border: 1px solid #325D79;
+}
+.table-control.score-table > tbody >tr:nth-child(even) {
+    background-color: #F2F2F2;
+    color: #325D79;
+  }
+.table-control.score-table td {
+    overflow:auto;
+}
+

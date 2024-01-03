@@ -64,10 +64,9 @@
     border-radius: 4px;
     cursor: pointer;
     float: right;
+    width: 50%;
 }
-.form-control .btn-submit{
-    width: 300px;
-}
+
 .form-control input.btn-submit[type=submit]:hover{
     box-shadow: 0 4px 8px 0 #325D79, 0 6px 10px 0 #325D79;
 }
@@ -115,7 +114,7 @@
     }
     input[type=submit]{
         margin-top: 6px;
-        width: 50%;
+        width: 100%;
     }
     .form-control textarea{
         width: 100%;
@@ -126,9 +125,12 @@
 @media screen and (max-width: 425px) {
     .form-w-700{
         min-width: 100%;
-        
     }
     .form-w-500{
         min-width: 100%;
+    }
+    .btn-submit{
+        margin-top: 6px;
+        width: 100%;
     }
 }

@@ -1,5 +1,5 @@
 header {
-    position: absolute;
+    position: fixed;
     width: 100%;
     background-color: #325D79;
     font-family: 'Chonburi', sans-serif;
