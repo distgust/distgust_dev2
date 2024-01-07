@@ -14,7 +14,17 @@ const InsertData = require("./modules/db")
 const saltround = 10
 const secret = 'A140B3715_c'
 app.use(cors())
+CORS_ALLOW_HEADERS = (
+   "accept",
+   "authorization",
+   "content-type",
+   "user-agent",
+   "x-csrftoken",
+   "x-requested-with",
+   "ngrok-skip-browser-warning"
+)
 app.use(bodyParser.json())
+
 // --------------------------------------------------- //
 // use testDBConn to test database connection //
 db.TestDBConn()
@@ -52,6 +62,23 @@ app.post('/api/register' ,async (req,res) => {
 app.post('/api/addnewspost' , async (req, res) => {
    try{
       const tablename = 'NewsTable';
+      const datas = {
+         NewsHeader: req.body.NewsHeader,
+         NewsLocation: req.body.NewsLocation,
+         NewsMatchDate: req.body.NewsMatchDate,
+         NewsContent: req.body.NewsContent
+      };
+      const insert = await db.InsertData(tablename,datas);
+      res.status(201).json({status:"success",data: insert});
+   } catch(error){
+      //console.log(error.errno);
+      res.status(500).json({status:"error",data: error});
+   }
+});
+// insert to CompetitionTable //
+app.post('/api/addcompetition' , async (req, res) => {
+   try{
+      const tablename = 'CompetitionTable';
       const datas = {
          NewsHeader: req.body.NewsHeader,
          NewsLocation: req.body.NewsLocation,
@@ -162,6 +189,6 @@ app.get("/api", (req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT,'0.0.0.0', () => {
+app.listen(PORT, () => {
    console.log(`Server listening on ${PORT}`);
 });

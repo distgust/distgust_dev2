@@ -12,10 +12,12 @@ const AddScoresForm= () =>{
     const HandleSubmit = async (event) => {
         event.preventDefault();
         try{
-            const req = await fetch('http://192.168.0.101:3001/api/addscore', {
+            const req = await fetch('https://6b01-49-228-169-225.ngrok-free.app/api/addscore', {
                 method: 'POST',
+                mode: 'cors',
                 headers: {
-                    'Content-type': 'application/json'
+                    'Content-type': 'application/json',
+                    'ngrok-skip-browser-warning': 'any',
                 },
                 body: JSON.stringify(scores),
             });

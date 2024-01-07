@@ -22,9 +22,10 @@
 .table-control.users-table tr td{
     width: 25%;
     border: .5px solid #325D79;
+    
 }
 .table-control.users-table td {
-    overflow:scroll;
+    overflow:auto;
 }
 
 /*-------------------------------*/

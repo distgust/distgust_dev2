@@ -11,10 +11,12 @@ const LoginForm = () =>{
     };
    
     const handleSubmit = (event) => {
-        fetch('http://192.168.0.101:3001/api/login', {
+        fetch('https://6b01-49-228-169-225.ngrok-free.app/api/login', {
             method: 'POST',
+            mode: 'cors',
             headers: {
-                'Content-type': 'application/json'
+                'Content-type': 'application/json',
+                'ngrok-skip-browser-warning': 'any',
               },
             body: JSON.stringify(inputs),
         })
@@ -29,11 +31,13 @@ const LoginForm = () =>{
                 //window.location="/usersdashboard";
                 const token = localStorage.getItem('token');
                 
-                await fetch('http://192.168.0.101:3000/api/auth', {
+                await fetch('https://6b01-49-228-169-225.ngrok-free.app/api/auth', {
                     method: 'POST',
+                    mode: 'cors',
                     headers: {
                         'Content-type' : 'application/json',
-                        'Authorization' : 'Bearer '+token
+                        'Authorization' : 'Bearer '+token,
+                        'ngrok-skip-browser-warning': 'any',
                     }
                 })
                 .then(res => res.json())
@@ -53,10 +57,10 @@ const LoginForm = () =>{
                         //alert('authentication successfully');
                     }
                 })
-                .catch((err) => console.log('ERROR!',err));
+                .catch((err) => console.error('ERROR!',err));
             }
         })
-        .catch((err) => console.log('ERROR!',err));
+        .catch((err) => console.error('ERROR!',err));
         event.preventDefault();
     }
     return(

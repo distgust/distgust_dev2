@@ -7,11 +7,13 @@ const UsersTable = (ResultData) => {
 
     useEffect(() => {
       // Fetch data from the server
-        fetch('http://192.168.0.101:3000/api/showuser', {
+        fetch('https://6b01-49-228-169-225.ngrok-free.app/api/showuser', {
             method: 'GET',
+            mode: 'cors',
             headers: {
-                'Content-type' : 'application/json'
-        }
+                'Content-type': 'application/json',
+                'ngrok-skip-browser-warning': 'any',
+            }
         })
         .then((response) => response.json())
         .then((result) => setDatas(result.data))

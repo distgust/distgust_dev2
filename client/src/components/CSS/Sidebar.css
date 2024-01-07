@@ -34,6 +34,16 @@
 li.sidebar-select-menu {
   display: block;
 }
+.selectmenu-link.active {
+  background-color: #FFd8b0;
+  color: black;
+  
+}
+.selectmenu-link.active:hover {
+  background-color: #FFd8b0;
+  color: black;
+  cursor: default;
+}
 
 .selecter-menu {
   color: black;

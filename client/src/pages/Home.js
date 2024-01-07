@@ -30,11 +30,12 @@ const Home = () => {
 
     useEffect((tokens)=>{
         const token = localStorage.getItem('token');
-        fetch('http://192.168.0.101:3000/api/auth', {
+        fetch('https://6b01-49-228-169-225.ngrok-free.app/api/auth', {
             method: 'POST',
             headers: {
                 'Content-type' : 'application/json',
-                'Authorization' : 'Bearer '+token
+                'Authorization' : 'Bearer '+token,
+                'ngrok-skip-browser-warning': 'any',
             }
         })
         .then(response => response.json())

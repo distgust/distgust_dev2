@@ -9,12 +9,14 @@ const ScoresTable = () => {
         // Fetch data from the server
         const fetchdatas = async () => {
             try{
-                const response = await fetch('http://192.168.0.101:3000/api/showscore', {
+                const response = await fetch('https://6b01-49-228-169-225.ngrok-free.app/api/showscore', {
                     method: 'GET',
-                    headers: {
-                        'Content-type' : 'application/json'
+                    mode: 'cors',
+                    headers:{
+                        'Content-Type' : 'application/json',
+                        'ngrok-skip-browser-warning': 'any',
                     }
-                });
+                })
                 const result = await response.json();
                 setDatas(result.data);
             }catch(error){

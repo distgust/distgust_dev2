@@ -8,11 +8,12 @@ const ContentNews = () => {
     const [loading, setLoading] = useState(true);
     //fetch newstable
     useEffect(() => {
-        fetch('http://192.168.0.101:3000/api/news', {
+        fetch('https://6b01-49-228-169-225.ngrok-free.app/api/news', {
             method: 'GET',
             mode: 'cors',
             headers:{
-                'Content-type' : 'application/json'
+                'Content-Type' : 'application/json',
+                'ngrok-skip-browser-warning': 'any',
             }
         })
         .then((response) => response.json())

@@ -15,6 +15,7 @@ import DashBoard from './pages/Dashboard';
 import UsersDashBoard from './pages/UserDashboard';
 import NewDash from './pages/NewDash';
 import Nopage from './404';
+import CompetitionManage from './pages/Competition';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -27,7 +28,7 @@ root.render(
         <Route path='/dashboard' element={<DashBoard/>}/>
         <Route path='/userdashboard' element={<UsersDashBoard/>}/>
         <Route path='/newdash' element={<NewDash/>}/>
-         
+        <Route path='/competitionmanage' element={<CompetitionManage/>}/>
         <Route path="*" element={<Nopage />}/>
       </Routes>
     </BrowserRouter>

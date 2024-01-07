@@ -1,9 +1,26 @@
 import './CSS/Sidebar.css';
 import Menu from './Nav-Menu';
-import { Link } from 'react-router-dom';
+
 
 //
-const SideBar = ({menu_arr}) => {
+const SideBar = ({menu_arr,pagetitle}) => {
+    const selectmenu_arr = [
+        {
+            label:'การแข่งขัน',
+            link:'/competitionmanage',
+            status:'selectmenu-link',
+        },
+        {
+            label:'แดชบอร์ด',
+            link:'/dashboard',
+            status:'selectmenu-link',
+        },
+    ];
+    selectmenu_arr.forEach(element => {
+        if(element.label === pagetitle){
+            element.status += " active"
+        }
+    });
     return(
         <ul>
             {menu_arr.map((menu_props)=>{
@@ -11,12 +28,15 @@ const SideBar = ({menu_arr}) => {
                     <Menu label={menu_props.label} link={menu_props.link} key={menu_props.link} status={menu_props.status} />
                 )
             })}
+            
             <li className="sidebar-select-menu">
             <div className="selecter-menu">การจัดการ</div>
                 <div className="selecter-menu-content">
-                    <Link>mn1</Link>
-                    <Link>mn2</Link>
-                    <Link>mn3</Link>
+                    {selectmenu_arr.map((selectmenu_props)=>{
+                        return(
+                            <Menu label={selectmenu_props.label} link={selectmenu_props.link} key={selectmenu_props.link} status={selectmenu_props.status}/>
+                        )
+                    })}
                 </div>
             </li>
         </ul>      

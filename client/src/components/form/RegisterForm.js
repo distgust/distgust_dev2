@@ -15,10 +15,12 @@ const RegisterForm = () =>{
         //console.log(inputs.username)
         event.preventDefault();
         try{
-            const req = await fetch('https://localhost:3001/api/register', {
+            const req = await fetch('https://6b01-49-228-169-225.ngrok-free.app/api/register', {
                 method: 'POST',
+                mode: 'cors',
                 headers: {
-                    'Content-type': 'application/json'
+                    'Content-type': 'application/json',
+                    'ngrok-skip-browser-warning': 'any',
                 },
                 body: JSON.stringify(inputs),
             });

@@ -10,11 +10,13 @@ const AddNewsForm= () =>{
         setNewsform(values => ({...values,[name]: value}));
     }
     const HandleSubmit = (event) => new Promise ((resolve,reject) => {
-        fetch('http://localhost:3001/api/addnewspost',{
+        fetch('https://https://6b01-49-228-169-225.ngrok-free.app/api/addnewspost',{
             method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
+            mode: 'cors',
+                headers: {
+                    'Content-type': 'application/json',
+                    'ngrok-skip-browser-warning': 'any',
+                },
             body: JSON.stringify(newsform),
         })    
         .then((res) => {
