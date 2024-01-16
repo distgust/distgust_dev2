@@ -29,7 +29,7 @@ const SideBar = ({menu_arr,pagetitle}) => {
                 )
             })}
             
-            <li className="sidebar-select-menu">
+            <ul className="sidebar-select-menu">
             <div className="selecter-menu">การจัดการ</div>
                 <div className="selecter-menu-content">
                     {selectmenu_arr.map((selectmenu_props)=>{
@@ -38,7 +38,7 @@ const SideBar = ({menu_arr,pagetitle}) => {
                         )
                     })}
                 </div>
-            </li>
+            </ul>
         </ul>      
     );
 }

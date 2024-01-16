@@ -35,7 +35,7 @@ const AddNewsForm= () =>{
 
     return(
         <div className='form-container'>
-        <form className='form-control form-w-700' onSubmit={HandleSubmit}>
+        <form className='form-control' onSubmit={HandleSubmit}>
             <div className='form-row' >
                 <label>หัวข้อ</label>
                 <input type='text' name='NewsHeader' onChange={handleChange} placeholder='แมทท์แสนสองหัว บ่อตัวอย่าง ชิงหลิว,สายยาว,โอเพ่น ค่าลงเบ็ด 999 บาท'/>

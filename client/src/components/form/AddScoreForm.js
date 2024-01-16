@@ -35,12 +35,11 @@ const AddScoresForm= () =>{
         catch(error){
             console.error("There has been a problem with your fetch operation:", error);
         }
-    
     }
 
     return(
         <div className='form-container'>
-        <form className='form-control form-w-700' onSubmit={HandleSubmit}>
+        <form className='form-control' onSubmit={HandleSubmit}>
             <div className='form-row' >
                 <label>หมายเลขคัน</label>
                 <input type='text' name='Number' onChange={handleChange} placeholder='หมายเลขคันที่บันทึก'/>

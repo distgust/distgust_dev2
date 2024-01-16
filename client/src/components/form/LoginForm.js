@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import {useState} from 'react';
 import './form.css';
-const LoginForm = () =>{
+const LoginForm = (props) =>{
     let [inputs, setInputs] = useState({});
 
     const handleChange = (event) => {
@@ -11,7 +11,7 @@ const LoginForm = () =>{
     };
    
     const handleSubmit = (event) => {
-        fetch('https://6b01-49-228-169-225.ngrok-free.app/api/login', {
+        fetch(props.apiserver+'/api/login', {
             method: 'POST',
             mode: 'cors',
             headers: {
@@ -31,7 +31,7 @@ const LoginForm = () =>{
                 //window.location="/usersdashboard";
                 const token = localStorage.getItem('token');
                 
-                await fetch('https://6b01-49-228-169-225.ngrok-free.app/api/auth', {
+                await fetch(props.apiserver+'/api/auth', {
                     method: 'POST',
                     mode: 'cors',
                     headers: {

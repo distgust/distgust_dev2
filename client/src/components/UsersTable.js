@@ -7,7 +7,7 @@ const UsersTable = (ResultData) => {
 
     useEffect(() => {
       // Fetch data from the server
-        fetch('https://6b01-49-228-169-225.ngrok-free.app/api/showuser', {
+        fetch('https://7c40-49-228-171-180.ngrok-free.app/api/showuser', {
             method: 'GET',
             mode: 'cors',
             headers: {

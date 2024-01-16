@@ -1,6 +1,10 @@
 .form-control{
     padding-top: 10px;
     padding-bottom: 10px;
+    width: 100%;
+    justify-content: center;
+    justify-items: center;
+    
 }
 .form-w-500{
     min-width: 400px;
@@ -16,12 +20,15 @@
 .w-50{
     width: 50%;
 }
-.form-row{
-    text-align: center;
+.form-span >.text-small{
+    text-align: end;
+    justify-content: end;
 }
 .form-container{
-    display: inline-block;
-    width: 70%;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    justify-items: center;
 }
 .form-control label{
     float: left;
@@ -66,7 +73,42 @@
     float: right;
     width: 50%;
 }
-
+.form-control input[type=button].btn-clear {
+    text-align: center;
+    background-color: #793232;
+    font-family: Anuphan;
+    font-weight: 500;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+    width: 50%;
+}
+.form-control input[type=button].btn-type {
+    text-align: center;
+    background-color: #FFd8b0;
+    font-family: Anuphan;
+    font-weight: 500;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float:right;
+    width: 25%;
+    margin-bottom: 1rem;
+}
+.form-control .text-small{
+    width: 100%;
+}
+.form-control input[type=button].btn-clear:hover{
+    box-shadow: 0 4px 8px 0 #b44747, 0 6px 10px 0 #b44747;
+}
+.form-control input[type=button].btn-type:hover{
+    box-shadow: 0 8px 8px 0 #FFd8b0, 0 6px 10px 0 #FFd8b0;
+}
 .form-control input.btn-submit[type=submit]:hover{
     box-shadow: 0 4px 8px 0 #325D79, 0 6px 10px 0 #325D79;
 }
@@ -91,10 +133,12 @@
     font-weight: 50;
 }
   /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width:1024px) {
+  }
   @media screen and (max-width: 768px) {
     .form-w-700{
         min-width: 500px;
-        
+        width: 100%;
     }
     .form-w-500{
         min-width: 100%;
@@ -110,7 +154,7 @@
         padding: 0;
     }
     .form-row{
-        max-width: 100%;
+        width: 100%;
     }
     input[type=submit]{
         margin-top: 6px;

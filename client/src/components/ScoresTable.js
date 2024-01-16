@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import './CSS/Table.css'
 import Loader from "./Loader";
-const ScoresTable = () => {
+const ScoresTable = (props) => {
     const [datas, setDatas] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -9,7 +9,7 @@ const ScoresTable = () => {
         // Fetch data from the server
         const fetchdatas = async () => {
             try{
-                const response = await fetch('https://6b01-49-228-169-225.ngrok-free.app/api/showscore', {
+                const response = await fetch(props.apiserver+'/api/showscore', {
                     method: 'GET',
                     mode: 'cors',
                     headers:{
@@ -23,8 +23,7 @@ const ScoresTable = () => {
                 console.error(error)
             }finally{
                 setLoading(false)
-            } 
-            
+            }   
         }
         
         fetchdatas();

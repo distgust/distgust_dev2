@@ -3,12 +3,12 @@ import NewsContainer from "./NewsContainer";
 import { useEffect } from "react";
 import Loader from "./Loader";
 
-const ContentNews = () => {
+const ContentNews = (props) => {
     const [NewsDatas, setNewsDatas] = useState([]);
     const [loading, setLoading] = useState(true);
     //fetch newstable
     useEffect(() => {
-        fetch('https://6b01-49-228-169-225.ngrok-free.app/api/news', {
+        fetch(props.apiserver+'/api/news', {
             method: 'GET',
             mode: 'cors',
             headers:{

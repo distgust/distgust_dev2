@@ -25,7 +25,7 @@ let pagetitle = 'เข้าสู่ระบบ';
             element.status += " active"
         }
     });
-const LoginPage = () =>{
+const LoginPage = (props) =>{
 
     return(
         <>
@@ -35,7 +35,7 @@ const LoginPage = () =>{
             <div className='container-full-width contents-center mt-100'>
                 <div className='section'>
                     <h2 className="">เข้าสู่ระบบ</h2>
-                    <LoginForm/>
+                    <LoginForm apiserver={props.apiserver}/>
                 </div>
             </div>
         </main>

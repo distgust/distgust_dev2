@@ -1,7 +1,5 @@
-
-import './form.css';
-import { useState } from 'react';
-const RegisterForm = () =>{
+import { useState } from "react";
+const CreateCompetitionDetailForm = () => {
     let [inputs, setInputs] = useState({username:""});
 
     const handleChange = (event) => {
@@ -15,7 +13,7 @@ const RegisterForm = () =>{
         //console.log(inputs.username)
         event.preventDefault();
         try{
-            const req = await fetch('https://6b01-49-228-169-225.ngrok-free.app/api/register', {
+            const req = await fetch('https://6b01-49-228-169-225.ngrok-free.app/api/createcompetitiondetail', {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
@@ -48,29 +46,12 @@ const RegisterForm = () =>{
             console.error("There has been a problem with your fetch operation:", error);
         }
     }
-    
     return(
         <div className='form-container'>
         <form className="form-control" onSubmit={handleSubmit}>
             <div className='form-row'>
-                <label>ชื่อผู้ใช้งาน</label>
-                <input type="text" name="username" onChange={handleChange}/>
-            </div>
-            <div className='form-row'>
-                <label>อีเมล์</label>
-                <input type="email" name="email" onChange={handleChange}/>
-            </div>
-            <div className='form-row'>
-                <label>เบอร์โทรศัพท์</label>
-                <input type="text" name="tel" onChange={handleChange}/>
-            </div>
-            <div className='form-row'>
-                <label>รหัสผ่าน</label>
-                <input type="password" name="password" onChange={handleChange}/>
-            </div>
-            <div className='form-row'>
-                <label>ชื่อ-นามสกุล</label>
-                <input type="text" name="fullname" onChange={handleChange}/>
+                <label>จำนวนสายการแข่งขัน</label>
+                <input type="text" name="CompetitionType" onChange={handleChange}/>
             </div>
 
             <div className='form-row'>
@@ -85,5 +66,7 @@ const RegisterForm = () =>{
         </form>
         </div>
     );
+
 }
-export default RegisterForm
+
+export default CreateCompetitionDetailForm

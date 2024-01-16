@@ -31,13 +31,14 @@
   color: white;
 }
 
-li.sidebar-select-menu {
+ul.sidebar-select-menu {
   display: block;
+  padding: 0;
+  list-style: none;
 }
 .selectmenu-link.active {
   background-color: #FFd8b0;
   color: black;
-  
 }
 .selectmenu-link.active:hover {
   background-color: #FFd8b0;
@@ -90,12 +91,17 @@ li.sidebar-select-menu {
 }
 
 @media screen and (max-width: 768px) {
+  ul.sidebar-select-menu {
+    display: inline-block;
+  }
   .sidebar {
     animation: slideIn 0.7s ease-out; /* Add animation to the dropdown */
     width: 100%;
     height: fit-content;
     position: fixed;
     overflow: unset;
+    background-color: #EFEEEE;
+    box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.1);
   }
   .sidebar >ul{
     margin-top: 0;

@@ -8,39 +8,44 @@ import AddScoresForm from '../components/form/AddScoreForm';
 import Loader from "../components/Loader";
 import ScoresTable from '../components/ScoresTable';
 
-const DashBoard = () => {
+const DashBoard = (props) => {
     const pagetitle = 'แดชบอร์ด';
     const [loading, setLoading] = useState(true);
     
     useEffect(()=>{
         const token = localStorage.getItem('token');
-        fetch('https://6b01-49-228-169-225.ngrok-free.app/api/auth', {
-            method: 'POST',
-            headers: {
-                'Content-type' : 'application/json',
-                'Authorization' : 'Bearer '+token,
-                'ngrok-skip-browser-warning': 'any',
-            }
-        })
-        .then(response => response.json())
-        .then((result) => {
-            if(result.status === "error"){
-                localStorage.removeItem('token');
-                alert('please login',result.message);
-                window.location = '/login';
-            }else{
-                console.log(result.decode)
-                const user = result.decode
-                if(user.userRole !== "admin"){
-                    alert('คำเตือน ! คุณไม่มีสิทธิ์ในการเข้าถึงหน้านี้')
-                    window.location="/dashboard";
+        const auth = async () =>{
+            try{
+                const req = await fetch(props.apiserver+'/api/auth', {
+                    method: 'POST',
+                    headers: {
+                        'Content-type' : 'application/json',
+                        'Authorization' : 'Bearer '+token,
+                        'ngrok-skip-browser-warning': 'any',
+                    }
+                })
+                const res = await req.json()
+                if(res.status === "error"){
+                    localStorage.removeItem('token');
+                    alert('please login',res.message);
+                    window.location = '/login';
                 }else{
-                    return
+                    console.log(res.decode)
+                    const user = res.decode
+                    if(user.userRole !== "admin"){
+                        alert('คำเตือน ! คุณไม่มีสิทธิ์ในการเข้าถึงหน้านี้')
+                        window.location="/";
+                    }else{
+                        return
+                    }
                 }
-            }
-        })
-        .catch((err) => alert('ERROR!',err ))
-        .finally(() => setLoading(false))
+                }catch(error){
+                    alert('error : ',error)
+                }finally{
+                    setLoading(false)
+                }                   
+        }
+        auth();
     },[])
 
     //menu list array
@@ -88,7 +93,7 @@ return (
                     <h3 className='section-header mb-0'>บันทึกน้ำหนัก</h3>
                     <h4 className='section-header-text'>จดบันทึก น้ำหนักปลาที่ขึ้นชั่งน้ำหนัก</h4>
                     <div className='container-full-width contents-center'>
-                        <ScoresTable/>
+                        <ScoresTable apiserver={props.apiserver}/>
                     </div>
                 </div>
                 <div className='section'>
@@ -105,8 +110,6 @@ return (
                         <UsersTable />
                     </div>
                 </div>
-                
-                
             </main>
         </div>
     </>

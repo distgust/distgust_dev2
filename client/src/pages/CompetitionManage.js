@@ -1,5 +1,6 @@
 import DashHeaders from '../components/DashHeader'
 import SideBar from '../components/SideBar';
+import AddCompetitionForm from '../components/form/AddCompetitionForm';
 
 const CompetitionManage = () => {
     const pagetitle = 'การแข่งขัน'
@@ -40,6 +41,7 @@ const CompetitionManage = () => {
                     <h3 className='section-header mb-0'>กำหนดการแข่งขันใหม่</h3>
                     <h4 className='section-header-text'>เพิ่มกำหนดการแข่งขันใหม่</h4>
                     <div className='container-full-width contents-center'> 
+                        <AddCompetitionForm />
                     </div>
                 </div>
             </main>

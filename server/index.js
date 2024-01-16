@@ -80,10 +80,11 @@ app.post('/api/addcompetition' , async (req, res) => {
    try{
       const tablename = 'CompetitionTable';
       const datas = {
-         NewsHeader: req.body.NewsHeader,
-         NewsLocation: req.body.NewsLocation,
-         NewsMatchDate: req.body.NewsMatchDate,
-         NewsContent: req.body.NewsContent
+         CompetitionTitle: req.body.CompetitionTitle,
+         CompetitionDate: req.body.CompetitionDate,
+         CompetitionLocation: req.body.CompetitionLocation,
+         CompetitionCost: req.body.CompetitionCost,
+         CompetitionDetail: req.body.CompetitionDetail
       };
       const insert = await db.InsertData(tablename,datas);
       res.status(201).json({status:"success",data: insert});
