@@ -3,14 +3,13 @@ import './form.css';
 
 const AddNewsForm= () =>{
     let [newsform,setNewsform] = useState({});
-
     const handleChange = (event) => {
         let name = event.target.name;
         let value = event.target.value;
         setNewsform(values => ({...values,[name]: value}));
     }
     const HandleSubmit = (event) => new Promise ((resolve,reject) => {
-        fetch('https://https://6b01-49-228-169-225.ngrok-free.app/api/addnewspost',{
+        fetch('https://2414-49-228-171-180.ngrok-free.app/api/addnewspost',{
             method: 'POST',
             mode: 'cors',
                 headers: {

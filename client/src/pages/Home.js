@@ -5,7 +5,7 @@ import ContentLastmatch from '../components/Lastmatch';
 import Loader from '../components/Loader';
 import { useState,useEffect } from 'react';
 
-const Home = (props) => {
+const Home = () => {
     const [loading, setLoading] = useState(true);
     const [logged,setLogged] = useState(false);
 
@@ -30,7 +30,8 @@ const Home = (props) => {
 
     useEffect((tokens)=>{
         const token = localStorage.getItem('token');
-        fetch(props.apiserver+'/api/auth', {
+
+        fetch('https://2414-49-228-171-180.ngrok-free.app/api/auth', {
             method: 'POST',
             headers: {
                 'Content-type' : 'application/json',
@@ -41,7 +42,6 @@ const Home = (props) => {
         .then(response => response.json())
         .then((result) => {
             if(result.status === "error"){
-
                 return
             }else{
                 tokens = result.decode
@@ -77,7 +77,7 @@ const Home = (props) => {
             <main className="col-12">
                 <TopNav Li={TopNavLi}/>
                 <div className='container-full-width mt-100'>
-                    <ContentNews apiserver={props.apiserver}/>
+                    <ContentNews/>
                     <ContentLastmatch/>
                 </div>
             </main>

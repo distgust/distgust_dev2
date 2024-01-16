@@ -1,12 +1,13 @@
-import {useState,useEffect} from 'react';
+import {useState} from 'react';
 import Loader from '../Loader';
 import React from 'react';
 
 
 const AddCompetitionForm = () =>{
     const [Loading, setLoading] = useState(false);
-    const [step, setStep] = useState(2);
-
+    const [step, setStep] = useState(1);
+    const [details,setDetails] = useState([])
+    
     const Step1 = (prop) =>{
         const [competition,setCompetition] = useState([]);
         const Step1Change = (event) => {
@@ -19,7 +20,7 @@ const AddCompetitionForm = () =>{
             event.preventDefault();
             try{
                 setLoading(true)
-                const req = await fetch('https://7c40-49-228-171-180.ngrok-free.app/api/addcompetition',{
+                const req = await fetch('https://2414-49-228-171-180.ngrok-free.app/api/addcompetition',{
                         method: 'POST',
                         mode: 'cors',
                         headers: {
@@ -108,12 +109,11 @@ const AddCompetitionForm = () =>{
 
     //  START Step 2 //
     const Step2 = (prop) => {
-        const [detail,setDetail] = useState([]);
         const [typename, setTypename] = useState({});
-        const [competitionTypeRow, setCompetitionTypeRow] = useState([]);
         const [price, setPrice] = useState([]);
-        const [priceRow,setPriceRow] = useState([]);
-
+        const [competitionTypeRow, setCompetitionTypeRow] = useState([]);
+        const datas = []
+        
         const handleName = (event) => {
             let name = event.target.name;
             let value = event.target.value;            
@@ -128,39 +128,25 @@ const AddCompetitionForm = () =>{
 
         const handleSubmit = async (event) => {
             event.preventDefault();
+            setLoading(true)
+            const typekey = Object.keys(typename)
+            const looping = async () => typekey.forEach((data) => {
+                const pricekey = data+'Price'
+                const typeprice = price[pricekey]
+                const name = typename[data]
+                //console.log(data)
+                datas.push({[data]:{'name':[name],'price':[typeprice]}})
+                //console.log(datas)                   
+            })
             try{
-                setLoading(true)
-                const req = await fetch('https://6b01-49-228-169-225.ngrok-free.app/api/createcompetitiontype', {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'ngrok-skip-browser-warning': 'any',
-                    },
-                    body: JSON.stringify(),
-                });
-    
-                const res = await req.json();
-                //console.log("server response this :", res);
-                if(res.status === 'error INSERT'){
-                    //console.error('ERROR : ', res.response_data.errno,'\nERR_CODE : ', 
-                    //res.response_data.code,'\nERR_MESSAGE : ',res.response_data.sqlMessage);
-                    switch(res.data.code){
-                        default:
-                            console.error(res.data.code ) 
-                            break;
-                        case 'ER_DUP_ENTRY':
-                            alert('ERROR : กรุณาใช้ Username อื่น')
-                        break;
-                        case 'EMPTY_ENTRY':
-                            alert('ERROR : ตรวจสอบข้อมูลที่กรอก')
-                        break;
-                    }
-                }else{
-                    alert("DATA STORED", res.data); 
-                }
+                await looping()
+                setDetails(datas)
+                setStep(3)
             }catch(error){
-                console.error("There has been a problem with your fetch operation:", error);
+                alert('error: '+error)
+            }finally{
+                console.log(datas)
+                setLoading(false)
             }
         }
 
@@ -171,8 +157,7 @@ const AddCompetitionForm = () =>{
                         <div key={typeprops.typeinputkey}>
                             <label>สายการแข่งขันที่ : {typeprops.no}</label>
                             <input type="text" name={typeprops.name} key={typeprops.name+'Name'}  onChange={handleName} placeholder='ชื่อสายการแข่งขัน'/>
-                            <input type="text" name={typeprops.name+'Price'} key={typeprops.name+'Price'} onChange={handlePrice} placeholder='จำนวนรางวัล'/>
-                            <input className='btn-type' type='button'  onClick={appendPriceDetail} value='เพิ่มเงินรางวัล'/>                         
+                            <input type="text" name={typeprops.name+'Price'} key={typeprops.name+'Price'} onChange={handlePrice} placeholder='จำนวนรางวัล'/>                         
                         </div>    
                     )
                 }
@@ -180,6 +165,7 @@ const AddCompetitionForm = () =>{
                     <TypeInput no={props.no} name={props.name} typeinputkey={props.competitionkey}/>   
                 )
             }
+            
             setCompetitionTypeRow(prevComponents => [
                 ...prevComponents,
                 <div className='form-row' key={'RowType'+(prevComponents.length)}> 
@@ -192,51 +178,91 @@ const AddCompetitionForm = () =>{
                 </div>
             ])
         }
-        
-        const appendPriceDetail = () =>{
+        if(Loading){
+            return <Loader/>
+        }else{
+            return(
+                <div className='form-container' key={prop.containerkey}>
+                    <form className="form-control" onSubmit={handleSubmit}>
+                        <div className='form-row' >
+                            <span className='section-header-text text-right'>จำนวนสายทั้งหมด : {competitionTypeRow.length} สาย</span>                
+                            <input className='btn-type' type='button'  onClick={appendTypeForm} value='เพิ่มสายการแข่งขัน'/>                         
+                        </div>
+                        {competitionTypeRow}
+                        <div className='form-row'>
+                            <input className='btn-submit' type='submit' value='ยืนยัน' key='submit'/>
+                        </div>
+                    </form>
+                </div>
+            );
+        }
+    
+    }
+    //  END Step 2  //
+    // START STEP 3 //
+    const Step3 = (props) => {
+        const [priceRow,setPriceRow] = useState([]);
+        const [datas,setDatas] = useState([]);
+
+        //console.log(details)
+        const handleChange = (event) => {
+            let name = event.target.name;
+            let value = event.target.value;            
+            setDatas(values => ({...values,[name]:value}));
+        }
+        const appendPriceDetail = (event) =>{
+            event.preventDefault();
             const PriceRow = (props) => {
                 const PriceInput = (priceprops) =>{
                     return(
                         <>
-                            <label>{priceprops.pricename}</label>
-                            <input type="text" placeholder='ชื่อสายการแข่งขัน'/>
+                            <label>{priceprops.no}</label>
+                            <input type="text" placeholder='เงินรางวัล' key={priceprops.inputKey} name={priceprops.name} onChange={handleChange}/>
                         </>
                     )
                 }
                 return(
-                    <PriceInput pricename={props.index} pricekey={props.index}/>
+                    <PriceInput no={props.no} key={props.inputKey} name={props.name}/>
                 )
             }
-            
-            setPriceRow(prevComponents => [
-                ...prevComponents,
-                    <div className='form-row' key={'PriceRow'+(prevComponents.length)}> 
-                        
-                            <PriceRow/>
-                        
-                    </div>       
-            ])
+            let count = 1
+            details.forEach((values,index,array) => {
+                const data = values['Type'+count]
+                const price = parseInt(data.price)
+                count++
+                
+                console.log(data,price)    
+                console.log('***********')
+                for(let i = 0 ;i < price; i++){
+                    setPriceRow(prevComponents => [
+                        ...prevComponents,
+                            <div className='form-row' key={'ROWtype'+(index+1)+'price' + (i+1)}> 
+                                <PriceRow 
+                                    no={'ประเภทที่ : ' + (index+1) + ' รางวัลที่ : ' + (i+1)}
+                                    name={'type'+(index+1)+'price' + (i+1)}
+                                    key={'ROWtype'+(index+1)+'price' + (i+1)}
+                                    inputKey={'type'+(index+1)+'price' + (i+1)}
+                                />     
+                            </div>         
+                    ])
+                }
+            })
         }
-
         return(
-            <div className='form-container' key={prop.containerkey}>
-            <form className="form-control" onSubmit={handleSubmit}>
-                <div className='form-row' >
-                    <span className='section-header-text text-right'>จำนวนสายทั้งหมด : {competitionTypeRow.length} สาย</span>                
-                    <input className='btn-type' type='button'  onClick={appendTypeForm} value='เพิ่มสายการแข่งขัน'/>                         
-                </div>
-                {competitionTypeRow}
-                {priceRow}
-                <div className='form-row'>
-                    <input className='btn-submit' type='submit' value='ยืนยัน' key='submit'/>
-                </div>
-            </form>
+            <div className='form-container' key={props.containerkey}>
+                <form className="form-control" >
+                    <div className='form-row' >
+                        <span className='section-header-text text-right'>จำนวนเงินรางวัล : {priceRow.length} รางวัล</span>                
+                        <input className='btn-type' type='button'  onClick={appendPriceDetail} value='เพิ่มเงินรางวัล'/>                       
+                    </div>
+                    {priceRow}
+                    <div className='form-row'>
+                        <input className='btn-submit' type='submit' value='ยืนยัน' key='submit'/>
+                    </div>
+                </form>
             </div>
-        );
-    
+        )
     }
-    //  END Step 2  //
-
     //      Start Render Switcher   //
     switch(step){
         default:   
@@ -246,6 +272,10 @@ const AddCompetitionForm = () =>{
         case 2:
             return(
                 <Step2 containerkey='step2'/>
+            )
+        case 3:
+            return(
+                <Step3 containerkey='step3' />
             )
     }
     //      End Render Switcher     //

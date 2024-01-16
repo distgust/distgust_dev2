@@ -8,15 +8,16 @@ import AddScoresForm from '../components/form/AddScoreForm';
 import Loader from "../components/Loader";
 import ScoresTable from '../components/ScoresTable';
 
-const DashBoard = (props) => {
+const DashBoard = () => {
     const pagetitle = 'แดชบอร์ด';
     const [loading, setLoading] = useState(true);
+
     
     useEffect(()=>{
         const token = localStorage.getItem('token');
         const auth = async () =>{
             try{
-                const req = await fetch(props.apiserver+'/api/auth', {
+                const req = await fetch('https://2414-49-228-171-180.ngrok-free.app/api/auth', {
                     method: 'POST',
                     headers: {
                         'Content-type' : 'application/json',
@@ -93,7 +94,7 @@ return (
                     <h3 className='section-header mb-0'>บันทึกน้ำหนัก</h3>
                     <h4 className='section-header-text'>จดบันทึก น้ำหนักปลาที่ขึ้นชั่งน้ำหนัก</h4>
                     <div className='container-full-width contents-center'>
-                        <ScoresTable apiserver={props.apiserver}/>
+                        <ScoresTable/>
                     </div>
                 </div>
                 <div className='section'>

@@ -18,18 +18,18 @@ import Nopage from './404';
 import CompetitionManage from './pages/CompetitionManage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const apiserver = 'https://2414-49-228-171-180.ngrok-free.app';
+const apiserver ='https://2414-49-228-171-180.ngrok-free.app'
 root.render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home apiserver={apiserver}/>}/>
-        <Route path="/register" element={<RegisterPage apiserver={apiserver}/>}/>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/register" element={<RegisterPage/>}/>
         <Route path="/login" element={<LoginPage apiserver={apiserver}/>} />
-        <Route path='/dashboard' element={<DashBoard apiserver={apiserver}/>}/>
-        <Route path='/userdashboard' element={<UsersDashBoard apiserver={apiserver}/>}/>
-        <Route path='/newdash' element={<NewDash apiserver={apiserver}/>}/>
-        <Route path='/competitionmanage' element={<CompetitionManage apiserver={apiserver}/>}/>
+        <Route path='/dashboard' element={<DashBoard/>}/>
+        <Route path='/userdashboard' element={<UsersDashBoard/>}/>
+        <Route path='/newdash' element={<NewDash/>}/>
+        <Route path='/competitionmanage' element={<CompetitionManage/>}/>
         <Route path="*" element={<Nopage />}/>
       </Routes>
     </BrowserRouter>
