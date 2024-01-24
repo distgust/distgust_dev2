@@ -11,6 +11,7 @@ const router = express.Router();
 const jsonParser = bodyParser.json()
 const bcrypt = require("bcrypt")
 const InsertData = require("./modules/db")
+const { log } = require("console")
 const saltround = 10
 const secret = 'A140B3715_c'
 app.use(cors())
@@ -75,7 +76,7 @@ app.post('/api/addnewspost' , async (req, res) => {
       res.status(500).json({status:"error",data: error});
    }
 });
-// insert to CompetitionTable //
+// create to CompetitionpriceTable //
 app.post('/api/addcompetition' , async (req, res) => {
    try{
       const tablename = 'CompetitionTable';
@@ -90,6 +91,58 @@ app.post('/api/addcompetition' , async (req, res) => {
       res.status(201).json({status:"success",data: insert});
    } catch(error){
       //console.log(error.errno);
+      res.status(500).json({status:"error",data: error});
+   }
+});
+// insert to CompetitionTable //
+app.post('/api/getcompetitionid' , async (req, res) => {
+   try{
+      const date = req.body.Date
+      const selectedid = await db.SelectCompetitionID(date);
+      const id = selectedid[0].CompetitionID;
+      res.status(201).json({status:"success",data: id});
+   } catch(error){
+      //console.log(error.errno);
+      res.status(500).json({status:"error",data: error});   
+   }
+});
+// create to CompetitionpriceTable //
+app.post('/api/addcompetitionprice' , async (req, res) => {
+   const date = req.body[0];
+   const types = req.body[1];
+   const price = Object.entries(req.body[2]);
+   const id = req.body[3];
+   console.log(id,"\n*********");
+   console.log(date,"\n*********");
+   console.log(types,"\n*********");
+   console.log(price,"\n*********");
+   try{
+      //const tablename = 'CompetitionDetailTable';
+      let count = 1
+      types.forEach((values,index) => {
+         const type = 'Type'+count
+         const data = values['Type'+count]
+         const price = parseInt(data.price)
+         const typename = data.name
+         const Id = id.CompetitionID
+         console.log(id.CompetitionID,type,typename,price)    
+         console.log('***********')
+         db.InsertCompetitionData(Id,type,typename,price)
+         count++
+      })
+      price.forEach((values,index)=>{
+         console.log('key : ',values[0])
+         console.log('value :',values[1])    
+         console.log('***********')
+         let key = values[0]
+         let value = values[1]
+         let Id = id.CompetitionID
+         db.InsertCompetitionRewardPrice(Id,key,value)
+      })
+      res.status(201).json({status:"success",data: id.CompetitionID});
+      //res.status(500).json({status:"error",data: error});
+   } catch(error){
+      console.log(error)
       res.status(500).json({status:"error",data: error});
    }
 });
@@ -125,7 +178,21 @@ app.get('/api/showuser', async (req,res) =>{
       res.status(500).json({status:"error",data: error});
    }
 })
-
+// show NewsTable //
+app.get('/api/competition', async (req,res) => {
+   try{
+      const table = 'CompetitionTable'
+      const Datas = await db.SelectData(table);``
+      if(Datas.length <= 0){
+         res.status(204).json({status:"success",data: Datas});
+      }else{
+         res.status(200).json({status:"success",data: Datas});
+      }
+   }
+   catch(error){
+      res.status(500).json({status:"error",data: error});
+   }
+})
 // show NewsTable //
 app.get('/api/news', async (req,res) => {
    try{

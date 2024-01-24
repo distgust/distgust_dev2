@@ -4,12 +4,12 @@ import Loader from "./Loader";
 const ScoresTable = (props) => {
     const [datas, setDatas] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    
     useEffect(() => {
         // Fetch data from the server
         const fetchdatas = async () => {
             try{
-                const response = await fetch('https://2414-49-228-171-180.ngrok-free.app/api/showscore', {
+                const response = await fetch(props.apiserver+'/api/showscore', {
                     method: 'GET',
                     mode: 'cors',
                     headers:{

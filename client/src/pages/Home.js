@@ -1,11 +1,12 @@
 import Headers from '../components/Header';
 import ContentNews from '../components/News';
+import ContentCompetition from '../components/ContentCompetition'
 import TopNav from '../components/TopNav';
 import ContentLastmatch from '../components/Lastmatch';
 import Loader from '../components/Loader';
 import { useState,useEffect } from 'react';
 
-const Home = () => {
+const Home = (props) => {
     const [loading, setLoading] = useState(true);
     const [logged,setLogged] = useState(false);
 
@@ -31,7 +32,7 @@ const Home = () => {
     useEffect((tokens)=>{
         const token = localStorage.getItem('token');
 
-        fetch('https://2414-49-228-171-180.ngrok-free.app/api/auth', {
+        fetch(props.apiserver+'/api/auth', {
             method: 'POST',
             headers: {
                 'Content-type' : 'application/json',
@@ -71,13 +72,13 @@ const Home = () => {
         }
     });
   return (
-    
     <>
         <Headers pagetitle={pagetitle} logged={logged}/>
-            <main className="col-12">
-                <TopNav Li={TopNavLi}/>
-                <div className='container-full-width mt-100'>
+        <TopNav Li={TopNavLi}/>
+            <main className='col-12'>
+                <div className='container-full-width '>
                     <ContentNews/>
+                    <ContentCompetition/>
                     <ContentLastmatch/>
                 </div>
             </main>

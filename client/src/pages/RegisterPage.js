@@ -30,11 +30,13 @@ const RegisterPage = () =>{
     return(
         <>
         <Headers pagetitle={pagetitle}/>
+        <TopNav Li={TopNavLi}/>
             <main className="col-12">
-            <TopNav Li={TopNavLi}/>
-                <div className='container-full-width contents-center mt-100'>
+                <div className='container-full-width contents-center'>
                     <div className='section'>
-                        <h2 className='form-title'>สมัครสมาชิก</h2>
+                        <div className="section-header">
+                            <h1 className='section-heder-text'>สมัครสมาชิก</h1>
+                        </div>
                         <RegisterForm/>
                     </div> 
                 </div>

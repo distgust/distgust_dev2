@@ -4,9 +4,9 @@ ul.topnav {
     padding: 0;
     background-color: #EFEEEE;
     position: fixed;
-    margin-bottom: 0;
     right: 0;
     left: 0;
+    
 }
 .topnav-li{
     text-align: center;
@@ -15,7 +15,6 @@ ul.topnav {
     padding-right: 10px;
     text-decoration: none;
     display: inline-block;
-
 }
 .link{
     text-decoration: none;

@@ -52,5 +52,59 @@ const Login = (un) => new Promise((resolve,reject) => {
         return resolve(results)
     })
 })
+const SelectCompetitionID =(dates) => new Promise((resolve,reject) => {
+    console.log("<----    THIS IS NO DB MODULES    ---->\n<---- START SELECT COMPETITION ID ---->")
+    let sql = "SELECT CompetitionID FROM CompetitionTable WHERE CompetitionDate=?"+" ORDER BY CompetitionID DESC LIMIT 1";
+    console.log('DATE INPUT : '+dates)
+    pool.query(sql,[dates],(err,result,Fields) => {
+        if(err){
+            return reject(err)
+        }else{
+            console.log(result)
+            console.log('<---- SUCCESS ---->');
+            return resolve(result)
+        }
+    })
+})
+const CretePriceTable = (id,date,name) => new Promise((resolve,reject) => {
+    const column = []
+    const TableName = 'Competition'+competitionid+'Details'
+    let sql = "CREATE TABLE "+TableName+" ()"
+    return resolve
+})
+const InsertCompetitionData = (CompetitionID,CompetitionType,CompetitionTypeName,CompetitionTotalReward) => new Promise((resolve,reject) => {
+    const Datas = {
+        CompetitionID : CompetitionID,
+        CompetitionType: CompetitionType,
+        CompetitionTypeName:CompetitionTypeName,
+        CompetitionTotalReward:CompetitionTotalReward
+    }
+    const SqlInsert = 'INSERT INTO CompetitionDetailTable SET ?';
+    pool.query(SqlInsert,Datas,(error,result) => {
+       if(error){
+          return reject(error);
+       }
+       return resolve(result);
+    })
+})
+const InsertCompetitionRewardPrice = (CompetitionID,RewardType,RewardPrice) => new Promise((resolve,reject) => {
+    const Datas = {
+        CompetitionID : CompetitionID,
+        CompetitionRewardType: RewardType,
+        CompetitionRewardPrice: RewardPrice
+    }
+    const SqlInsert = 'INSERT INTO CompetitionReward SET ?';
+    pool.query(SqlInsert,Datas,(error,result) => {
+       if(error){
+          return reject(error);
+       }
+       return resolve(result);
+    })
+ })
+const TruncateTable = () => new Promise((resolve,reject) => {
+    const column = []
 
-module.exports = {TestDBConn,InsertData,SelectData,Login};
+    let sql = ""
+    return resolve
+}) 
+module.exports = {TestDBConn,InsertData,SelectData,Login,SelectCompetitionID,CretePriceTable,InsertCompetitionData,InsertCompetitionRewardPrice};

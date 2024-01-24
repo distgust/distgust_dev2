@@ -8,7 +8,7 @@ const ContentNews = (props) => {
     const [loading, setLoading] = useState(true);
     //fetch newstable
     useEffect(() => {
-        fetch('https://2414-49-228-171-180.ngrok-free.app/api/news', {
+        fetch('http://192.168.0.101:3001/api/news', {
             method: 'GET',
             mode: 'cors',
             headers:{

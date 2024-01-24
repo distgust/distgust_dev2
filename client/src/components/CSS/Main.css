@@ -1,6 +1,7 @@
 main{
     min-height: 100vh;
     background-color: #F5F2ED;
+    margin-top: 108px;
 }
 main.dashboard{
     background-color: #F5F2ED;
@@ -91,9 +92,11 @@ bg-primary{
     gap: 20px;
 }
 .row-1{
-    display: flex;
-    justify-content: center;
-    padding: 50px;
+    display: grid;
+    grid-template-columns: auto;
+    align-content: center;
+    padding: 10px;
+    gap: 20px;
 }
 
 .card-row > .card {
@@ -125,9 +128,17 @@ bg-primary{
 }
 .container-full-width {
     width: 100%;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 .mt-100{
     margin-top: 100px;
+}
+.mt-39{
+    margin-top: 39px;
+}
+.mt{
+    margin-top: auto;
 }
 @media screen and (max-width: 600px) {
     .col-6 {

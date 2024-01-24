@@ -20,7 +20,7 @@ const AddCompetitionForm = () =>{
             event.preventDefault();
             try{
                 setLoading(true)
-                const req = await fetch('https://2414-49-228-171-180.ngrok-free.app/api/addcompetition',{
+                const req = await fetch('http://localhost:3001/api/addcompetition',{
                         method: 'POST',
                         mode: 'cors',
                         headers: {
@@ -202,13 +202,13 @@ const AddCompetitionForm = () =>{
     // START STEP 3 //
     const Step3 = (props) => {
         const [priceRow,setPriceRow] = useState([]);
-        const [datas,setDatas] = useState([]);
+        const [Price,setPrice] = useState([]);
 
         //console.log(details)
-        const handleChange = (event) => {
+        const handlePrice = (event) => {
             let name = event.target.name;
             let value = event.target.value;            
-            setDatas(values => ({...values,[name]:value}));
+            setPrice(values => ({...values,[name]:value}));
         }
         const appendPriceDetail = (event) =>{
             event.preventDefault();
@@ -217,7 +217,7 @@ const AddCompetitionForm = () =>{
                     return(
                         <>
                             <label>{priceprops.no}</label>
-                            <input type="text" placeholder='เงินรางวัล' key={priceprops.inputKey} name={priceprops.name} onChange={handleChange}/>
+                            <input type="text" placeholder='เงินรางวัล' key={priceprops.inputKey} name={priceprops.name} onChange={handlePrice}/>
                         </>
                     )
                 }

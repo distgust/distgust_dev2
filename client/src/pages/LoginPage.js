@@ -30,11 +30,13 @@ const LoginPage = (props) =>{
     return(
         <>
         <Headers pagetitle={pagetitle}/>
-        <main className="col-12">
         <TopNav Li={TopNavLi}/>
-            <div className='container-full-width contents-center mt-100'>
+        <main className="col-12">
+            <div className='container-full-width contents-center'>
                 <div className='section'>
-                    <h2 className="">เข้าสู่ระบบ</h2>
+                    <div className="section-header">
+                        <h1 className='section-heder-text'>เข้าสู่ระบบ</h1>
+                    </div>
                     <LoginForm apiserver={props.apiserver}/>
                 </div>
             </div>

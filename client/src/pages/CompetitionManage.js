@@ -1,8 +1,9 @@
+import ContentCompetition from '../components/ContentCompetition';
 import DashHeaders from '../components/DashHeader'
 import SideBar from '../components/SideBar';
 import AddCompetitionForm from '../components/form/AddCompetitionForm';
 
-const CompetitionManage = () => {
+const CompetitionManage = (props) => {
     const pagetitle = 'การแข่งขัน'
 //  menu list array //
     const menu_arr = [
@@ -31,16 +32,17 @@ const CompetitionManage = () => {
                 <SideBar menu_arr={menu_arr} pagetitle={pagetitle}/>
             </div>
             <main className="col-11 dashboard">
-                <div className='section'>
-                    <h3 className='section-header mb-0'>การแข่งขันที่กำลังจะมาถึง</h3>
-                    <h4 className='section-header-text'>เริ่มการแข่งขัน/แก้ไขการแข่งขัน ที่กำลังจะมาถึง</h4>
-                    <div className='container-full-width contents-center'> 
+            <div className='section'>
+                    <h2 className='section-header mb-0'>การแข่งขัน</h2>
+                    <h4 className='section-header-text'>จัดการการแข่งขัน</h4>
+                    <div className='container-full-width'>
+                        <ContentCompetition apiserver={props.apiserver}/>
                     </div>
                 </div>
                 <div className='section'>
                     <h3 className='section-header mb-0'>กำหนดการแข่งขันใหม่</h3>
                     <h4 className='section-header-text'>เพิ่มกำหนดการแข่งขันใหม่</h4>
-                    <div className='container-full-width contents-center'> 
+                    <div className='container-full-width'> 
                         <AddCompetitionForm />
                     </div>
                 </div>
