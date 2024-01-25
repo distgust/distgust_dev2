@@ -248,8 +248,10 @@ app.post('/api/showcompetitionscore', async (req,res) =>{
       const Datas = await db.SelectCompetitionData(table,cid);
       if(Datas.length <= 0){
          res.status(204).json({status:"success",data: Datas});
+         console.log('204\n'+Datas)
       }else{
          res.status(200).json({status:"success",data: Datas});
+         console.log('200\n'+Datas)
       }
    }catch(error){
       res.status(500).json({status:"error",data: error});

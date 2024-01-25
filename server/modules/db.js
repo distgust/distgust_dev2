@@ -1,11 +1,21 @@
 const { json } = require("body-parser");
 const mysql = require("mysql");
 const { resolvePath } = require("react-router-dom");
+/*
 const pool =  mysql.createPool({
     host:   '192.168.0.102',
     user:   'root',
     port:   '3306',
     password:   'PASSWORD',
+    database:   'FishingSportManagerDB',
+ });
+*/
+ // second pool //
+ const pool =  mysql.createPool({
+    host:   '192.168.0.101',
+    user:   'root',
+    port:   '3306',
+    password:   '12345678',
     database:   'FishingSportManagerDB',
  });
  // test db connection function //
