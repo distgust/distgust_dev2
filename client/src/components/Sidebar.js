@@ -1,7 +1,6 @@
 import './CSS/Sidebar.css';
 import Menu from './Nav-Menu';
 
-
 //
 const SideBar = ({menu_arr,pagetitle}) => {
     const selectmenu_arr = [

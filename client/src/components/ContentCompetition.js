@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CompetitionContainer from "./CompetitionContainer";
+import CompetitionCard from "./CompetitionCard";
 import { useEffect } from "react";
 import Loader from "./Loader";
 
@@ -8,7 +8,7 @@ const ContentCompetition = (props) => {
     const [loading, setLoading] = useState(true);
     //fetch newstable
     useEffect(() => {
-        fetch(props.apiserver+'/api/competition', {
+        fetch(props.apiserver+'/api/competitions', {
             method: 'GET',
             mode: 'cors',
             headers:{
@@ -20,7 +20,7 @@ const ContentCompetition = (props) => {
         .then((result) => setCompetitionDatas(result.data))
         .catch((error) => alert('Error fetching data:', error))
         .finally(() => setLoading(false));
-    },[]);
+    },[props.apiserver]);
     if (loading) {
         console.log('loading...')
         return (
@@ -33,8 +33,8 @@ const ContentCompetition = (props) => {
                     const date = Props.CompetitionDate.split("-")
                     const da = new Date(date)
                     return(
-                        <CompetitionContainer NewsHeader={Props.CompetitionTitle} NewsLocation={Props.CompetitionLocation} 
-                        NewsMatchDate={da.toDateString()} NewsContent={Props.CompetitionDetail} key={Props.CompetitionID} apiserver={props.apiserver}/>
+                        <CompetitionCard NewsHeader={Props.CompetitionTitle} NewsLocation={Props.CompetitionLocation} 
+                        NewsMatchDate={da.toDateString()} NewsContent={Props.CompetitionDetail} key={Props.CompetitionID} Cid={Props.CompetitionID} apiserver={props.apiserver}/>
                         )
                     })}
             </div>             

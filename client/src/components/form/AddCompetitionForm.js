@@ -202,6 +202,7 @@ const AddCompetitionForm = () =>{
     // START STEP 3 //
     const Step3 = (props) => {
         const [priceRow,setPriceRow] = useState([]);
+        // eslint-disable-next-line
         const [Price,setPrice] = useState([]);
 
         //console.log(details)

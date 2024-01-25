@@ -11,7 +11,11 @@ main.dashboard{
     margin-top: 69px;
     margin-bottom: 0;
 }
-
+main.no-topnav{
+    min-height: 100vh;
+    background-color: #F5F2ED;
+    margin-top: 69px;
+}
 bg-primary{
     background-color: #FCF5ED;
 }
@@ -109,11 +113,15 @@ bg-primary{
 }
 
 .container {
-    text-align: center;
-    justify-content: center;
     display: flex;
 }
-
+.competition-content{
+    min-height: 70vh;
+    margin: 30px;
+    background-color: #F7FFFF;
+    border-radius: 14px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
 .container-border-0 {
     padding: 10px;
     margin: 0;

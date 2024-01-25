@@ -64,4 +64,62 @@
     font-size: 12px;
     text-align: right;
     color: #2c516a;
+    padding-right: 0.5rem;
 }
+.cardmenu-link.active {
+    background-color: #FFd8b0;
+    color: black;
+  }
+  .cardmenu-link.active:hover {
+    background-color: #FFd8b0;
+    color: black;
+    cursor: default;
+  }
+  ul.card-select-menu {
+    display: block;
+    padding: 0;
+    list-style: none;
+  }
+  .card-menu {
+    color: black;
+    display: inline-block;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-decoration: none;
+    width: 30%;
+    font-size: 12px;
+  }
+  
+  .card-select-menu:hover .card-menu {
+    /*background-color: #FFd8b0;*/
+    background-color: #555;
+    color: white;
+  }
+  
+  .card-menu-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    margin-top: 10px;
+    animation: slideIn 0.5s ease-out; /* Add animation to the dropdown */
+  }
+  
+  .card-menu-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+  
+  .card-menu-content a:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .card-select-menu:hover .card-menu-content {
+    display: block;
+  }

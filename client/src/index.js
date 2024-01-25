@@ -1,7 +1,7 @@
 import {React,StrictMode} from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Routes,Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import './components/CSS/index.css'
 import './components/CSS/Main.css';
@@ -17,11 +17,12 @@ import NewDash from './pages/NewDash';
 import Nopage from './404';
 import CompetitionManage from './pages/CompetitionManage';
 import NewLoginPage from './pages/NewLoginPage';
+import CompetitionPage from './pages/CompetitionPage';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const apiserver ='https://31a1-49-228-171-235.ngrok-free.app'
 root.render(
   <StrictMode>
-    <BrowserRouter>
+    <Router>
       <Routes>
         <Route path="/" element={<Home apiserver={apiserver}/>}/>
         <Route path="/register" element={<RegisterPage apiserver={apiserver}/>}/>
@@ -31,9 +32,10 @@ root.render(
         <Route path='/newdash' element={<NewDash/>}/>
         <Route path='/competitionmanage' element={<CompetitionManage apiserver={apiserver}/>}/>
         <Route path='/newloginpage' element={<NewLoginPage/>}/>
+        <Route path="/competition/:competitionid" exact element={<CompetitionPage apiserver={apiserver}/>}/>
         <Route path="*" element={<Nopage />}/>
       </Routes>
-    </BrowserRouter>
+    </Router>
   </StrictMode>
 );
 

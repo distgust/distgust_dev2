@@ -1,4 +1,5 @@
 import { useEffect,useState } from 'react';
+//import { useLocation } from 'react-router-dom';
 import DashHeaders from '../components/DashHeader';
 import SideBar from '../components/SideBar';
 //import SideNav from '../components/Nav';
@@ -11,6 +12,9 @@ import ScoresTable from '../components/ScoresTable';
 const DashBoard = (props) => {
     const pagetitle = 'แดชบอร์ด';
     const [loading, setLoading] = useState(true);
+    const queryParams = new URLSearchParams(window.location.search);
+    const paramValue = queryParams.get('param');
+    console.log(paramValue)
 
     useEffect(()=>{
         const token = localStorage.getItem('token');
@@ -48,7 +52,7 @@ const DashBoard = (props) => {
             }                   
         }
         auth();
-    },[])
+    },[props.apiserver])
 
     //menu list array
     const menu_arr = [
@@ -87,7 +91,7 @@ return (
                 <div className='section'>
                     <h3 className='section-header mb-0'>บันทึกน้ำหนัก</h3>
                     <h4 className='section-header-text'>จดบันทึก น้ำหนักปลาที่ขึ้นชั่งน้ำหนัก</h4>
-                    <div className='container-full-width contents-center'>
+                    <div className='container-full-width'>
                         <AddScoresForm apiserver={props.apiserver}/>
                     </div>
                 </div>
@@ -108,8 +112,8 @@ return (
                 <div className='section'>
                     <h3 className='section-header mb-0'>รายชื่อสมาชิก</h3>
                     <h4 className='section-header-text'>รายชื่อสมาชิกที่ลงทะเบียนในระบบ</h4>
-                    <div className='container-full-width contents-center'>
-                        <UsersTable />
+                    <div className='container-full-width'>
+                        <UsersTable apiserver={props.apiserver}/>
                     </div>
                 </div>
             </main>

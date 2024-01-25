@@ -1,5 +1,4 @@
 import Headers from '../components/Header';
-import ContentNews from '../components/News';
 import ContentCompetition from '../components/ContentCompetition'
 import TopNav from '../components/TopNav';
 import ContentLastmatch from '../components/Lastmatch';
@@ -52,7 +51,7 @@ const Home = (props) => {
         })
         .catch((err) => console.log('ERROR!',err ))
         .finally(() => setLoading(false))
-    },[])
+    },[props.apiserver])
     
     if (loading) {
         console.log('loading...')
@@ -76,9 +75,14 @@ const Home = (props) => {
         <Headers pagetitle={pagetitle} logged={logged}/>
         <TopNav Li={TopNavLi}/>
             <main className='col-12'>
-                <div className='container-full-width '>
-                    <ContentNews/>
-                    <ContentCompetition/>
+                <div className='section'>
+                    <h3 className='section-header mb-0'>การแข่งขัน</h3>
+                    <h4 className='section-header-text'>การแข่งขันที่กำลังจะมาถึง</h4>
+                    <div className='container-full-width'>
+                        <ContentCompetition apiserver={props.apiserver}/>
+                    </div>
+                </div>
+                <div className='container-full-width'>
                     <ContentLastmatch/>
                 </div>
             </main>

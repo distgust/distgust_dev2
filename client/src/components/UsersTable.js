@@ -1,13 +1,13 @@
 import { useState,useEffect } from "react";
 import './CSS/Table.css'
 import Loader from "./Loader";
-const UsersTable = (ResultData) => {
+const UsersTable = (props) => {
     const [datas, setDatas] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
       // Fetch data from the server
-        fetch('http://localhost:3001/api/showuser', {
+        fetch(props.apiserver+'/api/showuser', {
             method: 'GET',
             mode: 'cors',
             headers: {
@@ -20,7 +20,7 @@ const UsersTable = (ResultData) => {
         .catch((error) => console.error('Error fetching data:', error))
         .finally(() => setLoading(false));
 
-    },[]);
+    },[props.apiserver]);
     //const dataobj = JSON.parse(datas);
     //console.log(data)
     if (loading) {

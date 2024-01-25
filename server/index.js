@@ -178,8 +178,8 @@ app.get('/api/showuser', async (req,res) =>{
       res.status(500).json({status:"error",data: error});
    }
 })
-// show NewsTable //
-app.get('/api/competition', async (req,res) => {
+// show competition //
+app.get('/api/competitions', async (req,res) => {
    try{
       const table = 'CompetitionTable'
       const Datas = await db.SelectData(table);``
@@ -193,6 +193,24 @@ app.get('/api/competition', async (req,res) => {
       res.status(500).json({status:"error",data: error});
    }
 })
+// show competitiondetails //
+app.post('/api/competition', async (req,res) => {
+   let cid = req.body.cid;
+   console.log(cid)
+   try{
+      const table = 'CompetitionTable'
+      const Datas = await db.SelectCompetitionData(table,cid);
+      if(Datas.length <= 0){
+         res.status(204).json({status:"success",data: Datas});
+      }else{
+         res.status(200).json({status:"success",data: Datas});
+      }
+   }
+   catch(error){
+      res.status(500).json({status:"error",data: error});
+   }
+})
+
 // show NewsTable //
 app.get('/api/news', async (req,res) => {
    try{
@@ -220,6 +238,22 @@ app.get('/api/showscore', async (req,res) =>{
       }
    }catch(error){
       res.status(500).json({status:"error",data: error});
+   }
+})
+// show competition Score //
+app.post('/api/showcompetitionscore', async (req,res) =>{
+   let cid = req.body.cid 
+   try{
+      const table = 'ScoresTable';
+      const Datas = await db.SelectCompetitionData(table,cid);
+      if(Datas.length <= 0){
+         res.status(204).json({status:"success",data: Datas});
+      }else{
+         res.status(200).json({status:"success",data: Datas});
+      }
+   }catch(error){
+      res.status(500).json({status:"error",data: error});
+      console.log(error)
    }
 })
 // login api //

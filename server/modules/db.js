@@ -42,6 +42,16 @@ const SelectData = (TableName) => new Promise((resolve,reject) => {
         return resolve(result)
     })
 })
+// select competition function //
+const SelectCompetitionData = (TableName,CompetitionID) => new Promise((resolve,reject) => {
+    const sql = 'SELECT * FROM '+TableName+' WHERE CompetitionID='+CompetitionID;
+    pool.query(sql,(error,result) => {
+        if(error){
+            return reject(error)
+        }
+        return resolve(result)
+    })
+})
 
 const Login = (un) => new Promise((resolve,reject) => {
     const sql = "SELECT * FROM UsersTable WHERE UserUN=?";
@@ -107,4 +117,4 @@ const TruncateTable = () => new Promise((resolve,reject) => {
     let sql = ""
     return resolve
 }) 
-module.exports = {TestDBConn,InsertData,SelectData,Login,SelectCompetitionID,CretePriceTable,InsertCompetitionData,InsertCompetitionRewardPrice};
+module.exports = {TestDBConn,InsertData,SelectData,SelectCompetitionData,Login,SelectCompetitionID,CretePriceTable,InsertCompetitionData,InsertCompetitionRewardPrice};
