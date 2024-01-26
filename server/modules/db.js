@@ -55,12 +55,19 @@ const SelectData = (TableName) => new Promise((resolve,reject) => {
 // select competition function //
 const SelectCompetitionData = (TableName,CompetitionID) => new Promise((resolve,reject) => {
     const sql = 'SELECT * FROM '+TableName+' WHERE CompetitionID='+CompetitionID;
-    pool.query(sql,(error,result) => {
-        if(error){
-            return reject(error)
-        }
-        return resolve(result)
-    })
+    try{
+        pool.query(sql,(error,result)=>{
+            if(!error){
+                console.log(result)
+                return resolve(result)
+            }else{
+                return reject(error)
+            }
+        })
+    }catch(e){
+        console.log(e);
+        return reject(e)
+    }
 })
 
 const Login = (un) => new Promise((resolve,reject) => {

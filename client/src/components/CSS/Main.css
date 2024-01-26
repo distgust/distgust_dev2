@@ -19,6 +19,9 @@ main.no-topnav{
 bg-primary{
     background-color: #FCF5ED;
 }
+bg-light{
+    background-color: #F5F2ED;
+}
 @import url('https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700&family=Chonburi&display=swap');
 * {
   box-sizing: border-box;
@@ -116,9 +119,11 @@ bg-primary{
     display: flex;
 }
 .competition-content{
+    padding-top: 2rem;
+    padding-bottom: 2rem;
     min-height: 70vh;
     margin: 30px;
-    background-color: #F7FFFF;
+    background-color: #fcfcfc;
     border-radius: 14px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
@@ -147,6 +152,9 @@ bg-primary{
 }
 .mt{
     margin-top: auto;
+}
+.p-2{
+    padding: 2rem;
 }
 @media screen and (max-width: 600px) {
     .col-6 {

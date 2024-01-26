@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 import { useEffect,useState } from 'react'
 import Headers from '../components/Header'
 import Loader from '../components/Loader'
-import CompetitionView from '../components/CompetitionView'
+import CompetitionDetail from '../components/CompetitionDetail'
 const CompetitionPage = (props) => {
     const { competitionid } = useParams();
     const [fetchDatas, setFetchDatas] = useState([]);
@@ -42,7 +42,7 @@ const CompetitionPage = (props) => {
                         const date = Props.CompetitionDate.split("-")
                         const da = new Date(date)
                         return(
-                            <CompetitionView NewsHeader={Props.CompetitionTitle} NewsLocation={Props.CompetitionLocation} 
+                            <CompetitionDetail NewsHeader={Props.CompetitionTitle} NewsLocation={Props.CompetitionLocation} 
                             NewsMatchDate={da.toDateString()} NewsContent={Props.CompetitionDetail} key={Props.CompetitionID} Cid={Props.CompetitionID} apiserver={props.apiserver}/>
                         )
                     })}

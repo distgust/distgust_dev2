@@ -8,7 +8,7 @@ const ContentCompetition = (props) => {
     const [loading, setLoading] = useState(true);
     //fetch newstable
     useEffect(() => {
-        fetch(props.apiserver+'/api/competitions', {
+        fetch(props.apiserver+'/api/allcompetitions', {
             method: 'GET',
             mode: 'cors',
             headers:{

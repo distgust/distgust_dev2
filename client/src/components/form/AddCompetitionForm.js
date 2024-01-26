@@ -7,7 +7,7 @@ const AddCompetitionForm = () =>{
     const [Loading, setLoading] = useState(false);
     const [step, setStep] = useState(1);
     const [details,setDetails] = useState([])
-    
+    const [CompDate,setCompDate] = useState([])
     const Step1 = (prop) =>{
         const [competition,setCompetition] = useState([]);
         const Step1Change = (event) => {
@@ -17,6 +17,8 @@ const AddCompetitionForm = () =>{
         }
     
         const Step1Submit = async (event) => {
+            const date = competition.CompetitionDate
+            setCompDate({Date:date})
             event.preventDefault();
             try{
                 setLoading(true)
@@ -129,6 +131,7 @@ const AddCompetitionForm = () =>{
         const handleSubmit = async (event) => {
             event.preventDefault();
             setLoading(true)
+            
             const typekey = Object.keys(typename)
             const looping = async () => typekey.forEach((data) => {
                 const pricekey = data+'Price'
@@ -138,6 +141,7 @@ const AddCompetitionForm = () =>{
                 datas.push({[data]:{'name':[name],'price':[typeprice]}})
                 //console.log(datas)                   
             })
+
             try{
                 await looping()
                 setDetails(datas)
@@ -211,6 +215,50 @@ const AddCompetitionForm = () =>{
             let value = event.target.value;            
             setPrice(values => ({...values,[name]:value}));
         }
+        const Step3Submit = async (event) => {
+            event.preventDefault()
+            try{
+                const getid = await fetch('http://localhost:3001/api/getcompetitionid',{
+                        method: 'POST',
+                        mode: 'cors',
+                        headers: {
+                            'Content-type': 'application/json',
+                            'ngrok-skip-browser-warning': 'any',
+                        },
+                        body: JSON.stringify(CompDate)
+                    })
+                    console.log(Price)
+                        const res = await getid.json()
+                        const Cid = res.data
+                        if(res.status === 'error'){
+                            alert(res.data)
+                        }else{
+                            try{
+                                setLoading(true)
+                                const req = await fetch('http://localhost:3001/api/addcompetitionprice',{
+                                    method: 'POST',
+                                    mode: 'cors',
+                                    headers: {
+                                        'Content-type': 'application/json',
+                                        'ngrok-skip-browser-warning': 'any',
+                                    },
+                                    body: JSON.stringify([CompDate,details,Price,Cid])
+                                })
+                                const res = await req.json();
+                                if(res.status === 'error'){
+                                    alert("error")
+                                }else{
+                                    alert("บันทึกข้อมูลเรียบร้อย");
+                                }
+                            }catch(err){
+                                alert('ERROR @adddata')
+                            }
+                        }
+            }catch(e){
+                alert('ERROR @getid')
+            }
+        }
+
         const appendPriceDetail = (event) =>{
             event.preventDefault();
             const PriceRow = (props) => {
@@ -251,7 +299,7 @@ const AddCompetitionForm = () =>{
         }
         return(
             <div className='form-container' key={props.containerkey}>
-                <form className="form-control" >
+                <form className="form-control" onSubmit={Step3Submit}>
                     <div className='form-row' >
                         <span className='section-header-text text-right'>จำนวนเงินรางวัล : {priceRow.length} รางวัล</span>                
                         <input className='btn-type' type='button'  onClick={appendPriceDetail} value='เพิ่มเงินรางวัล'/>                       

@@ -108,6 +108,7 @@ app.post('/api/getcompetitionid' , async (req, res) => {
 });
 // create to CompetitionpriceTable //
 app.post('/api/addcompetitionprice' , async (req, res) => {
+   console.log(req.body) 
    const date = req.body[0];
    const types = req.body[1];
    const price = Object.entries(req.body[2]);
@@ -118,17 +119,16 @@ app.post('/api/addcompetitionprice' , async (req, res) => {
    console.log(price,"\n*********");
    try{
       //const tablename = 'CompetitionDetailTable';
-      let count = 1
+      let count = 1  
       types.forEach((values,index) => {
          const type = 'Type'+count
          const data = values['Type'+count]
          const price = parseInt(data.price)
          const typename = data.name
-         const Id = id.CompetitionID
          console.log(id.CompetitionID,type,typename,price)    
          console.log('***********')
-         db.InsertCompetitionData(Id,type,typename,price)
-         count++
+         db.InsertCompetitionData(id,type,typename,price)
+         count++ 
       })
       price.forEach((values,index)=>{
          console.log('key : ',values[0])
@@ -136,10 +136,9 @@ app.post('/api/addcompetitionprice' , async (req, res) => {
          console.log('***********')
          let key = values[0]
          let value = values[1]
-         let Id = id.CompetitionID
-         db.InsertCompetitionRewardPrice(Id,key,value)
+         db.InsertCompetitionRewardPrice(id,key,value)
       })
-      res.status(201).json({status:"success",data: id.CompetitionID});
+      res.status(201).json({status:"success",data: id});
       //res.status(500).json({status:"error",data: error});
    } catch(error){
       console.log(error)
@@ -179,7 +178,7 @@ app.get('/api/showuser', async (req,res) =>{
    }
 })
 // show competition //
-app.get('/api/competitions', async (req,res) => {
+app.get('/api/allcompetitions', async (req,res) => {
    try{
       const table = 'CompetitionTable'
       const Datas = await db.SelectData(table);``
@@ -241,8 +240,26 @@ app.get('/api/showscore', async (req,res) =>{
    }
 })
 // show competition Score //
-app.post('/api/showcompetitionscore', async (req,res) =>{
-   let cid = req.body.cid 
+app.get('/api/showcompetitionscore/:cid', async (req,res) =>{
+   let cid = req.params.cid 
+   try{
+      const table = 'ScoresTable';
+      const Datas = await db.SelectCompetitionData(table,cid);
+      if(Datas.length <= 0){
+         res.status(204).json({status:"success",data: Datas});
+         console.log('204\n'+Datas)
+      }else{
+         res.status(200).json({status:"success",data: Datas});
+         console.log('200\n'+Datas)
+      }
+   }catch(error){
+      res.status(500).json({status:"error",data: error});
+      console.log(error)
+   }
+})
+// show competition Score //
+app.get('/api/showcompetitionreward/:cid', async (req,res) =>{
+   let cid = req.params.cid 
    try{
       const table = 'ScoresTable';
       const Datas = await db.SelectCompetitionData(table,cid);

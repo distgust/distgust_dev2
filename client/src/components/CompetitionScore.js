@@ -1,16 +1,17 @@
 import { useState,useEffect } from "react";
 import './CSS/Table.css'
 import Loader from "./Loader";
-const ScoresTable = (props) => {
+const CompetitionScore = (props) => {
     const [datas, setDatas] = useState([]);
     const [loading, setLoading] = useState(true);
     const server = props.apiserver
     let cid = props.competitionid
+    
     useEffect(() => {
         // Fetch data from the server
         const fetchdatas = async () => {
             try{
-                const response = await fetch(server+'/api/showscore', {
+                const response = await fetch(server+'/api/showcompetitionscore/'+cid, {
                     method: 'GET',
                     mode: 'cors',
                     headers:{
@@ -18,24 +19,27 @@ const ScoresTable = (props) => {
                         'ngrok-skip-browser-warning': 'any',
                     }
                 })
-                const result = await response.json();
-                setDatas(result.data);
-            }catch(error){
-                console.error()
+                try{
+                    const result = await response.json()
+                    setDatas(result.data)
+                }catch(err){
+                    setDatas(err)
+                }
+            }catch(err){
+                console.error(err)
             }finally{
                 setLoading(false)
             }   
         }
-        
-        fetchdatas();
 
-    },[server,cid]);
-    //const dataobj = JSON.parse(datas);
-    //console.log(data)
+        fetchdatas()
+    },[server,cid])
+
     if (loading) {
         console.log('loading...')
         return <Loader/>
     }
+
     if(datas.length >= 0){
         return(
             <table className="table-control score-table">
@@ -62,8 +66,25 @@ const ScoresTable = (props) => {
             </table>
         )
     }else{
-        <h2>ยังไม่มีคะแนน</h2>
+        return(
+            <table className="table-control score-table">
+                <thead>
+                    <tr>
+                        <td>เวลาที่ขึ้นชั่ง</td>
+                        <td>หมายเลขคัน</td>
+                        <td>ทีมงาน</td>
+                        <td>ชนิดปลา</td>
+                        <td>น้ำหนักปลา</td>
+                    </tr> 
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colSpan={5}>ยังไม่มีคะแนน</td>
+                    </tr>
+                </tbody>
+            </table>
+        )
     }
 }
 
-export default ScoresTable
+export default CompetitionScore
