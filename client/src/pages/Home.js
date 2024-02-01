@@ -28,29 +28,38 @@ const Home = (props) => {
         }
     ];
 
-    useEffect((tokens)=>{
+    useEffect(()=>{
         const token = localStorage.getItem('token');
-
-        fetch(props.apiserver+'/api/auth', {
-            method: 'POST',
-            headers: {
-                'Content-type' : 'application/json',
-                'Authorization' : 'Bearer '+token,
-                'ngrok-skip-browser-warning': 'any',
-            }
-        })
-        .then(response => response.json())
-        .then((result) => {
-            if(result.status === "error"){
-                return
-            }else{
-                tokens = result.decode
-                console.log(tokens)
-                setLogged(true)
-            }
-        })
-        .catch((err) => console.log('ERROR!',err ))
-        .finally(() => setLoading(false))
+        if(token === ''){
+            localStorage.removeItem('token');
+            alert('please login');
+            window.location = '/login';
+        }
+        
+        const auth = async () =>{
+            try{
+                const req = await fetch(props.apiserver+'/api/auth', {
+                    method: 'POST',
+                    headers: {
+                        'Content-type' : 'application/json',
+                        'Authorization' : 'Bearer '+token,
+                        'ngrok-skip-browser-warning': 'any',
+                    }
+                })
+                const res = await req.json()
+                if(res.status === "error"){
+                    return
+                }else{
+                    console.log(res.decode.data);
+                    setLogged(true)
+                }
+            }catch(error){
+                console.log(error);
+            }finally{
+                    setLoading(false)
+            }                   
+        }
+        auth();
     },[props.apiserver])
     
     if (loading) {
@@ -70,6 +79,7 @@ const Home = (props) => {
             element.status += " active"
         }
     });
+    
   return (
     <>
         <Headers pagetitle={pagetitle} logged={logged}/>

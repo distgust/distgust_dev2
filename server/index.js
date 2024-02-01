@@ -14,6 +14,7 @@ const InsertData = require("./modules/db")
 const { log } = require("console")
 const saltround = 10
 const secret = 'A140B3715_c'
+
 app.use(cors())
 CORS_ALLOW_HEADERS = (
    "accept",
@@ -59,6 +60,7 @@ app.post('/api/register' ,async (req,res) => {
       res.status(500).json({status:"error hash",response_data:error});
    }
 });
+
 // insert to NewsTable //
 app.post('/api/addnewspost' , async (req, res) => {
    try{
@@ -76,7 +78,8 @@ app.post('/api/addnewspost' , async (req, res) => {
       res.status(500).json({status:"error",data: error});
    }
 });
-// create to CompetitionpriceTable //
+
+// insert to CompetitionTable //
 app.post('/api/addcompetition' , async (req, res) => {
    try{
       const tablename = 'CompetitionTable';
@@ -94,10 +97,26 @@ app.post('/api/addcompetition' , async (req, res) => {
       res.status(500).json({status:"error",data: error});
    }
 });
-// insert to CompetitionTable //
-app.post('/api/getcompetitionid' , async (req, res) => {
+// edit-update CompetitionpriceTable //
+app.put('/api/editcompetition/:Cid' , async (req, res) => {
+   const cid = req.params.Cid
+   const updatedData = req.body;
+   let databaseData = {}
    try{
-      const date = req.body.Date
+      databaseData = { ...databaseData, ...updatedData };
+      const tablename = 'CompetitionTable';
+      //const insert = await db.InsertData(tablename,datas);
+      res.status(201).json({status:"success",data: databaseData,id:cid});
+   } catch(error){
+      //console.log(error.errno);
+      res.status(500).json({status:"error",data: error});
+   }
+});
+
+// get CompetitionID //
+app.get('/api/getcompetitionid/:CompDate' , async (req, res) => {
+   try{
+      const date = req.params.CompDate 
       const selectedid = await db.SelectCompetitionID(date);
       const id = selectedid[0].CompetitionID;
       res.status(201).json({status:"success",data: id});
@@ -106,7 +125,8 @@ app.post('/api/getcompetitionid' , async (req, res) => {
       res.status(500).json({status:"error",data: error});   
    }
 });
-// create to CompetitionpriceTable //
+
+// insert to CompetitionpriceTable //
 app.post('/api/addcompetitionprice' , async (req, res) => {
    console.log(req.body) 
    const date = req.body[0];
@@ -145,6 +165,7 @@ app.post('/api/addcompetitionprice' , async (req, res) => {
       res.status(500).json({status:"error",data: error});
    }
 });
+
 // insert to NewsTable //
 app.post('/api/addscore' , async (req, res) => {
    try{
@@ -177,6 +198,7 @@ app.get('/api/showuser', async (req,res) =>{
       res.status(500).json({status:"error",data: error});
    }
 })
+
 // show competition //
 app.get('/api/allcompetitions', async (req,res) => {
    try{
@@ -192,11 +214,12 @@ app.get('/api/allcompetitions', async (req,res) => {
       res.status(500).json({status:"error",data: error});
    }
 })
+
 // show competitiondetails //
-app.post('/api/competition', async (req,res) => {
-   let cid = req.body.cid;
-   console.log(cid)
+app.get('/api/competition/:Cid', async (req,res) => {
    try{
+      let cid = req.params.Cid
+      //console.log(cid)
       const table = 'CompetitionTable'
       const Datas = await db.SelectCompetitionData(table,cid);
       if(Datas.length <= 0){
@@ -225,6 +248,7 @@ app.get('/api/news', async (req,res) => {
       res.status(500).json({status:"error",data: error});
    }
 })
+
 // show Score //
 app.get('/api/showscore', async (req,res) =>{
    try{
@@ -239,6 +263,7 @@ app.get('/api/showscore', async (req,res) =>{
       res.status(500).json({status:"error",data: error});
    }
 })
+
 // show competition Score //
 app.get('/api/showcompetitionscore/:cid', async (req,res) =>{
    let cid = req.params.cid 
@@ -257,24 +282,28 @@ app.get('/api/showcompetitionscore/:cid', async (req,res) =>{
       console.log(error)
    }
 })
+
 // show competition Score //
-app.get('/api/showcompetitionreward/:cid', async (req,res) =>{
+app.get('/api/getcompetitionreward/:cid', async (req,res) =>{
    let cid = req.params.cid 
    try{
-      const table = 'ScoresTable';
-      const Datas = await db.SelectCompetitionData(table,cid);
-      if(Datas.length <= 0){
-         res.status(204).json({status:"success",data: Datas});
-         console.log('204\n'+Datas)
+      let detailtable = 'CompetitionDetailTable';
+      const type = await db.SelectCompetitionData(detailtable,cid);
+      let rewardtable = 'CompetitionReward';
+      const reward = await db.SelectCompetitionData(rewardtable,cid);
+      if(type.length <= 0){
+         res.status(204).json({status:"success",data: {type:type,reward:reward}});
+         console.log('204\n'+{type:type,reward:reward})
       }else{
-         res.status(200).json({status:"success",data: Datas});
-         console.log('200\n'+Datas)
+         res.status(200).json({status:"success",data: {type:type,reward:reward}});
+         console.log('200\n'+{type:type,reward:reward}) 
       }
    }catch(error){
       res.status(500).json({status:"error",data: error});
       console.log(error)
    }
 })
+
 // login api //
 app.post('/api/login',jsonParser, async (req,res) => {
    const { username, password } = req.body;
@@ -283,22 +312,36 @@ app.post('/api/login',jsonParser, async (req,res) => {
       bcrypt.compare(password,data[0].UserPW,(err,logged)=>{
          //console.log(logged)
          if(logged){
-            var token = jwt.sign({ username: data[0].UserUN,userRole:data[0].UserR }, secret ,{expiresIn:'1h'});
+            let logindata = { username: data[0].UserUN,userRole:data[0].UserR }
+            var token = jwt.sign({exp:Math.floor(Date.now() + ((1000*60) * 60) ),data:logindata}, secret);
             res.status(200).json({status:"success",message:"logged in",token:token})
          }else{
-            res.status(400).json({status:"error",message:"wrong password",data:err})
+            res.status(400).json({status:'error',message:'wrong password',data:err})
          };
       })
    }catch(error){
-      res.status(400).json({ error: 'User not found' });
+      res.status(400).json({status:'error',message: 'User not found',data:data});
    }
 })
  
 // authentication login //
 app.post('/api/auth',(req,res,next)=>{
    try{
+      
+      const currentDate = Date.now()
+      const DateNow = new Date(currentDate)
       const token = req.headers.authorization.split(" ")[1];
-      var decoded = jwt.verify(token,secret);
+      let decoded = jwt.verify(token,secret);
+      let exp = decoded.exp
+
+      if(decoded.exp < currentDate){console.log(exp+'\nexpired')}
+      console.log('<----   AUTHENTED   ---->')
+      console.log('<- '+ DateNow +' ->')
+      console.log('username : ' + decoded.data.username)
+      console.log('now: ' + new Date(currentDate))
+      console.log('expire@ : ' + new Date(exp))
+      console.log('<----------------------->')
+      
       res.json({status:"ok",token:token,decode:decoded});
    }catch(err){
       res.json({status:"error",message:err.message})

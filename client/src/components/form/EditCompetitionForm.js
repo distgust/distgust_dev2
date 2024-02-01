@@ -1,15 +1,46 @@
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 import Loader from '../Loader';
 import React from 'react';
 
-
-const AddCompetitionForm = () =>{
+const EditCompetitionForm = ({Cid,apiserver}) =>{
     const [Loading, setLoading] = useState(false);
     const [step, setStep] = useState(1);
     const [details,setDetails] = useState([])
-    const [CompDate,setCompDate] = useState([])
-    const Step1 = (prop) =>{
+
+    const Step1 = ({containerkey,apiserver,Cid}) => {
+        const [fetchDatas, setFetchDatas] = useState([]);
+        const [Loading, setLoading] = useState(false);
         const [competition,setCompetition] = useState([]);
+    
+        useEffect(() => {
+            // Fetch data from the server
+            const fetchdatas = async () => {
+                try{
+                    const response = await fetch(apiserver+'/api/competition/'+Cid, {
+                        method: 'GET',
+                        mode: 'cors',
+                        headers:{
+                        'Content-Type' : 'application/json',
+                        'ngrok-skip-browser-warning': 'any',
+                        }
+                    })
+                    try{
+                        const result = await response.json()
+                        setFetchDatas(result.data)
+                    }catch(err){
+                        alert(err)
+                        console.error(err)
+                    }
+                }catch(err){
+                    console.error(err)
+                }finally{
+                    setLoading(false)
+                }   
+            }
+    
+            fetchdatas()
+        },[apiserver,Cid])
+    
         const Step1Change = (event) => {
             let name = event.target.name;
             let value = event.target.value;
@@ -17,13 +48,11 @@ const AddCompetitionForm = () =>{
         }
     
         const Step1Submit = async (event) => {
-            const date = competition.CompetitionDate
-            setCompDate({Date:date})
             event.preventDefault();
             try{
                 setLoading(true)
-                const req = await fetch('http://localhost:3001/api/addcompetition',{
-                        method: 'POST',
+                const req = await fetch('http://localhost:3001/api/editcompetition/'+Cid, {
+                        method: 'PUT',
                         mode: 'cors',
                         headers: {
                             'Content-type': 'application/json',
@@ -33,10 +62,10 @@ const AddCompetitionForm = () =>{
                     })
                 const res = await req.json();
                 if(res.status === 'error'){
-                    switch(res.data.code){
+                    switch(res.data){
                         default:
-                            console.error(res.data.code)
-                            alert('ERROR : '+ res.data.errno+'\nERR_CODE : '+ res.data.code+'\nERR_MESSAGE : '+res.data.sqlMessage);
+                            console.error(res.data)
+                            //alert('ERROR : '+ res.data.errno+'\nERR_CODE : '+ res.data.code+'\nERR_MESSAGE : '+res.data.sqlMessage);
                             break;                        
                         case 'ER_TRUNCATED_WRONG_VALUE':
                             alert('ERROR : ตรวจสอบข้อมูลที่กรอก\nวันที่จัดกา่รแข่งขันไม่ถูกต้อง')
@@ -50,7 +79,8 @@ const AddCompetitionForm = () =>{
                     }
                 }else{
                     alert("บันทึกข้อมูลเรียบร้อย");
-                    setStep(2);
+                    console.log(res.data);
+                    //setStep(2);
                 }  
             }catch(err){
                 console.error("ERROR: ",err);
@@ -62,49 +92,57 @@ const AddCompetitionForm = () =>{
         const Step1Cancle = () => { 
             document.getElementById("CompetitionForm").reset();
         }
+    
         if(Loading){
             return <Loader/>
         }else{
             return(
-                <div className='form-container' key={prop.containerkey}>
-                    <form id='CompetitionForm' className='form-control' onSubmit={Step1Submit} >
-                        <div className='form-row'>
-                            <label>หัวข้อ</label>
-                            <input type='text' name='CompetitionTitle' onChange={Step1Change} placeholder='เช่น แมทท์ประจำเดือน รางวัลหมื่นสองหัว ค่าลงทะเบียน 400 บาท' />
-                        </div>
-                        <div className='form-row'>
-                            <label>วันที่แข่งขัน</label>
-                            <input type='text' name='CompetitionDate' onChange={Step1Change} placeholder='ปปปป-ดด-วว เช่น 2024-04-28' />
-                        </div>
-                        <div className='form-row' >
-                            <label>ค่าคัน</label>
-                            <input type='text' name='CompetitionCost' onChange={Step1Change} placeholder='จำนวนเงินเป็นตัวเลข' />
-                        </div>
-                        <div className='form-row' >
-                            <label>สถานที่</label>
-                            <input type='text' name='CompetitionLocation' onChange={Step1Change} placeholder='หมู่บ้าน อำเภอ ตำบล จังหวัด' />
-                        </div>
+                <div className='form-container' key={containerkey}>
+                    {fetchDatas.map((Props)=>{
+                        return(
+                            <form id='CompetitionForm' className='form-control' onSubmit={Step1Submit}  key={Props.CompetitiionID} >
+                                <div className='form-row'>
+                                     <label>หัวข้อ</label>
+                                    <input type='text' defaultValue={(Props.CompetitionTitle)} name='CompetitionTitle' key='CompetitionTitle' onChange={Step1Change} placeholder='เช่น แมทท์ประจำเดือน รางวัลหมื่นสองหัว ค่าลงทะเบียน 400 บาท' />
+                                </div>
+
+                                <div className='form-row'>
+                                    <label>วันที่แข่งขัน</label>
+                                    <input type='text' defaultValue={(Props.CompetitionDate)} name='CompetitionDate' key='CompetitionDate' onChange={Step1Change} placeholder='ปปปป-ดด-วว เช่น 2024-04-28' />
+                                </div>
+
+                                <div className='form-row' >
+                                    <label>ค่าคัน</label>
+                                    <input type='text' defaultValue={Props.CompetitionCost} name='CompetitionCost' key='CompetitionCost'  onChange={Step1Change} placeholder='จำนวนเงินเป็นตัวเลข' />
+                                </div>
+    
+                                <div className='form-row' >
+                                    <label>สถานที่</label>
+                                    <input type='text' defaultValue={Props.CompetitionLocation} name='CompetitionLocation'  key='CompetitionLocation' onChange={Step1Change} placeholder='หมู่บ้าน อำเภอ ตำบล จังหวัด' />
+                                </div>
                         
-                        <div className='form-row'>
-                            <label>รายละเอียด</label>
-                            <textarea name='CompetitionDetail' onChange={Step1Change} placeholder='รายละเอียด(กรอกหรือไม่กรอกก็ได้)' />
-                        </div>
-                        <div className='form-row'>
-                            <input className='btn-submit' disabled={((competition.CompetitionTitle === '') || (competition.CompetitionLocation === '')
-                                || (competition.CompetitionDate === '')|| (competition.CompetitionCost === '') || !(competition?.CompetitionTitle) 
-                                || !(competition?.CompetitionLocation) || !(competition?.CompetitionDate) || !(competition?.CompetitionCost) 
-                                || !(competition?.CompetitionTitle))} type='submit' value={'ตกลง'}/>
-                        </div>
-                        <div className='form-row mt-1'>
-                            <input className='btn-clear' type='button' disabled={((competition.CompetitionTitle === '') || (competition.CompetitionLocation === '')
-                                || (competition.CompetitionDate === '')|| (competition.CompetitionCost === ''))} 
-                                onClick={Step1Cancle} defaultValue='เคลียร์ฟอร์ม'/>
-                        </div>
-                    </form>
+                                <div className='form-row'>
+                                    <label>รายละเอียด</label>
+                                    <textarea defaultValue={Props.CompetitionDetail} name='CompetitionDetail' key='CompetitionDetail' onChange={Step1Change} placeholder='รายละเอียด(กรอกหรือไม่กรอกก็ได้)' />
+                                </div>
+
+                                <div className='form-row'>
+                                    <input className='btn-submit' type='submit' value={'ตกลง'}/>
+                                </div>
+
+                                <div className='form-row mt-1'>
+                                    <input className='btn-clear' type='button' disabled={((competition.CompetitionTitle === '') || (competition.CompetitionLocation === '')
+                                        || (competition.CompetitionDate === '')|| (competition.CompetitionCost === ''))} 
+                                     onClick={Step1Cancle} defaultValue='เคลียร์ฟอร์ม'/>
+                                </div>
+                            </form>
+                        )
+                    })}
                 </div>
             )
         }                        
     }
+    //  END Step 1  //
 
     //  START Step 2 //
     const Step2 = (prop) => {
@@ -200,6 +238,7 @@ const AddCompetitionForm = () =>{
     
     }
     //  END Step 2  //
+
     // START STEP 3 //
     const Step3 = (props) => {
         const [priceRow,setPriceRow] = useState([]);
@@ -215,13 +254,14 @@ const AddCompetitionForm = () =>{
         const Step3Submit = async (event) => {
             event.preventDefault()
             try{
-                const getid = await fetch('http://localhost:3001/api/getcompetitionid/'+CompDate,{
-                        method: 'GET',
+                const getid = await fetch('http://localhost:3001/api/getcompetitionid',{
+                        method: 'POST',
                         mode: 'cors',
                         headers: {
                             'Content-type': 'application/json',
                             'ngrok-skip-browser-warning': 'any',
-                        }
+                        },
+                        body: JSON.stringify()
                     })
                     console.log(Price)
                         const res = await getid.json()
@@ -238,7 +278,7 @@ const AddCompetitionForm = () =>{
                                         'Content-type': 'application/json',
                                         'ngrok-skip-browser-warning': 'any',
                                     },
-                                    body: JSON.stringify([CompDate,details,Price,Cid])
+                                    body: JSON.stringify([details,Price,Cid])
                                 })
                                 const res = await req.json();
                                 if(res.status === 'error'){
@@ -312,7 +352,7 @@ const AddCompetitionForm = () =>{
     switch(step){
         default:   
             return(
-                <Step1 containerkey='step1'/>
+                <Step1 containerkey='step1' key='step1' apiserver={apiserver} Cid={Cid} />
             ) 
         case 2:
             return(
@@ -320,10 +360,10 @@ const AddCompetitionForm = () =>{
             )
         case 3:
             return(
-                <Step3 containerkey='step3' />
+                <Step3 containerkey='step3'  />
             )
     }
     //      End Render Switcher     //
 }
 
-export default AddCompetitionForm
+export default EditCompetitionForm

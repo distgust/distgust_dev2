@@ -8,6 +8,7 @@ import './components/CSS/Main.css';
 import './components/CSS/Section.css';
 import './components/CSS/index.css';
 import './components/form/form.css';
+
 import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -17,9 +18,19 @@ import NewDash from './pages/NewDash';
 import Nopage from './404';
 import CompetitionManage from './pages/CompetitionManage';
 import NewLoginPage from './pages/NewLoginPage';
-import CompetitionPage from './pages/CompetitionPage';
+import CompetitionDetailPage from './pages/CompetitionDetailPage';
+import CompetitionEditPage from './pages/CompetitionEditPage';
+
+/*        AUTHOR : PATTARASAWAN SRITAD        */
+/*    EMAIL : pattarasawan_sritad@icloud.com  */
+/*      Location : Udonthani, Thailand        */
+/*                /ᐠ ◕ᴥ◕ ᐟ\                    */
+/*               (__ᴗ__ᴗ_)                    */
+                
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const apiserver ='https://31a1-49-228-171-235.ngrok-free.app'
+const apiserver ='https://16d0-49-228-170-178.ngrok-free.app'
+
 root.render(
   <StrictMode>
     <Router>
@@ -28,11 +39,12 @@ root.render(
         <Route path="/register" element={<RegisterPage apiserver={apiserver}/>}/>
         <Route path="/login" element={<LoginPage apiserver={apiserver}/>} />
         <Route path='/dashboard' element={<DashBoard apiserver={apiserver}/>}/>
-        <Route path='/userdashboard' element={<UsersDashBoard/>}/>
+        <Route path='/userdashboard' element={<UsersDashBoard apiserver={apiserver}/>}/>
         <Route path='/newdash' element={<NewDash/>}/>
         <Route path='/competitionmanage' element={<CompetitionManage apiserver={apiserver}/>}/>
         <Route path='/newloginpage' element={<NewLoginPage/>}/>
-        <Route path="/competition/:competitionid" exact element={<CompetitionPage apiserver={apiserver}/>}/>
+        <Route path="/competition/:competitionid" exact element={<CompetitionDetailPage apiserver={apiserver}/>}/>
+        <Route path="/editcompetition/:competitionid" exact element={<CompetitionEditPage apiserver={apiserver}/>}/>
         <Route path="*" element={<Nopage />}/>
       </Routes>
     </Router>

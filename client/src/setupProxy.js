@@ -4,7 +4,7 @@ module.exports = function(app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'https://31a1-49-228-171-235.ngrok-free.app',
+      target: 'https://1e83-49-228-169-213.ngrok-free.app',
       changeOrigin: true,
     })
   );

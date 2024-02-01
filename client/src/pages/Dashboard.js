@@ -12,12 +12,19 @@ import ScoresTable from '../components/ScoresTable';
 const DashBoard = (props) => {
     const pagetitle = 'แดชบอร์ด';
     const [loading, setLoading] = useState(true);
-    const queryParams = new URLSearchParams(window.location.search);
-    const paramValue = queryParams.get('param');
-    console.log(paramValue)
+    // get query string test
+    //const queryParams = new URLSearchParams(window.location.search);
+    //const paramValue = queryParams.get('param');
+    //console.log(paramValue)
 
     useEffect(()=>{
         const token = localStorage.getItem('token');
+        if(token === ''){
+            localStorage.removeItem('token');
+            alert('please login');
+            window.location = '/login';
+        }
+        
         const auth = async () =>{
             try{
                 const req = await fetch(props.apiserver+'/api/auth', {
@@ -35,7 +42,7 @@ const DashBoard = (props) => {
                     window.location = '/login';
                 }else{
                     console.log(res.decode)
-                    const user = res.decode
+                    const user = res.decode.data
                     if(user.userRole !== "admin"){
                         alert('คำเตือน ! คุณไม่มีสิทธิ์ในการเข้าถึงหน้านี้')
                         window.location="/";
@@ -45,7 +52,7 @@ const DashBoard = (props) => {
                 }
             }catch(error){
                 localStorage.removeItem('token');
-                alert('please login',error);
+                alert('please re login\n'+error);
                 window.location = '/login';
             }finally{
                     setLoading(false)

@@ -32,12 +32,10 @@ const CompetitionManage = (props) => {
                 <SideBar menu_arr={menu_arr} pagetitle={pagetitle}/>
             </div>
             <main className="col-11 dashboard">
-            <div className='section'>
-                    <h2 className='section-header mb-0'>การแข่งขัน</h2>
+                <div className='section pt-0'>
+                    <h1 className='section-header mb-0'>การแข่งขัน</h1>
                     <h4 className='section-header-text'>จัดการการแข่งขัน</h4>
-                    <div className='container-full-width'>
                         <ContentCompetition apiserver={props.apiserver}/>
-                    </div>
                 </div>
                 <div className='section'>
                     <h3 className='section-header mb-0'>กำหนดการแข่งขันใหม่</h3>

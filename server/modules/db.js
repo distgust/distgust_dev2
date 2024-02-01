@@ -32,9 +32,19 @@ const TestDBConn = () => {
        });
     });
  };
-// promises query function //
+// promises INSERT function //
 const InsertData = (TableName,Datas) => new Promise((resolve,reject) => {
     const SqlInsert = 'INSERT INTO '+TableName+' SET ?';
+    pool.query(SqlInsert,Datas,(error,result) => {
+       if(error){
+          return reject(error);
+       }
+       return resolve(result);
+    });
+ });
+ // promises UPDATE function //
+const UpdateCompetition = (TableName,Datas,Cid) => new Promise((resolve,reject) => {
+    const SqlUpdate = 'UPDATE '+TableName+' SET ? WHERE CompetitionID='+Cid;
     pool.query(SqlInsert,Datas,(error,result) => {
        if(error){
           return reject(error);
@@ -58,7 +68,7 @@ const SelectCompetitionData = (TableName,CompetitionID) => new Promise((resolve,
     try{
         pool.query(sql,(error,result)=>{
             if(!error){
-                console.log(result)
+                //console.log(result)
                 return resolve(result)
             }else{
                 return reject(error)
@@ -80,7 +90,7 @@ const Login = (un) => new Promise((resolve,reject) => {
     })
 })
 const SelectCompetitionID =(dates) => new Promise((resolve,reject) => {
-    console.log("<----    THIS IS NO DB MODULES    ---->\n<---- START SELECT COMPETITION ID ---->")
+    console.log("<----    THIS IS ON DB MODULES    ---->\n<---- START SELECT COMPETITION ID ---->")
     let sql = "SELECT CompetitionID FROM CompetitionTable WHERE CompetitionDate=?"+" ORDER BY CompetitionID DESC LIMIT 1";
     console.log('DATE INPUT : '+dates)
     pool.query(sql,[dates],(err,result,Fields) => {

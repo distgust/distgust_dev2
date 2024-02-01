@@ -6,21 +6,30 @@ import Loader from "./Loader";
 const ContentCompetition = (props) => {
     const [CompetitionDatas, setCompetitionDatas] = useState([]);
     const [loading, setLoading] = useState(true);
-    //fetch newstable
+    
+        
     useEffect(() => {
-        fetch(props.apiserver+'/api/allcompetitions', {
-            method: 'GET',
-            mode: 'cors',
-            headers:{
-                'Content-Type' : 'application/json',
-                'ngrok-skip-browser-warning': 'any',
+        //fetch newstable
+        const FetchData = async () =>{
+            try{
+                const request = await fetch(props.apiserver+'/api/allcompetitions', {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers:{
+                        'Content-Type' : 'application/json',
+                        'ngrok-skip-browser-warning': 'any',
+                    }
+                })
+                const result = await request.json()
+                setCompetitionDatas(result.data)
+            }catch(err){
+                alert(err)
+            }finally{
+                setLoading(false)
             }
-        })
-        .then((response) => response.json())
-        .then((result) => setCompetitionDatas(result.data))
-        .catch((error) => alert('Error fetching data:', error))
-        .finally(() => setLoading(false));
-    },[props.apiserver]);
+        }
+        FetchData()
+    },[loading,props.apiserver]);
     if (loading) {
         console.log('loading...')
         return (
@@ -28,7 +37,9 @@ const ContentCompetition = (props) => {
         )
     }
     return (
-            <div className='row-3'>
+        <div className='container-full-width pt-0 pb-0'>
+            <button className="primary-btn" onClick={() => setLoading(true)}>รีเฟรช</button>
+            <div className='row-2'>
                 {CompetitionDatas.map((Props)=>{
                     const date = Props.CompetitionDate.split("-")
                     const da = new Date(date)
@@ -37,7 +48,8 @@ const ContentCompetition = (props) => {
                         NewsMatchDate={da.toDateString()} NewsContent={Props.CompetitionDetail} key={Props.CompetitionID} Cid={Props.CompetitionID} apiserver={props.apiserver}/>
                         )
                     })}
-            </div>             
+            </div>
+        </div>             
     )
 }
 export default ContentCompetition;

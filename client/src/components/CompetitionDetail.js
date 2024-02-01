@@ -1,32 +1,38 @@
 import CompetitionScore from './CompetitionScore'
+import CompetitionReward from './CompetitionReward';
 const CompetitionDetail = ({NewsHeader,NewsLocation,NewsMatchDate,NewsContent,Cid,apiserver}) => {
-
+    const goBack = () => {
+        window.history.back();
+    };
     return( 
         <div className='section'>
             <div className='container-full-width'>
-                <div className="section-header">
-                    <h1 className='section-header-text'>{NewsHeader}</h1>
-                    <p className="section-header-date">{NewsMatchDate}</p>
+                <input type='button' className='primary-btn' onClick={goBack} value={'ย้อนกลับ'}/>
+                <div className='container-full-width align-center pt-0'>
+                    <div className="section-header ">
+                        <h1 className='section-header-text'>{NewsHeader}</h1>
+                        <p className="section-header-text">{NewsMatchDate}</p>
+                    </div>
                 </div>
-                <div className='competition-content'>
+                <div className='competition-content mt-0'>
 
-                    {/*     placed     */}
+                    {/*     reward     */}
                     <div className='container-full-width p-2'>
                         <div className="section-header">
-                            <h3 className='section-header-text'>รางวัล</h3>
-                            <p className="section-header-date">{}</p>
+                            <h2 className='section-header-text'>รางวัล</h2>
                         </div>
-                        
+                        <CompetitionReward competitionid={Cid} apiserver={apiserver}/>
                     </div>
+
                     {/*     ScoreTable     */}
                     <div className='container-full-width p-2'>
                         <div className="section-header">
-                            <h3 className='section-header-text'>ตารางคะแนน</h3>
+                            <h2 className='section-header-text'>ตารางคะแนน</h2>
                             <p className="section-header-date">{NewsMatchDate}</p>
                         </div>
                         <CompetitionScore competitionid={Cid} apiserver={apiserver}/> 
                     </div>
-                
+
                 </div>
             </div>
         </div>

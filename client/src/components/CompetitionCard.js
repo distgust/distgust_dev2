@@ -1,32 +1,62 @@
+import {useState,useEffect} from 'react'
 import CardMenu from './CardMenu';
 
 const CompetitionCard = ({NewsHeader,NewsLocation,NewsMatchDate,NewsContent,Cid,apiserver}) => {
-/*    const readmore = async (event) => {
-        try {
-            // Replace the URL with your actual API endpoint
-            const response = await fetch(apiserver+'/api/news');
-            const data = await response.json();
-        
-            // Open a new window or tab and display the fetched data
-            const newWindow = window.open('', '_blank');
-            newWindow.document.write(JSON.stringify(data));
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          }
+    const [role,setRole] = useState(false);
+
+    useEffect(()=>{
+        let token = localStorage.getItem('token');
+
+        fetch(apiserver+'/api/auth', {
+            method: 'POST',
+            headers: {
+                'Content-type' : 'application/json',
+                'Authorization' : 'Bearer '+token,
+                'ngrok-skip-browser-warning': 'any',
+            }
+        })
+        .then(response => response.json())
+        .then((result) => {
+            if(result.status === "error"){
+                return
+            }else{
+                token = result.decode.data
+                console.log(token)
+                if(token.userRole === 'admin'){
+                    setRole(true)
+                }
+            }
+        })
+        .catch((err) => console.log('ERROR!',err ))
+    },[apiserver])
+
+    const selectmenu_arr = [
+        {
+            label:'รายละเอียด',
+            link:'/competition/'+Cid,
+            status:'cardmenu-link',
+        },
+        {
+            label:'คะแนน',
+            link:'/score/'+Cid,
+            status:'cardmenu-link',
         }
-*/
-        const selectmenu_arr = [
+    ];
+
+    if(role){
+        selectmenu_arr.push(
             {
-                label:'รายละเอียด',
-                link:'/competition/'+Cid,
-                status:'cardmenu-link',
+                label:'เริ่มการแข่งขัน',
+                link:'/startcompetition/'+Cid,
+                status:'topnav-li',
             },
             {
-                label:'คะแนน',
-                link:'/dashboard',
-                status:'cardmenu-link',
-            },
-        ];
+                label:'แก้ไข/ลบ',
+                link:'/editcompetition/'+Cid,
+                status:'topnav-li',
+            }
+        )
+    }
 
     return( 
             <div className='card'>

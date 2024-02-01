@@ -2,12 +2,13 @@ import { useEffect } from 'react';
 import DashHeaders from '../components/DashHeader';
 import SideBar from '../components/SideBar';
 
-const UserDashBoard = () => {
+const UserDashBoard = ({apiserver}) => {
   const pagetitle = 'แดชบอร์ด';
   useEffect(()=>{
     console.log('render');
     const token = localStorage.getItem('token');
-    fetch('https://0205-49-228-169-225.ngrok-free.app/api/auth', {
+
+    fetch(apiserver+'/api/auth', {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -23,10 +24,10 @@ const UserDashBoard = () => {
           alert('please login',data.message);
           window.location = '/login';
       }else{
-        console.log(data.decode)
-        const user = data.decode
+        console.log(data.decode.data)
+        const user = data.decode.data
         if(user.userRole === "admin"){
-            alert('คำเตือน','กรุณาใช้แดชบอร์ดของผู้ดูแลระบบ')
+            alert('คำเตือน\n','กรุณาใช้แดชบอร์ดของผู้ดูแลระบบ')
             window.location="/dashboard";
         }else{
             return
@@ -35,7 +36,7 @@ const UserDashBoard = () => {
       }
     })
     .catch((err) => console.log('ERROR!',err));
-  },[])
+  },[apiserver])
 //menu list array
 const menu_arr = [
   {

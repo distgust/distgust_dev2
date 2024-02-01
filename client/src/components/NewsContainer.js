@@ -2,7 +2,7 @@ const NewsContainer = ({NewsHeader,NewsLocation,NewsMatchDate,NewsContent}) => {
     const readmore = async (event) => {
         try {
             // Replace the URL with your actual API endpoint
-            const response = await fetch('http://localhost:3001/api/news');
+            const response = await fetch('http://localhost:3001/api/allcompetitions');
             const data = await response.json();
         
             // Open a new window or tab and display the fetched data
@@ -14,7 +14,6 @@ const NewsContainer = ({NewsHeader,NewsLocation,NewsMatchDate,NewsContent}) => {
         }
     
     return(
-            
             <div className='card'  >
                 <div className="card-header">
                     <p className='card-heading'>{NewsHeader}</p>

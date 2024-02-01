@@ -16,11 +16,24 @@ main.no-topnav{
     background-color: #F5F2ED;
     margin-top: 69px;
 }
-bg-primary{
+.bg-primary{
     background-color: #FCF5ED;
 }
-bg-light{
-    background-color: #F5F2ED;
+.bg-light{
+    background-color: #fcfcfc;
+}
+.primary-btn{
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #417495;
+    color: #fcfcfc;
+    border-radius: 5px;
+    box-shadow: 0 8px 8px 0 rgba(0,0,0,0.2);
+    border: 0;
+}
+.primary-btn:hover{
+    background-color: #325D79;
 }
 @import url('https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700&family=Chonburi&display=swap');
 * {
@@ -96,7 +109,7 @@ bg-light{
     grid-template-columns: auto auto;
     align-content: center;
     padding: 10px;
-    gap: 20px;
+    gap: 5%;
 }
 .row-1{
     display: grid;
@@ -126,6 +139,7 @@ bg-light{
     background-color: #fcfcfc;
     border-radius: 14px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    animation: slideIn 0.5s ease-out;
 }
 .container-border-0 {
     padding: 10px;
@@ -133,8 +147,10 @@ bg-light{
     display: grid;
 }
 .contents-center{
-    text-align: center;
     justify-content: center;
+}
+.align-center{
+    text-align: center;
 }
 .contents-center h4{
     justify-content: left ;
@@ -150,18 +166,30 @@ bg-light{
 .mt-39{
     margin-top: 39px;
 }
-.mt{
-    margin-top: auto;
+.mt-0{
+    margin-top: 0;
+}
+.mb-2{
+    margin-bottom: 2rem;
 }
 .p-2{
     padding: 2rem;
+}
+.pt-0{
+    padding-top: 0px;
+}
+.pb-0{
+    padding-bottom: 0px;
+}
+.pl-3{
+    padding-left: 2rem;
 }
 @media screen and (max-width: 600px) {
     .col-6 {
       width: 100%;
     }
 }
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 600px) {
     .row-2{
         display: grid;
         grid-template-columns: auto;
