@@ -23,7 +23,7 @@ const ContentCompetition = (props) => {
                 const result = await request.json()
                 setCompetitionDatas(result.data)
             }catch(err){
-                alert(err)
+                console.error(err)
             }finally{
                 setLoading(false)
             }

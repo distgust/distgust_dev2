@@ -51,7 +51,7 @@ const EditCompetitionForm = ({Cid,apiserver}) =>{
             event.preventDefault();
             try{
                 setLoading(true)
-                const req = await fetch('http://localhost:3001/api/editcompetition/'+Cid, {
+                const req = await fetch(apiserver+'/api/editcompetition/'+Cid, {
                         method: 'PUT',
                         mode: 'cors',
                         headers: {
@@ -80,7 +80,7 @@ const EditCompetitionForm = ({Cid,apiserver}) =>{
                 }else{
                     alert("บันทึกข้อมูลเรียบร้อย");
                     console.log(res.data);
-                    //setStep(2);
+                    setStep(2);
                 }  
             }catch(err){
                 console.error("ERROR: ",err);
@@ -97,26 +97,26 @@ const EditCompetitionForm = ({Cid,apiserver}) =>{
             return <Loader/>
         }else{
             return(
-                <div className='form-container' key={containerkey}>
+                <div className='form-container' key={containerkey+Cid}>
                     {fetchDatas.map((Props)=>{
                         return(
-                            <form id='CompetitionForm' className='form-control' onSubmit={Step1Submit}  key={Props.CompetitiionID} >
-                                <div className='form-row'>
-                                     <label>หัวข้อ</label>
+                            <form id='CompetitionForm' className='form-control' onSubmit={Step1Submit}  key={Props.CompetitiionID+'FORM'} >
+                                <div className='form-row' key={Props.CompetitiionID+'title'}>
+                                    <label>หัวข้อ</label>
                                     <input type='text' defaultValue={(Props.CompetitionTitle)} name='CompetitionTitle' key='CompetitionTitle' onChange={Step1Change} placeholder='เช่น แมทท์ประจำเดือน รางวัลหมื่นสองหัว ค่าลงทะเบียน 400 บาท' />
                                 </div>
 
-                                <div className='form-row'>
+                                <div className='form-row' key={Props.CompetitiionID+'date'}>
                                     <label>วันที่แข่งขัน</label>
                                     <input type='text' defaultValue={(Props.CompetitionDate)} name='CompetitionDate' key='CompetitionDate' onChange={Step1Change} placeholder='ปปปป-ดด-วว เช่น 2024-04-28' />
                                 </div>
 
-                                <div className='form-row' >
+                                <div className='form-row' key={Props.CompetitiionID+'cost'}>
                                     <label>ค่าคัน</label>
                                     <input type='text' defaultValue={Props.CompetitionCost} name='CompetitionCost' key='CompetitionCost'  onChange={Step1Change} placeholder='จำนวนเงินเป็นตัวเลข' />
                                 </div>
     
-                                <div className='form-row' >
+                                <div className='form-row' key={Props.CompetitiionID+'location'}>
                                     <label>สถานที่</label>
                                     <input type='text' defaultValue={Props.CompetitionLocation} name='CompetitionLocation'  key='CompetitionLocation' onChange={Step1Change} placeholder='หมู่บ้าน อำเภอ ตำบล จังหวัด' />
                                 </div>
@@ -151,6 +151,72 @@ const EditCompetitionForm = ({Cid,apiserver}) =>{
         const [competitionTypeRow, setCompetitionTypeRow] = useState([]);
         const datas = []
         
+        const CompetitionTypeRow = (props) =>{
+            return(
+                <TypeInput no={props.no} name={props.name} 
+                typeinputkey={props.competitionkey} 
+                value={props.value}
+                reward={props.reward} />   
+            )  
+        }
+
+        const TypeInput = (typeprops) => {
+            return(
+                <div key={typeprops.typeinputkey}>
+                    <label>สายการแข่งขันที่ : {typeprops.no}</label>
+                    <input type="text" name={typeprops.name} key={typeprops.name+'Name'}  onChange={handleName} placeholder='ชื่อสายการแข่งขัน' defaultValue={typeprops.value}/>
+                    <input type="text" name={typeprops.name+'Price'} key={typeprops.name+'Price'} onChange={handlePrice} defaultValue={typeprops.reward} placeholder='จำนวนรางวัล'/>                         
+                </div>    
+            )
+        }
+
+        useEffect(() => {
+            // Fetch data from the server
+            const fetchdatas = async () => {
+                try{
+                    const response = await fetch(apiserver+'/api/competitiondetail/'+Cid, {
+                        method: 'GET',
+                        mode: 'cors',
+                        headers:{
+                        'Content-Type' : 'application/json',
+                        'ngrok-skip-browser-warning': 'any',
+                        }
+                    })
+                    try{
+                        const result = await response.json()
+                        result.data.forEach(element => {
+                            console.log(element)
+                            setTypename(values => ({...values,[element.CompetitionType]:element.CompetitionTypeName}));
+                            setPrice(values => ({...values,[element.CompetitionType+'Price']:element.CompetitionTotalReward}));
+
+                            setCompetitionTypeRow(prevComponents => [
+                                ...prevComponents,
+                                <div className='form-row' key={'RowType'+(prevComponents.length)}> 
+                                    <CompetitionTypeRow 
+                                        no={(prevComponents.length+1)} 
+                                        name={element.CompetitionType}
+                                        competitionkey={element.CompetitionType}
+                                        value={element.CompetitionTypeName}
+                                        reward={element.CompetitionTotalReward} 
+                                        key={element.CompetitionTypeName}
+                                    />
+                                </div>
+                            ])
+                        });
+                    }catch(err){
+                        alert(err)
+                        console.error(err)
+                    }
+                }catch(err){
+                    console.error(err)
+                }finally{
+                    setLoading(false)
+                }   
+            }
+    
+            fetchdatas()
+        },[])
+
         const handleName = (event) => {
             let name = event.target.name;
             let value = event.target.value;            
@@ -166,7 +232,6 @@ const EditCompetitionForm = ({Cid,apiserver}) =>{
         const handleSubmit = async (event) => {
             event.preventDefault();
             setLoading(true)
-            
             const typekey = Object.keys(typename)
             const looping = async () => typekey.forEach((data) => {
                 const pricekey = data+'Price'
@@ -189,6 +254,7 @@ const EditCompetitionForm = ({Cid,apiserver}) =>{
             }
         }
 
+        //  append form //
         const appendTypeForm = () => {
             const CompetitionTypeRow = (props) =>{
                 const TypeInput = (typeprops) => {
@@ -204,7 +270,6 @@ const EditCompetitionForm = ({Cid,apiserver}) =>{
                     <TypeInput no={props.no} name={props.name} typeinputkey={props.competitionkey}/>   
                 )
             }
-            
             setCompetitionTypeRow(prevComponents => [
                 ...prevComponents,
                 <div className='form-row' key={'RowType'+(prevComponents.length)}> 
@@ -217,6 +282,8 @@ const EditCompetitionForm = ({Cid,apiserver}) =>{
                 </div>
             ])
         }
+        //  end append form //
+
         if(Loading){
             return <Loader/>
         }else{
@@ -240,7 +307,7 @@ const EditCompetitionForm = ({Cid,apiserver}) =>{
     //  END Step 2  //
 
     // START STEP 3 //
-    const Step3 = (props) => {
+    const Step3 = ({containerkey,apiserver,Cid}) => {
         const [priceRow,setPriceRow] = useState([]);
         // eslint-disable-next-line
         const [Price,setPrice] = useState([]);
@@ -251,49 +318,36 @@ const EditCompetitionForm = ({Cid,apiserver}) =>{
             let value = event.target.value;            
             setPrice(values => ({...values,[name]:value}));
         }
+
         const Step3Submit = async (event) => {
             event.preventDefault()
             try{
-                const getid = await fetch('http://localhost:3001/api/getcompetitionid',{
-                        method: 'POST',
-                        mode: 'cors',
-                        headers: {
-                            'Content-type': 'application/json',
-                            'ngrok-skip-browser-warning': 'any',
-                        },
-                        body: JSON.stringify()
-                    })
-                    console.log(Price)
-                        const res = await getid.json()
-                        const Cid = res.data
-                        if(res.status === 'error'){
-                            alert(res.data)
-                        }else{
-                            try{
-                                setLoading(true)
-                                const req = await fetch('http://localhost:3001/api/addcompetitionprice',{
-                                    method: 'POST',
-                                    mode: 'cors',
-                                    headers: {
-                                        'Content-type': 'application/json',
-                                        'ngrok-skip-browser-warning': 'any',
-                                    },
-                                    body: JSON.stringify([details,Price,Cid])
-                                })
-                                const res = await req.json();
-                                if(res.status === 'error'){
-                                    alert("error")
-                                }else{
-                                    alert("บันทึกข้อมูลเรียบร้อย");
-                                }
-                            }catch(err){
-                                alert('ERROR @adddata')
-                            }
-                        }
-            }catch(e){
-                alert('ERROR @getid')
+                console.log(Price)
+                setLoading(true)
+                const req = await fetch(apiserver+'/api/updatecompetitionprice/'+Cid,{
+                    method: 'PUT',
+                    mode: 'cors',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'ngrok-skip-browser-warning': 'any',
+                    },
+                    body: JSON.stringify([details,Price])
+                })
+                const res = await req.json();
+                    if(res.status === 'error'){
+                        alert("error")
+                    }else{
+                        alert("บันทึกข้อมูลเรียบร้อย");
+                        window.history.back()
+
+                    }
+            }catch(err){
+                console.error(err)
+                alert('ERROR @update')
             }
         }
+           
+    
 
         const appendPriceDetail = (event) =>{
             event.preventDefault();
@@ -310,6 +364,7 @@ const EditCompetitionForm = ({Cid,apiserver}) =>{
                     <PriceInput no={props.no} key={props.inputKey} name={props.name}/>
                 )
             }
+
             let count = 1
             details.forEach((values,index,array) => {
                 const data = values['Type'+count]
@@ -333,8 +388,9 @@ const EditCompetitionForm = ({Cid,apiserver}) =>{
                 }
             })
         }
+        
         return(
-            <div className='form-container' key={props.containerkey}>
+            <div className='form-container' key={containerkey}>
                 <form className="form-control" onSubmit={Step3Submit}>
                     <div className='form-row' >
                         <span className='section-header-text text-right'>จำนวนเงินรางวัล : {priceRow.length} รางวัล</span>                
@@ -352,7 +408,7 @@ const EditCompetitionForm = ({Cid,apiserver}) =>{
     switch(step){
         default:   
             return(
-                <Step1 containerkey='step1' key='step1' apiserver={apiserver} Cid={Cid} />
+                <Step1 containerkey='step1' key={'step1'} apiserver={apiserver} Cid={Cid} />
             ) 
         case 2:
             return(
@@ -360,7 +416,7 @@ const EditCompetitionForm = ({Cid,apiserver}) =>{
             )
         case 3:
             return(
-                <Step3 containerkey='step3'  />
+                <Step3 containerkey='step3' key={'step3'} apiserver={apiserver} Cid={Cid} />
             )
     }
     //      End Render Switcher     //

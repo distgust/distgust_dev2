@@ -1,4 +1,4 @@
-import {React,StrictMode} from 'react';
+import {React} from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -29,10 +29,10 @@ import CompetitionEditPage from './pages/CompetitionEditPage';
                 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const apiserver ='https://16d0-49-228-170-178.ngrok-free.app'
+const apiserver ='https://9096-49-228-169-230.ngrok-free.app'
 
 root.render(
-  <StrictMode>
+  
     <Router>
       <Routes>
         <Route path="/" element={<Home apiserver={apiserver}/>}/>
@@ -48,7 +48,7 @@ root.render(
         <Route path="*" element={<Nopage />}/>
       </Routes>
     </Router>
-  </StrictMode>
+  
 );
 
 // If you want to start measuring performance in your app, pass a function

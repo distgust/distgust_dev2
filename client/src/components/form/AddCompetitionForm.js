@@ -215,7 +215,7 @@ const AddCompetitionForm = () =>{
         const Step3Submit = async (event) => {
             event.preventDefault()
             try{
-                const getid = await fetch('http://localhost:3001/api/getcompetitionid/'+CompDate,{
+                const getid = await fetch('http://localhost:3001/api/getcompetitionid/'+CompDate.Date,{
                         method: 'GET',
                         mode: 'cors',
                         headers: {
@@ -227,10 +227,12 @@ const AddCompetitionForm = () =>{
                         const res = await getid.json()
                         const Cid = res.data
                         if(res.status === 'error'){
-                            alert(res.data)
+                            console.log(res.data.CompetitionID)
+                            alert(res)
                         }else{
                             try{
                                 setLoading(true)
+
                                 const req = await fetch('http://localhost:3001/api/addcompetitionprice',{
                                     method: 'POST',
                                     mode: 'cors',
@@ -240,11 +242,13 @@ const AddCompetitionForm = () =>{
                                     },
                                     body: JSON.stringify([CompDate,details,Price,Cid])
                                 })
-                                const res = await req.json();
+
+                                const res = await req.json()
                                 if(res.status === 'error'){
                                     alert("error")
                                 }else{
-                                    alert("บันทึกข้อมูลเรียบร้อย");
+                                    alert("บันทึกข้อมูลเรียบร้อย")
+                                    window.location.reload()
                                 }
                             }catch(err){
                                 alert('ERROR @adddata')

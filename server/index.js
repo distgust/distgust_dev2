@@ -35,8 +35,51 @@ db.TestDBConn()
    })
    .catch(error => {
     console.error(error);
-   });
+   })
 // -------------------------------------------------- //
+// login api //
+app.post('/api/login',jsonParser, async (req,res) => {
+   const { username, password } = req.body;
+   const data = await db.Login(username);
+   try{
+      bcrypt.compare(password,data[0].UserPW,(err,logged)=>{
+         //console.log(logged)
+         if(logged){
+            let logindata = { username: data[0].UserUN,userRole:data[0].UserR }
+            var token = jwt.sign({exp:Math.floor(Date.now() + ((1000*60) * 60) ),data:logindata}, secret);
+            res.status(200).json({status:"success",message:"logged in",token:token})
+         }else{
+            res.status(400).json({status:'error',message:'wrong password',data:err})
+         };
+      })
+   }catch(error){
+      res.status(400).json({status:'error',message: 'User not found',data:data});
+   }
+})
+ 
+// authentication login //
+app.post('/api/auth',(req,res,next)=>{
+   try{
+      
+      const currentDate = Date.now()
+      const DateNow = new Date(currentDate)
+      const token = req.headers.authorization.split(" ")[1];
+      let decoded = jwt.verify(token,secret);
+      let exp = decoded.exp
+
+      if(decoded.exp < currentDate){console.log(exp+'\nexpired')}
+      console.log('<----   AUTHENTED   ---->')
+      console.log('<- '+ DateNow +' ->')
+      console.log('username : ' + decoded.data.username)
+      console.log('now: ' + new Date(currentDate))
+      console.log('expire@ : ' + new Date(exp))
+      console.log('<----------------------->')
+      
+      res.json({status:"ok",token:token,decode:decoded});
+   }catch(err){
+      res.json({status:"error",message:err.message})
+   }
+})
 
 // insert to userstable //
 app.post('/api/register' ,async (req,res) => {
@@ -59,25 +102,7 @@ app.post('/api/register' ,async (req,res) => {
    }catch(error){
       res.status(500).json({status:"error hash",response_data:error});
    }
-});
-
-// insert to NewsTable //
-app.post('/api/addnewspost' , async (req, res) => {
-   try{
-      const tablename = 'NewsTable';
-      const datas = {
-         NewsHeader: req.body.NewsHeader,
-         NewsLocation: req.body.NewsLocation,
-         NewsMatchDate: req.body.NewsMatchDate,
-         NewsContent: req.body.NewsContent
-      };
-      const insert = await db.InsertData(tablename,datas);
-      res.status(201).json({status:"success",data: insert});
-   } catch(error){
-      //console.log(error.errno);
-      res.status(500).json({status:"error",data: error});
-   }
-});
+})
 
 // insert to CompetitionTable //
 app.post('/api/addcompetition' , async (req, res) => {
@@ -96,35 +121,7 @@ app.post('/api/addcompetition' , async (req, res) => {
       //console.log(error.errno);
       res.status(500).json({status:"error",data: error});
    }
-});
-// edit-update CompetitionpriceTable //
-app.put('/api/editcompetition/:Cid' , async (req, res) => {
-   const cid = req.params.Cid
-   const updatedData = req.body;
-   let databaseData = {}
-   try{
-      databaseData = { ...databaseData, ...updatedData };
-      const tablename = 'CompetitionTable';
-      //const insert = await db.InsertData(tablename,datas);
-      res.status(201).json({status:"success",data: databaseData,id:cid});
-   } catch(error){
-      //console.log(error.errno);
-      res.status(500).json({status:"error",data: error});
-   }
-});
-
-// get CompetitionID //
-app.get('/api/getcompetitionid/:CompDate' , async (req, res) => {
-   try{
-      const date = req.params.CompDate 
-      const selectedid = await db.SelectCompetitionID(date);
-      const id = selectedid[0].CompetitionID;
-      res.status(201).json({status:"success",data: id});
-   } catch(error){
-      //console.log(error.errno);
-      res.status(500).json({status:"error",data: error});   
-   }
-});
+})
 
 // insert to CompetitionpriceTable //
 app.post('/api/addcompetitionprice' , async (req, res) => {
@@ -145,7 +142,7 @@ app.post('/api/addcompetitionprice' , async (req, res) => {
          const data = values['Type'+count]
          const price = parseInt(data.price)
          const typename = data.name
-         console.log(id.CompetitionID,type,typename,price)    
+         console.log(id,type,typename,price)    
          console.log('***********')
          db.InsertCompetitionData(id,type,typename,price)
          count++ 
@@ -164,7 +161,7 @@ app.post('/api/addcompetitionprice' , async (req, res) => {
       console.log(error)
       res.status(500).json({status:"error",data: error});
    }
-});
+})
 
 // insert to NewsTable //
 app.post('/api/addscore' , async (req, res) => {
@@ -182,7 +179,74 @@ app.post('/api/addscore' , async (req, res) => {
       //console.log(error.errno);
       res.status(500).json({status:"error",response_data: error});
    }
-});
+})
+
+// edit-update CompetitionpriceTable //
+app.put('/api/editcompetition/:Cid' , async (req, res) => {
+   const cid = req.params.Cid
+   const updatedData = req.body;
+   let databaseData = {}
+   try{
+      databaseData = { ...databaseData, ...updatedData };
+      const tablename = 'CompetitionTable'; 
+      const insert = await db.UpdateCompetition(tablename,databaseData,cid);
+      res.status(201).json({status:"success",data: databaseData,id:cid});
+   } catch(error){
+      console.log(error);
+      res.status(500).json({status:"error",data: error});
+   }
+})
+
+// edit-update CompetitionpriceTable //
+app.put('/api/updatecompetitionprice/:Cid' , async (req, res) => {
+   console.log(req.body) 
+   const types = req.body[0];
+   const price = Object.entries(req.body[1]);
+   const id = req.params.Cid
+   console.log(id,"\n*********");
+   console.log(types,"\n*********");
+   console.log(price,"\n*********");
+   try{
+      //const tablename = 'CompetitionDetailTable';
+      let count = 1  
+      types.forEach((values,index) => {
+         const type = 'Type'+count
+         const data = values['Type'+count]
+         const price = parseInt(data.price)
+         const typename = data.name
+         console.log(id,type,typename,price)    
+         console.log('***********')
+         db.UpdateCompetitionData(id,type,typename,price)
+         count++ 
+      })
+      price.forEach((values,index)=>{
+         console.log('key : ',values[0])
+         console.log('value :',values[1])    
+         console.log('***********')
+         let key = values[0]
+         let value = values[1]
+         db.UpdateCompetitionRewardPrice(id,key,value)
+      })
+      res.status(201).json({status:"success",data: id});
+      //res.status(500).json({status:"error",data: error});
+   } catch(error){
+      console.log(error)
+      res.status(500).json({status:"error",data: error});
+   }
+})
+
+app.get('/api/getcompetitionid/:CompDate' , async (req, res) => {
+   try{
+      const date = req.params.CompDate
+      const selectedid = await db.SelectCompetitionID(date);
+      const id = selectedid[0].CompetitionID;
+      res.status(201).json({status:"success",data: id});
+   } catch(error){
+      console.log(error)
+      //console.log(error.errno);
+      res.status(500).json({status:"error",data: error});   
+   }
+})
 
 // show UsersTable //
 app.get('/api/showuser', async (req,res) =>{
@@ -232,14 +296,15 @@ app.get('/api/competition/:Cid', async (req,res) => {
       res.status(500).json({status:"error",data: error});
    }
 })
-
-// show NewsTable //
-app.get('/api/news', async (req,res) => {
+// show competitiondetails //
+app.get('/api/competitiondetail/:Cid', async (req,res) => {
    try{
-      const table = 'NewsTable'
-      const Datas = await db.SelectData(table);
+      let cid = req.params.Cid
+      //console.log(cid)
+      const table = 'CompetitionDetailTable'
+      const Datas = await db.SelectCompetitionData(table,cid);
       if(Datas.length <= 0){
-         res.status(204).json({status:"error",data: error});
+         res.status(204).json({status:"success",data: Datas});
       }else{
          res.status(200).json({status:"success",data: Datas});
       }
@@ -301,50 +366,6 @@ app.get('/api/getcompetitionreward/:cid', async (req,res) =>{
    }catch(error){
       res.status(500).json({status:"error",data: error});
       console.log(error)
-   }
-})
-
-// login api //
-app.post('/api/login',jsonParser, async (req,res) => {
-   const { username, password } = req.body;
-   const data = await db.Login(username);
-   try{
-      bcrypt.compare(password,data[0].UserPW,(err,logged)=>{
-         //console.log(logged)
-         if(logged){
-            let logindata = { username: data[0].UserUN,userRole:data[0].UserR }
-            var token = jwt.sign({exp:Math.floor(Date.now() + ((1000*60) * 60) ),data:logindata}, secret);
-            res.status(200).json({status:"success",message:"logged in",token:token})
-         }else{
-            res.status(400).json({status:'error',message:'wrong password',data:err})
-         };
-      })
-   }catch(error){
-      res.status(400).json({status:'error',message: 'User not found',data:data});
-   }
-})
- 
-// authentication login //
-app.post('/api/auth',(req,res,next)=>{
-   try{
-      
-      const currentDate = Date.now()
-      const DateNow = new Date(currentDate)
-      const token = req.headers.authorization.split(" ")[1];
-      let decoded = jwt.verify(token,secret);
-      let exp = decoded.exp
-
-      if(decoded.exp < currentDate){console.log(exp+'\nexpired')}
-      console.log('<----   AUTHENTED   ---->')
-      console.log('<- '+ DateNow +' ->')
-      console.log('username : ' + decoded.data.username)
-      console.log('now: ' + new Date(currentDate))
-      console.log('expire@ : ' + new Date(exp))
-      console.log('<----------------------->')
-      
-      res.json({status:"ok",token:token,decode:decoded});
-   }catch(err){
-      res.json({status:"error",message:err.message})
    }
 })
 
