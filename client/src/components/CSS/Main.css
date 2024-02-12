@@ -26,15 +26,102 @@ main.no-topnav{
     padding: 5px;
     padding-left: 20px;
     padding-right: 20px;
-    background-color: #417495;
+    background-color: #4a80a4;
+    font-family: Anuphan;
+    font-weight: 500;
     color: #fcfcfc;
     border-radius: 5px;
-    box-shadow: 0 8px 8px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2),0 2px 2px 0 rgba(0,0,0,0.2);
     border: 0;
 }
 .primary-btn:hover{
     background-color: #325D79;
+    box-shadow: 0px 8px 8px 0 rgba(0,0,0,0.2),0px 8px 8px 0 rgba(0,0,0,0.2);
+
 }
+.back-btn{
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #4a80a4;
+    font-family: Anuphan;
+    font-weight: 500;
+    color: #fcfcfc;
+    border-radius: 5px;
+    box-shadow: 0px 2px 2px 0 rgba(0,0,0,0.2),0 2px 2px 0 rgba(0,0,0,0.2);
+    border: 0;
+    margin: 0;
+    margin-left: 2rem;
+}
+.back-btn:hover{
+    background-color: #325D79;
+    box-shadow: 0px 8px 8px 0 rgba(0,0,0,0.2),0px 8px 8px 0 rgba(0,0,0,0.2);
+}
+
+.start-btn{
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: rgb(92, 203, 95);
+    font-family: Anuphan;
+    font-weight: 500;
+    color: #fcfcfc;
+    border-radius: 5px;
+    box-shadow: 0px 2px 2px 0 rgba(0,0,0,0.2),0 2px 2px 0 rgba(0,0,0,0.2);
+    border: 0;
+    margin: 0;
+    margin-right: 2rem;
+}
+.start-btn:hover{
+    background-color: #419544;
+    box-shadow: 0px 8px 8px 0 rgba(0,0,0,0.2),0px 8px 8px 0 rgba(0,0,0,0.2);
+
+}
+
+input[type=button].cancle-btn {
+    text-align: center;
+    background-color: #b44747;
+    font-family: Anuphan;
+    font-weight: 500;
+    color: white;
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 0;
+    margin: 0;
+    margin-right: 2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    float: right;
+}
+
+input[type=button].cancle-btn:hover{
+    background-color: #a94848;
+    box-shadow: 0 4px 8px 0  rgba(0,0,0,0.2), 0 6px 10px 0  rgba(0,0,0,0.2);
+}
+
+input[type=button].warnning-btn {
+    text-align: center;
+    background-color: #FFd8b0;
+    font-family: Anuphan;
+    font-weight: 500;
+    color: white;
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 0;
+    margin: 0;
+    margin-right: 2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    float: right;
+}
+
+input[type=button].warnning-btn:hover{
+    background-color: #ebc59f;
+    box-shadow: 0 4px 8px 0  rgba(0,0,0,0.2), 0 6px 10px 0  rgba(0,0,0,0.2);
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700&family=Chonburi&display=swap');
 * {
   box-sizing: border-box;
@@ -89,9 +176,14 @@ main.no-topnav{
 .small-text{
     font-size: 12px;
     font-weight: 200;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 .text-right{
     text-align: right;
+}
+.text-center{
+    text-align: center;
 }
 .link-decor-none{
     text-decoration: none;
@@ -149,8 +241,14 @@ main.no-topnav{
 .contents-center{
     justify-content: center;
 }
+.contents-end{
+    justify-content: end;
+}
 .align-center{
     text-align: center;
+}
+.align-right{
+    text-align: end;
 }
 .contents-center h4{
     justify-content: left ;

@@ -1,7 +1,7 @@
 import {useState,useEffect} from 'react'
 import CardMenu from './CardMenu';
 
-const CompetitionCard = ({NewsHeader,NewsLocation,NewsMatchDate,NewsContent,Cid,apiserver}) => {
+const CompetitionCard = ({CompetitionTitle,CompetitionLocation,CompetitionDate,CompetitionDetail,Cid,apiserver}) => {
     const [role,setRole] = useState(false);
 
     useEffect(()=>{
@@ -35,18 +35,13 @@ const CompetitionCard = ({NewsHeader,NewsLocation,NewsMatchDate,NewsContent,Cid,
             label:'รายละเอียด',
             link:'/competition/'+Cid,
             status:'cardmenu-link',
-        },
-        {
-            label:'คะแนน',
-            link:'/score/'+Cid,
-            status:'cardmenu-link',
         }
     ];
 
     if(role){
         selectmenu_arr.push(
             {
-                label:'เริ่มการแข่งขัน',
+                label:'เริ่ม/หยุด/สรุปการแข่งขัน',
                 link:'/startcompetition/'+Cid,
                 status:'topnav-li',
             },
@@ -61,14 +56,14 @@ const CompetitionCard = ({NewsHeader,NewsLocation,NewsMatchDate,NewsContent,Cid,
     return( 
             <div className='card'>
                 <div className="card-header">
-                    <p className='card-heading'>{NewsHeader}</p>
-                    <p className='sub-heading'>{NewsLocation}</p>
-                    <h5 className='card-date'>{NewsMatchDate}</h5>
+                    <p className='card-heading'>{CompetitionTitle}</p>
+                    <p className='sub-heading'>{CompetitionLocation}</p>
+                    <h5 className='card-date'>{CompetitionDate}</h5>
                 </div>
-                <p className='news-content'>{NewsContent}</p>
+                <p className='news-content'>{CompetitionDetail}</p>
                 <div className='see-full' >
                     <ul className="card-select-menu">
-                        <div className="card-menu see-full">การจัดการ
+                        <div className="card-menu see-full">ดูเพิ่ม..
                             <div className="card-menu-content">
                                 {selectmenu_arr.map((selectmenu_props)=>{
                                     return(

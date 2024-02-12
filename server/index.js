@@ -164,16 +164,18 @@ app.post('/api/addcompetitionprice' , async (req, res) => {
 })
 
 // insert to NewsTable //
-app.post('/api/addscore' , async (req, res) => {
+app.post('/api/addscore/:Cid' , async (req, res) => {
    try{
+      const cid = req.params.Cid
       const tablename = 'ScoresTable';
       const datas = {
+         CompetitionID: cid,
          Number: req.body.Number,
          FishWeight: req.body.FishWeight,
          TeamName: req.body.TeamName,
          FishType: req.body.FishType
       };
-      const insert = await db.InsertData(tablename,datas);
+      const insert = await db.InsertData(tablename,datas,cid);
       res.status(201).json({status:"success",response_data: insert});
    } catch(error){
       //console.log(error.errno);
@@ -191,6 +193,48 @@ app.put('/api/editcompetition/:Cid' , async (req, res) => {
       const tablename = 'CompetitionTable'; 
       const insert = await db.UpdateCompetition(tablename,databaseData,cid);
       res.status(201).json({status:"success",data: databaseData,id:cid});
+   } catch(error){
+      console.log(error);
+      res.status(500).json({status:"error",data: error});
+   }
+})
+
+app.put('/api/startcompetition/:Cid' , async (req, res) => {
+   const cid = req.params.Cid
+   let Data = {}
+   try{
+      Data = {'CompetitionStatus':'start'}
+      const tablename = 'CompetitionTable'
+      const insert = await db.UpdateCompetition(tablename,Data,cid);
+      res.status(201).json({status:"success",data: insert,id:cid});
+   } catch(error){
+      console.log(error);
+      res.status(500).json({status:"error",data: error});
+   }
+})
+
+app.put('/api/canclecompetition/:Cid' , async (req, res) => {
+   const cid = req.params.Cid
+   let Data = {}
+   try{
+      Data = {'CompetitionStatus':'plan'}
+      const tablename = 'CompetitionTable'
+      const insert = await db.UpdateCompetition(tablename,Data,cid);
+      res.status(201).json({status:"success",data: insert,id:cid});
+   } catch(error){
+      console.log(error);
+      res.status(500).json({status:"error",data: error});
+   }
+})
+
+app.put('/api/endcompetition/:Cid' , async (req, res) => {
+   const cid = req.params.Cid
+   let Data = {}
+   try{
+      Data = {'CompetitionStatus':'end'}
+      const tablename = 'CompetitionTable'
+      const insert = await db.UpdateCompetition(tablename,Data,cid);
+      res.status(201).json({status:"success",data: insert,id:cid});
    } catch(error){
       console.log(error);
       res.status(500).json({status:"error",data: error});
@@ -279,6 +323,25 @@ app.get('/api/allcompetitions', async (req,res) => {
    }
 })
 
+// show competition //
+app.get('/api/startedcompetitions', async (req,res) => {
+   try{
+      const table = 'CompetitionTable'
+      const Datas = await db.SelectStarted()
+      if(Datas.length <= 0){
+         console.log(Datas)
+         res.status(204).json({status:"success",data: Datas});
+      }else{
+         console.log(Datas)
+         res.status(200).json({status:"success",data: Datas});
+      }
+   }
+   catch(error){
+      console.log(error)
+      res.status(500).json({status:"error",data: error});
+   }
+})
+
 // show competitiondetails //
 app.get('/api/competition/:Cid', async (req,res) => {
    try{
@@ -334,7 +397,7 @@ app.get('/api/showcompetitionscore/:cid', async (req,res) =>{
    let cid = req.params.cid 
    try{
       const table = 'ScoresTable';
-      const Datas = await db.SelectCompetitionData(table,cid);
+      const Datas = await db.GetCompetitionScore(table,cid);
       if(Datas.length <= 0){
          res.status(204).json({status:"success",data: Datas});
          console.log('204\n'+Datas)
@@ -342,6 +405,19 @@ app.get('/api/showcompetitionscore/:cid', async (req,res) =>{
          res.status(200).json({status:"success",data: Datas});
          console.log('200\n'+Datas)
       }
+   }catch(error){
+      res.status(500).json({status:"error",data: error});
+      console.log(error)
+   }
+})
+
+// show competition Score //
+app.delete('/api/removescore/:Sid', async (req,res) =>{
+   let sid = req.params.Sid 
+   try{
+      const table = 'ScoresTable';
+      const Datas = await db.RemoveCompetitionScore(table,sid);
+      res.status(200).json({status:"success",data: Datas});
    }catch(error){
       res.status(500).json({status:"error",data: error});
       console.log(error)

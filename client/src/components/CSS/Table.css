@@ -44,7 +44,7 @@
     background-color: #325D79;
     border: 2px solid #efefef;
     padding: 1rem;
-
+    text-align: center;
 }
 .table-control.score-table > tbody > tr{
     text-align: center;

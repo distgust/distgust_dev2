@@ -1,13 +1,9 @@
 import { useEffect,useState } from 'react';
-//import { useLocation } from 'react-router-dom';
 import DashHeaders from '../components/DashHeader';
 import SideBar from '../components/SideBar';
-//import SideNav from '../components/Nav';
 import UsersTable from '../components/UsersTable';
-import AddNewsForm from '../components/form/AddNewsForm';
-import AddScoresForm from '../components/form/AddScoreForm';
 import Loader from "../components/Loader";
-import ScoresTable from '../components/ScoresTable';
+import StartedCompetition from '../components/StartedCompetition';
 
 const DashBoard = (props) => {
     const pagetitle = 'แดชบอร์ด';
@@ -96,26 +92,18 @@ return (
             </div>
             <main className="col-11 dashboard">
                 <div className='section'>
-                    <h3 className='section-header mb-0'>บันทึกน้ำหนัก</h3>
-                    <h4 className='section-header-text'>จดบันทึก น้ำหนักปลาที่ขึ้นชั่งน้ำหนัก</h4>
+                    <h1 className='section-header mb-0'>การแข่งขัน</h1>
+                    <h4 className='section-header-text'>ที่กำลังแข่งขันอยู่ขณะนี้</h4>
+                    <div className='row'>
+                        <div className='container-full-width col-4 text-right pt-0 pb-0'>
+                            <input type='text' name='cid-entry' className='searchbox'/>
+                        </div>
+                    </div>
                     <div className='container-full-width'>
-                        <AddScoresForm apiserver={props.apiserver}/>
+                        <StartedCompetition apiserver={props.apiserver}/>
                     </div>
                 </div>
-                <div className='section'>
-                    <h3 className='section-header mb-0'>บันทึกน้ำหนัก</h3>
-                    <h4 className='section-header-text'>จดบันทึก น้ำหนักปลาที่ขึ้นชั่งน้ำหนัก</h4>
-                    <div className='container-full-width contents-center'>
-                        <ScoresTable apiserver={props.apiserver}/>
-                    </div>
-                </div>
-                <div className='section'>
-                    <h3 className='section-header mb-0'>เพิ่มโพสต์</h3>
-                    <h4 className='section-header-text'>นัดหมายการแข่งขัน ประชาสัมพันธ์กิจกรรม</h4>
-                    <div className='container-full-width contents-center'>
-                        <AddNewsForm />
-                    </div>
-                </div>
+                
                 <div className='section'>
                     <h3 className='section-header mb-0'>รายชื่อสมาชิก</h3>
                     <h4 className='section-header-text'>รายชื่อสมาชิกที่ลงทะเบียนในระบบ</h4>

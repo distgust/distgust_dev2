@@ -44,8 +44,9 @@ const ContentCompetition = (props) => {
                     const date = Props.CompetitionDate.split("-")
                     const da = new Date(date)
                     return(
-                        <CompetitionCard NewsHeader={Props.CompetitionTitle} NewsLocation={Props.CompetitionLocation} 
-                        NewsMatchDate={da.toDateString()} NewsContent={Props.CompetitionDetail} key={Props.CompetitionID} Cid={Props.CompetitionID} apiserver={props.apiserver}/>
+                        <CompetitionCard CompetitionTitle={Props.CompetitionTitle} CompetitionLocation={Props.CompetitionLocation} 
+                        CompetitionDate={da.toDateString()} CompetitionDetail={Props.CompetitionDetail} key={Props.CompetitionID} 
+                        Cid={Props.CompetitionID} apiserver={props.apiserver} CompetitionStatus={props.CompetitionStatus}/>
                         )
                     })}
             </div>

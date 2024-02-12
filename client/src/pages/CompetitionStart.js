@@ -2,14 +2,14 @@ import { useParams } from 'react-router-dom'
 import { useEffect,useState } from 'react'
 import Headers from '../components/Header'
 import Loader from '../components/Loader'
-import CompetitionDetail from '../components/CompetitionDetail'
+import Competition from '../components/Competition'
 
-const CompetitionDetailPage = (props) => {
+const CompetitionStartPage = (props) => {
     const { competitionid } = useParams();
     const [fetchDatas, setFetchDatas] = useState([]);
     const [loading, setLoading] = useState(true);
     let server = props.apiserver
-    let pagetitle = 'รายละเอียด'
+    const pagetitle = 'เริ่มการแข่งขัน'
     useEffect(() => {
         // Fetch data from the server
         const fetchdatas = async () => {
@@ -53,9 +53,9 @@ const CompetitionDetailPage = (props) => {
                         const date = Props.CompetitionDate.split("-")
                         const da = new Date(date)
                         return(
-                            <CompetitionDetail CompetitionTitle={Props.CompetitionTitle} CompetitionLocation={Props.CompetitionLocation} 
+                            <Competition CompetitionTitle={Props.CompetitionTitle} CompetitionLocation={Props.CompetitionLocation} 
                                 CompetitionDate={da.toDateString()} CompetitionDetail={Props.CompetitionDetail} key={Props.CompetitionID} 
-                                Cid={Props.CompetitionID} apiserver={props.apiserver}/>
+                                Cid={Props.CompetitionID} apiserver={props.apiserver} CompetitionStatus={Props.CompetitionStatus}/> 
                         )
                     })}
                 </main>
@@ -63,4 +63,4 @@ const CompetitionDetailPage = (props) => {
     )
 }
 
-export default CompetitionDetailPage
+export default CompetitionStartPage

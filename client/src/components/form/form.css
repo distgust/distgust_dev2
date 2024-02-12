@@ -23,6 +23,7 @@
 .form-span >.text-small{
     text-align: end;
     justify-content: end;
+    
 }
 .form-container{
     display: flex;
@@ -61,8 +62,8 @@
     resize: vertical;
     line-height: 3;
 }
-.form-control input[type=submit] {
-    background-color: #325D79;
+input[type=submit].btn-submit {
+    background-color: #4a80a4;
     font-family: Anuphan;
     font-weight: 500;
     color: white;
@@ -73,9 +74,9 @@
     float: right;
     width: 50%;
 }
-.form-control input[type=button].btn-clear {
+input[type=button].btn-clear {
     text-align: center;
-    background-color: #793232;
+    background-color: #b44747;
     font-family: Anuphan;
     font-weight: 500;
     color: white;
@@ -84,6 +85,18 @@
     border-radius: 4px;
     cursor: pointer;
     float: right;
+    width: 50%;
+}
+input[type=button].btn-remove{
+    text-align: center;
+    background-color: #b44747;
+    font-family: Anuphan;
+    font-weight: 500;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
     width: 50%;
 }
 .form-control input[type=button].btn-type {
@@ -103,21 +116,28 @@
 .form-control .text-small{
     width: 100%;
 }
-.form-control input[type=button].btn-clear:hover{
-    box-shadow: 0 4px 8px 0 #b44747, 0 6px 10px 0 #b44747;
+input[type=button].btn-clear:hover{
+    background-color: #a94848;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 10px 0  rgba(0,0,0,0.2);
 }
-.form-control input[type=button].btn-type:hover{
-    box-shadow: 0 8px 8px 0 #FFd8b0, 0 6px 10px 0 #FFd8b0;
+input[type=button].btn-remove:hover{
+    background-color: #a94848;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 10px 0  rgba(0,0,0,0.2);
 }
-.form-control input.btn-submit[type=submit]:hover{
-    box-shadow: 0 4px 8px 0 #325D79, 0 6px 10px 0 #325D79;
+input[type=button].btn-type:hover{
+    background-color: #ebc59f;
+    box-shadow: 0 4px 8px 0  rgba(0,0,0,0.2), 0 6px 10px 0  rgba(0,0,0,0.2);
 }
-.form-control .form-row input.btn-submit:disabled{
+input.btn-submit[type=submit]:hover{
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.2);
+}
+input.btn-submit:disabled{
   border: 1px solid #999999;
   background-color: #cccccc;
   color: #666666;
   box-shadow: none;
 }
+
 .form-control .form-row::after {
     content: "";
     display: table;

@@ -21,7 +21,6 @@ const CompetitionReward = (props) =>{
                 })
                 try{
                     const result = await response.json()
-                    console.log(result)
                     setType(result.data.type)
                     setReward(result.data.reward)
                 }catch(err){

@@ -1,6 +1,8 @@
 import { useState,useEffect } from "react";
 import './CSS/Table.css'
 import Loader from "./Loader";
+import RemoveScoreBtn from "./RemoveScoreBtn";
+
 const CompetitionScore = (props) => {
     const [datas, setDatas] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -40,7 +42,7 @@ const CompetitionScore = (props) => {
         return <Loader/>
     }
 
-    if(datas.length >= 0){
+    if(datas.length >= 1){
         return(
             <table className="table-control score-table">
                 <thead>
@@ -50,6 +52,8 @@ const CompetitionScore = (props) => {
                         <td>ทีมงาน</td>
                         <td>ชนิดปลา</td>
                         <td>น้ำหนักปลา</td>
+                        <td>แก้ไข</td>
+                        <td>ลบ</td>
                     </tr> 
                 </thead>
                 <tbody>
@@ -60,6 +64,8 @@ const CompetitionScore = (props) => {
                             <td>{item.TeamName}</td>
                             <td>{item.FishType}</td>
                             <td>{item.FishWeight}</td>
+                            <td>{item.ScoresID}</td>
+                            <td><RemoveScoreBtn Sid={item.ScoresID} apiserver={server}/></td>
                         </tr>
                     ))}
                 </tbody>
@@ -75,11 +81,13 @@ const CompetitionScore = (props) => {
                         <td>ทีมงาน</td>
                         <td>ชนิดปลา</td>
                         <td>น้ำหนักปลา</td>
+                        <td>แก้ไข</td>
+                        <td>ลบ</td>
                     </tr> 
                 </thead>
                 <tbody>
                     <tr>
-                        <td colSpan={5}>ยังไม่มีคะแนน</td>
+                        <td colSpan={7}>ยังไม่มีคะแนน</td>
                     </tr>
                 </tbody>
             </table>

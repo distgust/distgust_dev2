@@ -45,8 +45,19 @@ const SelectData = (TableName) => new Promise((resolve,reject) => {
     })
 })
 
+const SelectStarted = () => new Promise((resolve,reject) => {
+    const sql = "SELECT * FROM CompetitionTable WHERE CompetitionStatus='start'"
+    pool.query(sql,(error,result) => {
+        if(error){
+            return reject(error)
+        }else{
+            return resolve(result)
+        }
+    })
+})
+
 const SelectCompetitionData = (TableName,CompetitionID) => new Promise((resolve,reject) => {
-    const sql = 'SELECT * FROM '+TableName+' WHERE CompetitionID='+CompetitionID;
+    const sql = 'SELECT * FROM '+TableName+' WHERE CompetitionID='+CompetitionID ;
     try{
         pool.query(sql,(error,result)=>{
             if(!error){
@@ -57,7 +68,41 @@ const SelectCompetitionData = (TableName,CompetitionID) => new Promise((resolve,
             }
         })
     }catch(e){
-        console.log(e);
+        console.log(e)
+        return reject(e)
+    }
+})
+
+const GetCompetitionScore = (TableName,CompetitionID) => new Promise((resolve,reject) => {
+    const sql = 'SELECT * FROM '+TableName+' WHERE CompetitionID='+CompetitionID+' ORDER BY Times DESC';
+    try{
+        pool.query(sql,(error,result)=>{
+            if(!error){
+                //console.log(result)
+                return resolve(result)
+            }else{
+                return reject(error)
+            }
+        })
+    }catch(e){
+        console.log(e)
+        return reject(e)
+    }
+})
+
+const RemoveCompetitionScore = (TableName,sid) => new Promise((resolve,reject) => {
+    const sql = 'DELETE FROM ScoresTable WHERE ScoresID=?';
+    try{
+        pool.query(sql,sid,(error,result)=>{
+            if(!error){
+                //console.log(result)
+                return resolve(result)
+            }else{
+                return reject(error)
+            }
+        })
+    }catch(e){
+        console.log(e)
         return reject(e)
     }
 })
@@ -90,6 +135,17 @@ const SelectCompetitionID =(dates) => new Promise((resolve,reject) => {
 
 const InsertData = (TableName,Datas) => new Promise((resolve,reject) => {
     const SqlInsert = 'INSERT INTO '+TableName+' SET ?';
+    pool.query(SqlInsert,Datas,(error,result) => {
+        if(error){
+            return reject(error)
+        }else{
+            return resolve(result)
+        }
+    })
+})
+
+const InsertScore = (TableName,Datas,cid) => new Promise((resolve,reject) => {
+    const SqlInsert = 'INSERT INTO '+TableName+' SET ? WHERE CompetitionID='+cid;
     pool.query(SqlInsert,Datas,(error,result) => {
         if(error){
             return reject(error)
@@ -134,7 +190,7 @@ const InsertCompetitionRewardPrice = (CompetitionID,RewardType,RewardPrice) => n
     })
 })
 
- const UpdateCompetition = (TableName,Datas,Cid) => new Promise((resolve,reject) => {
+const UpdateCompetition = (TableName,Datas,Cid) => new Promise((resolve,reject) => {
     const SqlUpdate = 'UPDATE '+TableName+' SET ? WHERE CompetitionID='+Cid
     pool.query(SqlUpdate,Datas,(error,result) => {
        if(error){
@@ -204,4 +260,5 @@ module.exports = {TestDBConn,InsertData,SelectData,SelectCompetitionData,
                     Login,SelectCompetitionID,InsertCompetitionData, 
                     InsertCompetitionRewardPrice, UpdateCompetition,
                     UpdateCompetitionData, UpdateCompetitionRewardPrice,
-                    DeleteCompetition};
+                    DeleteCompetition,SelectStarted,GetCompetitionScore,
+                    RemoveCompetitionScore};

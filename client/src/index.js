@@ -20,6 +20,7 @@ import CompetitionManage from './pages/CompetitionManage';
 import NewLoginPage from './pages/NewLoginPage';
 import CompetitionDetailPage from './pages/CompetitionDetailPage';
 import CompetitionEditPage from './pages/CompetitionEditPage';
+import CompetitionStartPage from './pages/CompetitionStart';
 
 /*        AUTHOR : PATTARASAWAN SRITAD        */
 /*    EMAIL : pattarasawan_sritad@icloud.com  */
@@ -29,7 +30,7 @@ import CompetitionEditPage from './pages/CompetitionEditPage';
                 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const apiserver ='https://9096-49-228-169-230.ngrok-free.app'
+const apiserver ='http://localhost:3001'
 
 root.render(
   
@@ -45,6 +46,7 @@ root.render(
         <Route path='/newloginpage' element={<NewLoginPage/>}/>
         <Route path="/competition/:competitionid" exact element={<CompetitionDetailPage apiserver={apiserver}/>}/>
         <Route path="/editcompetition/:competitionid" exact element={<CompetitionEditPage apiserver={apiserver}/>}/>
+        <Route path="/startcompetition/:competitionid" exact element={<CompetitionStartPage apiserver={apiserver}/>}/>
         <Route path="*" element={<Nopage />}/>
       </Routes>
     </Router>
