@@ -36,8 +36,12 @@ const LoginForm = (props) =>{
                     const user = res.decode.data
                         if(user.userRole === "admin"){
                             window.location="/dashboard";
-                        }else{
+                        }else if(user.userRole === "user"){
                             window.location="/userdashboard";
+                        }else{
+                            localStorage.removeItem('token');
+                            alert('ข้อมูลผู้ใช้ไม่ถูกต้อง\n');
+                            window.location = '/login';
                         }
                 }
             }catch(error){

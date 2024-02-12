@@ -38,7 +38,11 @@ const ContentCompetition = (props) => {
     }
     return (
         <div className='container-full-width pt-0 pb-0'>
-            <button className="primary-btn" onClick={() => setLoading(true)}>รีเฟรช</button>
+            <div className='row'>
+                <div className='container-full-width col-4 text-right pt-0 pb-0'>
+                    <button className="primary-btn" onClick={() => setLoading(true)}>รีเฟรช</button>
+                </div>
+            </div>
             <div className='row-2'>
                 {CompetitionDatas.map((Props)=>{
                     const date = Props.CompetitionDate.split("-")

@@ -2,8 +2,9 @@ import { useState } from "react";
 import CompetitionCard from "./CompetitionCard";
 import { useEffect } from "react";
 import Loader from "./Loader";
-import AddScoresForm from "./form/AddScoreForm";
-const StartedCompetition = (props) => {
+import CompetitionScoreUserView from "./CompetitionScoreUserView";
+
+const StartedCompetitionUserView = (props) => {
     const [CompetitionDatas, setCompetitionDatas] = useState([]);
     const [loading, setLoading] = useState(true);
     
@@ -54,23 +55,23 @@ const StartedCompetition = (props) => {
                         const date = Props.CompetitionDate.split("-")
                         const da = new Date(date)
                         return(
-                            <>
+                        <>
+                            <div className='container-full-width p-2'>
+                                <div className="section-header">
+                                    <h2 className='section-header-text'>ตารางคะแนน</h2>
+                                    <p className="section-header-date">{da.toDateString()}</p>
+                                </div>
+                                <CompetitionScoreUserView competitionid={Props.CompetitionID} apiserver={props.apiserver}/>
+                            </div>
                             <div className='container-full-width'>
                                 <CompetitionCard CompetitionTitle={Props.CompetitionTitle} CompetitionLocation={Props.CompetitionLocation} 
                                 CompetitionDate={da.toDateString()} CompetitionDetail={Props.CompetitionDetail} key={Props.CompetitionID} 
                                 Cid={Props.CompetitionID} apiserver={props.apiserver} CompetitionStatus={props.CompetitionStatus}/>
                             </div>
-                            <div className='container-full-width card'>
-                                <div className="card-header">
-                                    <p className='card-heading'>บันทึกคะแนน</p>
-                                </div>
-                                <AddScoresForm apiserver={props.apiserver} competitionid={Props.CompetitionID}/>
-                            </div>
-                            </>
+                        </>
                             )
                         })}
                 </div>
-                
             </div>             
         )
     }
@@ -86,4 +87,4 @@ const StartedCompetition = (props) => {
         )
 }
 
-export default StartedCompetition;
+export default StartedCompetitionUserView;

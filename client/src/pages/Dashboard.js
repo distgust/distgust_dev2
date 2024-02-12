@@ -94,11 +94,6 @@ return (
                 <div className='section'>
                     <h1 className='section-header mb-0'>การแข่งขัน</h1>
                     <h4 className='section-header-text'>ที่กำลังแข่งขันอยู่ขณะนี้</h4>
-                    <div className='row'>
-                        <div className='container-full-width col-4 text-right pt-0 pb-0'>
-                            <input type='text' name='cid-entry' className='searchbox'/>
-                        </div>
-                    </div>
                     <div className='container-full-width'>
                         <StartedCompetition apiserver={props.apiserver}/>
                     </div>

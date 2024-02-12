@@ -7,7 +7,8 @@ import { useState,useEffect } from 'react';
 
 const Home = (props) => {
     const [loading, setLoading] = useState(true);
-    const [logged,setLogged] = useState(false);
+    const [adminLogged,setAdminLogged] = useState(false);
+    const [userLogged,setUserLogged] = useState(false);
 
     let pagetitle = 'หน้าหลัก';
     const TopNavLi = [
@@ -51,7 +52,17 @@ const Home = (props) => {
                     return
                 }else{
                     console.log(res.decode.data);
-                    setLogged(true)
+                    
+                    const user = res.decode.data
+                        if(user.userRole === "admin"){
+                            setAdminLogged(true)
+                        }else if(user.userRole === "user"){
+                            setUserLogged(true)
+                        }else{
+                            localStorage.removeItem('token');
+                            alert('ข้อมูลผู้ใช้ไม่ถูกต้อง\n');
+                            window.location = '/login';
+                        }
                 }
             }catch(error){
                 console.log(error);
@@ -67,13 +78,22 @@ const Home = (props) => {
         return <Loader/>
     }
     
-    if(logged){
+    if(adminLogged){
         TopNavLi.splice(1,2,{
             label:'แดชบอร์ด',
             link:'/dashboard',
             status:'topnav-li',
         })
     }
+
+    if(userLogged){
+        TopNavLi.splice(1,2,{
+            label:'แดชบอร์ด',
+            link:'/userdashboard',
+            status:'topnav-li',
+        })
+    }
+
     TopNavLi.forEach(element => {
         if(element.label === pagetitle){
             element.status += " active"
@@ -82,13 +102,13 @@ const Home = (props) => {
     
   return (
     <>
-        <Headers pagetitle={pagetitle} logged={logged}/>
+        <Headers pagetitle={pagetitle} logged={adminLogged||userLogged}/>
         <TopNav Li={TopNavLi}/>
             <main className='col-12'>
                 <div className='section'>
                     <h3 className='section-header mb-0'>การแข่งขัน</h3>
                     <h4 className='section-header-text'>การแข่งขันที่กำลังจะมาถึง</h4>
-                    <div className='container-full-width'>
+                    <div className='container-full-width pt-0'>
                         <ContentCompetition apiserver={props.apiserver}/>
                     </div>
                 </div>

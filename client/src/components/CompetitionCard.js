@@ -43,12 +43,12 @@ const CompetitionCard = ({CompetitionTitle,CompetitionLocation,CompetitionDate,C
             {
                 label:'เริ่ม/หยุด/สรุปการแข่งขัน',
                 link:'/startcompetition/'+Cid,
-                status:'topnav-li',
+                status:'cardmenu-link',
             },
             {
                 label:'แก้ไข/ลบ',
                 link:'/editcompetition/'+Cid,
-                status:'topnav-li',
+                status:'cardmenu-link',
             }
         )
     }
