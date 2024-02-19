@@ -7,6 +7,7 @@ import StartedCompetition from '../components/StartedCompetition';
 
 const DashBoard = (props) => {
     const pagetitle = 'แดชบอร์ด';
+    const [adminLogged,setAdminLogged] = useState(false);
     const [loading, setLoading] = useState(true);
     // get query string test
     //const queryParams = new URLSearchParams(window.location.search);
@@ -43,6 +44,7 @@ const DashBoard = (props) => {
                         alert('คำเตือน ! คุณไม่มีสิทธิ์ในการเข้าถึงหน้านี้')
                         window.location="/";
                     }else{
+                        setAdminLogged(true)
                         return
                     }
                 }
@@ -88,14 +90,14 @@ return (
         <DashHeaders pagetitle={pagetitle}/>
         <div className='row'>
             <div className='col-1 sidebar'>
-                <SideBar menu_arr={menu_arr} pagetitle={pagetitle}/>
+                <SideBar menu_arr={menu_arr} pagetitle={pagetitle} adminLogged={adminLogged}/>
             </div>
             <main className="col-11 dashboard">
                 <div className='section'>
                     <h1 className='section-header mb-0'>การแข่งขัน</h1>
                     <h4 className='section-header-text'>ที่กำลังแข่งขันอยู่ขณะนี้</h4>
                     <div className='container-full-width'>
-                        <StartedCompetition apiserver={props.apiserver}/>
+                        <StartedCompetition apiserver={props.apiserver} key={'startedCompetition'}/>
                     </div>
                 </div>
                 
@@ -103,7 +105,7 @@ return (
                     <h3 className='section-header mb-0'>รายชื่อสมาชิก</h3>
                     <h4 className='section-header-text'>รายชื่อสมาชิกที่ลงทะเบียนในระบบ</h4>
                     <div className='container-full-width'>
-                        <UsersTable apiserver={props.apiserver}/>
+                        <UsersTable apiserver={props.apiserver} key={'user-table'}/>
                     </div>
                 </div>
             </main>

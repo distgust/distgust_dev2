@@ -1,8 +1,8 @@
 import {useState} from 'react';
 import Loader from '../Loader';
 import React from 'react';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+
+
 const AddCompetitionForm = ({apiserver}) =>{
     const [Loading, setLoading] = useState(false);
     const [step, setStep] = useState(1);
@@ -15,11 +15,7 @@ const AddCompetitionForm = ({apiserver}) =>{
             let value = event.target.value;
             setCompetition(values => ({...values,[name]: value}));
         }
-         const handleDateChange = (date) => {
-        // Assuming 'date' here is the selected date from the DatePicker
-        setCompetition(values => ({ ...values, CompetitionDate: date }));
-        }
-
+    
         const Step1Submit = async (event) => {
             const date = competition.CompetitionDate
             setCompDate({Date:date})
@@ -78,7 +74,8 @@ const AddCompetitionForm = ({apiserver}) =>{
                         </div>
                         <div className='form-row'>
                             <label>วันที่แข่งขัน</label>
-                            <DatePicker name='CompetitionDate' selected={competition.CompetitionDate} onChange={handleDateChange} />
+                            
+                            <input type='text' name='CompetitionDate' onChange={Step1Change} placeholder='ปปปป-ดด-วว เช่น 2024-04-28' />
                         </div>
                         <div className='form-row' >
                             <label>ค่าคัน</label>

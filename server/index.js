@@ -138,13 +138,15 @@ app.post('/api/addcompetitionprice' , async (req, res) => {
       //const tablename = 'CompetitionDetailTable';
       let count = 1  
       types.forEach((values,index) => {
+         console.log(values)
          const type = 'Type'+count
          const data = values['Type'+count]
          const price = parseInt(data.price)
          const typename = data.name
-         console.log(id,type,typename,price)    
+         const weight = data.weight[0]
+         console.log(id,type,typename,price,weight)    
          console.log('***********')
-         db.InsertCompetitionData(id,type,typename,price)
+         db.InsertCompetitionData(id,type,typename,price,weight)
          count++ 
       })
       price.forEach((values,index)=>{
@@ -163,7 +165,36 @@ app.post('/api/addcompetitionprice' , async (req, res) => {
    }
 })
 
-// insert to NewsTable //
+// competition register //
+app.post('/api/competitionregister/:Cid' , async (req,res) => {
+   const cid = req.params.Cid
+   let data = req.body
+   let result = []
+   try{
+      let firstNumber = parseInt(data.fnum);
+      let lastNumber = parseInt(data.lnum);
+      let totalNum = (lastNumber-firstNumber) + 1;
+      for(let i = 0; i < totalNum ;i++){
+         let number = firstNumber + i;
+         console.log('ลงทะเบียนคันที่ : '+(i+1)+'\nหมายเลข: '+number+'\nทีม: '+data.name)
+         console.log('<---------------->')
+         const datas = {
+            registerName: data.name,
+            registerNumber: number,
+            CompetitionID: cid
+         };
+         const tablename = 'CompetitionRegisterTable';
+         const insert = await db.InsertData(tablename,datas);
+         result.push(insert)
+      }
+      res.status(201).json({status:"success",data: result});
+   } catch(error){
+      //console.log(error.errno);
+      res.status(500).json({status:"error",data: error});
+   }
+})
+
+// insert Score //
 app.post('/api/addscore/:Cid' , async (req, res) => {
    try{
       const cid = req.params.Cid
@@ -172,7 +203,6 @@ app.post('/api/addscore/:Cid' , async (req, res) => {
          CompetitionID: cid,
          Number: req.body.Number,
          FishWeight: req.body.FishWeight,
-         TeamName: req.body.TeamName,
          FishType: req.body.FishType
       };
       const insert = await db.InsertData(tablename,datas,cid);
@@ -183,7 +213,7 @@ app.post('/api/addscore/:Cid' , async (req, res) => {
    }
 })
 
-// edit-update CompetitionpriceTable //
+// edit-update CompetitionpTable //
 app.put('/api/editcompetition/:Cid' , async (req, res) => {
    const cid = req.params.Cid
    const updatedData = req.body;
@@ -193,48 +223,6 @@ app.put('/api/editcompetition/:Cid' , async (req, res) => {
       const tablename = 'CompetitionTable'; 
       const insert = await db.UpdateCompetition(tablename,databaseData,cid);
       res.status(201).json({status:"success",data: databaseData,id:cid});
-   } catch(error){
-      console.log(error);
-      res.status(500).json({status:"error",data: error});
-   }
-})
-
-app.put('/api/startcompetition/:Cid' , async (req, res) => {
-   const cid = req.params.Cid
-   let Data = {}
-   try{
-      Data = {'CompetitionStatus':'start'}
-      const tablename = 'CompetitionTable'
-      const insert = await db.UpdateCompetition(tablename,Data,cid);
-      res.status(201).json({status:"success",data: insert,id:cid});
-   } catch(error){
-      console.log(error);
-      res.status(500).json({status:"error",data: error});
-   }
-})
-
-app.put('/api/canclecompetition/:Cid' , async (req, res) => {
-   const cid = req.params.Cid
-   let Data = {}
-   try{
-      Data = {'CompetitionStatus':'plan'}
-      const tablename = 'CompetitionTable'
-      const insert = await db.UpdateCompetition(tablename,Data,cid);
-      res.status(201).json({status:"success",data: insert,id:cid});
-   } catch(error){
-      console.log(error);
-      res.status(500).json({status:"error",data: error});
-   }
-})
-
-app.put('/api/endcompetition/:Cid' , async (req, res) => {
-   const cid = req.params.Cid
-   let Data = {}
-   try{
-      Data = {'CompetitionStatus':'end'}
-      const tablename = 'CompetitionTable'
-      const insert = await db.UpdateCompetition(tablename,Data,cid);
-      res.status(201).json({status:"success",data: insert,id:cid});
    } catch(error){
       console.log(error);
       res.status(500).json({status:"error",data: error});
@@ -279,6 +267,52 @@ app.put('/api/updatecompetitionprice/:Cid' , async (req, res) => {
    }
 })
 
+// UPDATE Competition status -> start //
+app.put('/api/startcompetition/:Cid' , async (req, res) => {
+   const cid = req.params.Cid
+   let Data = {}
+   try{
+      Data = {'CompetitionStatus':'start'}
+      const tablename = 'CompetitionTable'
+      const insert = await db.UpdateCompetition(tablename,Data,cid);
+      res.status(201).json({status:"success",data: insert,id:cid});
+   } catch(error){
+      console.log(error);
+      res.status(500).json({status:"error",data: error});
+   }
+})
+
+// UPDATE Competition status -> plan //
+app.put('/api/canclecompetition/:Cid' , async (req, res) => {
+   const cid = req.params.Cid
+   let Data = {}
+   try{
+      Data = {'CompetitionStatus':'plan'}
+      const tablename = 'CompetitionTable'
+      const insert = await db.UpdateCompetition(tablename,Data,cid);
+      res.status(201).json({status:"success",data: insert,id:cid});
+   } catch(error){
+      console.log(error);
+      res.status(500).json({status:"error",data: error});
+   }
+})
+
+// UPDATE Competition status -> end //
+app.put('/api/endcompetition/:Cid' , async (req, res) => {
+   const cid = req.params.Cid
+   let Data = {}
+   try{
+      Data = {'CompetitionStatus':'end'}
+      const tablename = 'CompetitionTable'
+      const insert = await db.UpdateCompetition(tablename,Data,cid);
+      res.status(201).json({status:"success",data: insert,id:cid});
+   } catch(error){
+      console.log(error);
+      res.status(500).json({status:"error",data: error});
+   }
+})
+
+// get competitionID for UPDATE //
 app.get('/api/getcompetitionid/:CompDate' , async (req, res) => {
    try{
       const date = req.params.CompDate
@@ -289,21 +323,6 @@ app.get('/api/getcompetitionid/:CompDate' , async (req, res) => {
       console.log(error)
       //console.log(error.errno);
       res.status(500).json({status:"error",data: error});   
-   }
-})
-
-// show UsersTable //
-app.get('/api/showuser', async (req,res) =>{
-   try{
-      const table = 'UsersTable';
-      const Datas = await db.SelectData(table);
-      if(Datas.length <= 0){
-         res.status(204).json({status:"error",data: error});
-      }else{
-         res.status(200).json({status:"success",data: Datas});
-      }
-   }catch(error){
-      res.status(500).json({status:"error",data: error});
    }
 })
 
@@ -323,21 +342,20 @@ app.get('/api/allcompetitions', async (req,res) => {
    }
 })
 
-// show competition //
-app.get('/api/startedcompetitions', async (req,res) => {
+// show RgistedNumber //
+app.get('/api/registednumber/:Cid', async (req,res) => {
    try{
-      const table = 'CompetitionTable'
-      const Datas = await db.SelectStarted()
+      let cid = req.params.Cid
+      //console.log(cid)
+      const table = 'CompetitionRegisterTable'
+      const Datas = await db.SelectCompetitionData(table,cid);
       if(Datas.length <= 0){
-         console.log(Datas)
          res.status(204).json({status:"success",data: Datas});
       }else{
-         console.log(Datas)
          res.status(200).json({status:"success",data: Datas});
       }
    }
    catch(error){
-      console.log(error)
       res.status(500).json({status:"error",data: error});
    }
 })
@@ -359,6 +377,7 @@ app.get('/api/competition/:Cid', async (req,res) => {
       res.status(500).json({status:"error",data: error});
    }
 })
+
 // show competitiondetails //
 app.get('/api/competitiondetail/:Cid', async (req,res) => {
    try{
@@ -373,6 +392,91 @@ app.get('/api/competitiondetail/:Cid', async (req,res) => {
       }
    }
    catch(error){
+      res.status(500).json({status:"error",data: error});
+   }
+})
+
+// show competition reward //
+app.get('/api/getcompetitionreward/:cid', async (req,res) =>{
+   let cid = req.params.cid 
+   try{
+      let detailtable = 'CompetitionDetailTable';
+      const type = await db.SelectCompetitionData(detailtable,cid);
+      let rewardtable = 'CompetitionReward';
+      const reward = await db.SelectCompetitionData(rewardtable,cid);
+      if(type.length <= 0){
+         console.log('204\n'+{type:type,reward:reward})
+         res.status(204).json({status:"success",data: {type:type,reward:reward}});
+      }else{
+         console.log('200\n'+{type:type,reward:reward}) 
+         res.status(200).json({status:"success",data: {type:type,reward:reward}});
+      }
+   }catch(error){
+      console.log(error)
+      res.status(500).json({status:"error",data: error});
+   }
+})
+
+// show not starting competition //
+app.get('/api/notendcompetitions', async (req,res) => {
+   try{
+      const Datas = await db.SelectNotEnd();
+      if(Datas.length <= 0){
+         res.status(204).json({status:"success",data: Datas});
+      }else{
+         res.status(200).json({status:"success",data: Datas});
+      }
+   }
+   catch(error){
+      res.status(500).json({status:"error",data: error});
+   }
+})
+
+// show ended competition //
+app.get('/api/endedcompetitions', async (req,res) => {
+   try{
+      const Datas = await db.SelectEnded();
+      if(Datas.length <= 0){
+         res.status(204).json({status:"success",data: Datas});
+      }else{
+         res.status(200).json({status:"success",data: Datas});
+      }
+   }
+   catch(error){
+      res.status(500).json({status:"error",data: error});
+   }
+})
+
+// show started competition //
+app.get('/api/startedcompetitions', async (req,res) => {
+   try{
+      const table = 'CompetitionTable'
+      const Datas = await db.SelectStarted()
+      if(Datas.length <= 0){
+         console.log('StartedCompetition 204 : \n'+ {Datas})
+         res.status(204).json({status:"success",data: Datas});
+      }else{
+         console.log('StartedCompetition 200 : \n',{Datas})
+         res.status(200).json({status:"success",data: Datas});
+      }
+   }
+   catch(error){
+      console.log(error)
+      res.status(500).json({status:"error",data: error});
+   }
+})
+
+// show UsersTable //
+app.get('/api/showuser', async (req,res) =>{
+   try{
+      const table = 'UsersTable';
+      const Datas = await db.SelectData(table);
+      if(Datas.length <= 0){
+         res.status(204).json({status:"error",data: error});
+      }else{
+         res.status(200).json({status:"success",data: Datas});
+      }
+   }catch(error){
       res.status(500).json({status:"error",data: error});
    }
 })
@@ -399,11 +503,11 @@ app.get('/api/showcompetitionscore/:cid', async (req,res) =>{
       const table = 'ScoresTable';
       const Datas = await db.GetCompetitionScore(table,cid);
       if(Datas.length <= 0){
+         //console.log('204 competition score : \n'+{Datas})
          res.status(204).json({status:"success",data: Datas});
-         console.log('204\n'+Datas)
       }else{
+         //console.log('200 competition score : \n'+Datas)
          res.status(200).json({status:"success",data: Datas});
-         console.log('200\n'+Datas)
       }
    }catch(error){
       res.status(500).json({status:"error",data: error});
@@ -411,7 +515,7 @@ app.get('/api/showcompetitionscore/:cid', async (req,res) =>{
    }
 })
 
-// show competition Score //
+// remove Score //
 app.delete('/api/removescore/:Sid', async (req,res) =>{
    let sid = req.params.Sid 
    try{
@@ -419,31 +523,46 @@ app.delete('/api/removescore/:Sid', async (req,res) =>{
       const Datas = await db.RemoveCompetitionScore(table,sid);
       res.status(200).json({status:"success",data: Datas});
    }catch(error){
+      console.log('remove score error : \n' +error)
       res.status(500).json({status:"error",data: error});
-      console.log(error)
+      
    }
 })
 
 // show competition Score //
-app.get('/api/getcompetitionreward/:cid', async (req,res) =>{
+app.get('/api/competitionreport/:cid', async (req,res) =>{
    let cid = req.params.cid 
    try{
-      let detailtable = 'CompetitionDetailTable';
-      const type = await db.SelectCompetitionData(detailtable,cid);
-      let rewardtable = 'CompetitionReward';
-      const reward = await db.SelectCompetitionData(rewardtable,cid);
-      if(type.length <= 0){
-         res.status(204).json({status:"success",data: {type:type,reward:reward}});
-         console.log('204\n'+{type:type,reward:reward})
-      }else{
-         res.status(200).json({status:"success",data: {type:type,reward:reward}});
-         console.log('200\n'+{type:type,reward:reward}) 
-      }
-   }catch(error){
-      res.status(500).json({status:"error",data: error});
+      let reward = []
+      let allreport = []
+      const Detail = await db.GetCompetitionWeight(cid);
+      //console.log(Detail)
+
+      await Promise.all(Detail.map(async (values,key) => {
+         let typename = values.CompetitionTypeName
+         let weight = values.CompetitionTypeWeight
+         let totalreward = values.CompetitionTotalReward
+         reward.push(values)
+         let report = []
+         if(weight===null||weight===0){
+            const Datas = await db.getMaxReportCompetition(cid,totalreward)
+            report = Datas.map(value => value) // Copy Datas into report array
+         }else{
+            const Datas = await db.GetReportCompetition(cid,weight,totalreward)
+            report = Datas.map(value => value) // Copy Datas into report array
+         }
+         console.log(report)
+         allreport[key] = {[typename]:report}
+      }));
+      console.log(allreport)
+      res.status(200).json({status:"success",reward: reward,report:allreport});
+   } catch (error) {
       console.log(error)
+      res.status(500).json({status:"error",data: error});
+      
    }
 })
+
 
 app.get("/api", (req, res) => {
    res.json({ message: "Hello from server!" });

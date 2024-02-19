@@ -3,7 +3,7 @@ import CompetitionCard from "./CompetitionCard";
 import { useEffect } from "react";
 import Loader from "./Loader";
 
-const ContentCompetition = (props) => {
+const AllCompetition = (props) => {
     const [CompetitionDatas, setCompetitionDatas] = useState([]);
     const [loading, setLoading] = useState(true);
     
@@ -12,7 +12,7 @@ const ContentCompetition = (props) => {
         //fetch newstable
         const FetchData = async () =>{
             try{
-                const request = await fetch(props.apiserver+'/api/notendcompetitions', {
+                const request = await fetch(props.apiserver+'/api/allcompetitions', {
                     method: 'GET',
                     mode: 'cors',
                     headers:{
@@ -57,4 +57,4 @@ const ContentCompetition = (props) => {
         </div>             
     )
 }
-export default ContentCompetition;
+export default AllCompetition;

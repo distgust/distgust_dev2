@@ -11,7 +11,6 @@ const CompetitionStartPage = (props) => {
     let server = props.apiserver
     const pagetitle = 'เริ่มการแข่งขัน'
     useEffect(() => {
-        // Fetch data from the server
         const fetchdatas = async () => {
             try{
                 const response = await fetch(server+'/api/competition/'+competitionid, {
@@ -45,9 +44,10 @@ const CompetitionStartPage = (props) => {
             <Loader/>
         )
     }
+
     return(
             <>
-                <Headers pagetitle={pagetitle}/>
+                <Headers pagetitle={pagetitle} logged={true}/>
                 <main className='no-topnav col-12'>
                     {fetchDatas.map((Props)=>{
                         const date = Props.CompetitionDate.split("-")
@@ -55,7 +55,9 @@ const CompetitionStartPage = (props) => {
                         return(
                             <Competition CompetitionTitle={Props.CompetitionTitle} CompetitionLocation={Props.CompetitionLocation} 
                                 CompetitionDate={da.toDateString()} CompetitionDetail={Props.CompetitionDetail} key={Props.CompetitionID} 
-                                Cid={Props.CompetitionID} apiserver={props.apiserver} CompetitionStatus={Props.CompetitionStatus}/> 
+                                Cid={Props.CompetitionID} apiserver={props.apiserver} CompetitionStatus={Props.CompetitionStatus}
+                                CompetitionCost={Props.CompetitionCost}
+                            /> 
                         )
                     })}
                 </main>

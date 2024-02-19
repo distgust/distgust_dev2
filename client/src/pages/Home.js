@@ -1,9 +1,12 @@
+import { useState,useEffect } from 'react';
+
 import Headers from '../components/Header';
 import ContentCompetition from '../components/ContentCompetition'
 import TopNav from '../components/TopNav';
-import ContentLastmatch from '../components/Lastmatch';
 import Loader from '../components/Loader';
-import { useState,useEffect } from 'react';
+import StartedCompetition from '../components/StartedCompetition';
+import CompetitionHistory from '../components/CompetitionHistory';
+
 
 const Home = (props) => {
     const [loading, setLoading] = useState(true);
@@ -99,12 +102,19 @@ const Home = (props) => {
             element.status += " active"
         }
     });
-    
+
   return (
-    <>
+    <> 
         <Headers pagetitle={pagetitle} logged={adminLogged||userLogged}/>
-        <TopNav Li={TopNavLi}/>
-            <main className='col-12'>
+        <TopNav Li={TopNavLi} logged={adminLogged||userLogged}/>
+            <main className='col-12 '>
+                <div className='section bg-fish'>
+                    <h1 className='section-header mb-0'>การแข่งขัน</h1>
+                    <h4 className='section-header-text'>ที่กำลังแข่งขันอยู่ขณะนี้</h4>
+                    <div className='container-full-width'>
+                        <StartedCompetition adminLogged={adminLogged} apiserver={props.apiserver}/>
+                    </div>
+                </div>
                 <div className='section'>
                     <h3 className='section-header mb-0'>การแข่งขัน</h3>
                     <h4 className='section-header-text'>การแข่งขันที่กำลังจะมาถึง</h4>
@@ -112,8 +122,12 @@ const Home = (props) => {
                         <ContentCompetition apiserver={props.apiserver}/>
                     </div>
                 </div>
-                <div className='container-full-width'>
-                    <ContentLastmatch/>
+                <div className='section'>
+                    <div className="section-header">
+                        <h3 className='section-header mb-0'>ประวัติ</h3>
+                        <h4 className='section-header-text'>การแข่งขันที่ผ่านมา</h4>
+                    </div>
+                    <CompetitionHistory apiserver={props.apiserver}/>
                 </div>
             </main>
     </>

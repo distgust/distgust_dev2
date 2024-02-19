@@ -1,7 +1,7 @@
 
 import './form.css';
 import { useState } from 'react';
-const RegisterForm = () =>{
+const RegisterForm = ({apiserver}) =>{
     let [inputs, setInputs] = useState({username:""});
 
     const handleChange = (event) => {
@@ -15,7 +15,7 @@ const RegisterForm = () =>{
         //console.log(inputs.username)
         event.preventDefault();
         try{
-            const req = await fetch('https://6b01-49-228-169-225.ngrok-free.app/api/register', {
+            const req = await fetch(apiserver+'/api/register', {
                 method: 'POST',
                 mode: 'cors',
                 headers: {

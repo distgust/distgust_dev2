@@ -1,13 +1,13 @@
 import { useEffect,useState } from 'react';
 import DashHeaders from '../components/DashHeader';
 import SideBar from '../components/SideBar';
-import UsersTable from '../components/UsersTable';
 import Loader from "../components/Loader";
 import StartedCompetitionUserView from '../components/StartedCompetitionUserView';
 
 const DashBoard = (props) => {
     const pagetitle = 'แดชบอร์ด';
     const [loading, setLoading] = useState(true);
+    const [adminLogged,setAdminLogged] = useState(false);
     // get query string test
     //const queryParams = new URLSearchParams(window.location.search);
     //const paramValue = queryParams.get('param');
@@ -39,19 +39,22 @@ const DashBoard = (props) => {
                 }else{
                     console.log(res.decode)
                     const user = res.decode.data
-                    if(user.userRole !== "user"){
-                        alert('คำเตือน ! คุณไม่มีสิทธิ์ในการเข้าถึงหน้านี้')
-                        window.location="/";
-                    }else{
-                        return
-                    }
+                        if(user.userRole === "admin"){
+                            setAdminLogged(true)
+                        }else if(user.userRole === "user"){
+                            return
+                        }else{
+                            localStorage.removeItem('token');
+                            alert('ข้อมูลผู้ใช้ไม่ถูกต้อง\n');
+                            window.location = '/login';
+                        }
                 }
             }catch(error){
                 localStorage.removeItem('token');
                 alert('please re login\n'+error);
                 window.location = '/login';
             }finally{
-                    setLoading(false)
+                setLoading(false)
             }                   
         }
         auth();
@@ -66,7 +69,7 @@ const DashBoard = (props) => {
         },
         {
             label:'แดชบอร์ด',
-            link:'/dashboard',
+            link:'/userdashboard',
             status:'sidebar-link',
         },
     ];
@@ -88,7 +91,7 @@ return (
         <DashHeaders pagetitle={pagetitle}/>
         <div className='row'>
             <div className='col-1 sidebar'>
-                <SideBar menu_arr={menu_arr} pagetitle={pagetitle}/>
+                <SideBar menu_arr={menu_arr} pagetitle={pagetitle} adminlogged={adminLogged}/>
             </div>
             <main className="col-11 dashboard">
                 <div className='section'>
@@ -99,13 +102,7 @@ return (
                     </div>
                 </div>
                 
-                <div className='section'>
-                    <h3 className='section-header mb-0'>รายชื่อผู้เข้าขัน</h3>
-                    <h4 className='section-header-text'>รายชื่อสมาชิกที่ลงทะเบียนเข้าแข่งขัน</h4>
-                    <div className='container-full-width'>
-                        <UsersTable apiserver={props.apiserver}/>
-                    </div>
-                </div>
+                
             </main>
         </div>
     </>

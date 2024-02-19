@@ -4,7 +4,7 @@ const RemoveScoreBtn = ({Sid,apiserver}) => {
     const HandleClick = () =>{
         const FetchData = async () =>{
             try{
-                const request = await fetch(apiserver+'/api/removescore/'+Sid, {
+                const request = await fetch(apiserver+'/api/editcore/'+Sid, {
                     method: 'DELETE',
                     mode: 'cors',
                     headers:{
@@ -28,7 +28,7 @@ const RemoveScoreBtn = ({Sid,apiserver}) => {
 
     return(
         <>
-            <input type="button" className="btn-remove float-none" key={'delete'+Sid} onClick={HandleClick} value={'ลบ'}/>
+            <input type="button" className="edit-btn float-none" key={'delete'+Sid} onClick={HandleClick} value={'แก้ไข'}/>
         </>
     )
 }

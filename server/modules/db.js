@@ -1,6 +1,7 @@
 const { json } = require("body-parser");
 const mysql = require("mysql");
 const { resolvePath } = require("react-router-dom");
+
 /*
 const pool =  mysql.createPool({
     host:   '192.168.0.102',
@@ -10,6 +11,7 @@ const pool =  mysql.createPool({
     database:   'FishingSportManagerDB',
  });
 */
+
  // second pool //
  const pool =  mysql.createPool({
     host:   '192.168.0.101',
@@ -18,6 +20,7 @@ const pool =  mysql.createPool({
     password:   '12345678',
     database:   'FishingSportManagerDB',
  });
+
  // test db connection function //
 const TestDBConn = () => {
     return new Promise((resolve, reject) => {
@@ -31,7 +34,7 @@ const TestDBConn = () => {
           }
        })
     })
- }
+}
 
 const SelectData = (TableName) => new Promise((resolve,reject) => {
     const sql = 'SELECT * FROM '+TableName;
@@ -47,6 +50,28 @@ const SelectData = (TableName) => new Promise((resolve,reject) => {
 
 const SelectStarted = () => new Promise((resolve,reject) => {
     const sql = "SELECT * FROM CompetitionTable WHERE CompetitionStatus='start'"
+    pool.query(sql,(error,result) => {
+        if(error){
+            return reject(error)
+        }else{
+            return resolve(result)
+        }
+    })
+})
+
+const SelectNotEnd = () => new Promise((resolve,reject) => {
+    const sql = "SELECT * FROM CompetitionTable WHERE CompetitionStatus='plan'"
+    pool.query(sql,(error,result) => {
+        if(error){
+            return reject(error)
+        }else{
+            return resolve(result)
+        }
+    })
+})
+
+const SelectEnded = () => new Promise((resolve,reject) => {
+    const sql = "SELECT * FROM CompetitionTable WHERE CompetitionStatus='end'"
     pool.query(sql,(error,result) => {
         if(error){
             return reject(error)
@@ -74,7 +99,7 @@ const SelectCompetitionData = (TableName,CompetitionID) => new Promise((resolve,
 })
 
 const GetCompetitionScore = (TableName,CompetitionID) => new Promise((resolve,reject) => {
-    const sql = 'SELECT * FROM '+TableName+' WHERE CompetitionID='+CompetitionID+' ORDER BY Times DESC';
+    const sql = 'SELECT FishWeight,FishType,registerName,registerNumber,competitionregistertable.CompetitionID,scorestable.Times FROM ' + TableName + ' INNER JOIN competitionregistertable ON scorestable.Number=competitionregistertable.registerNumber AND competitionregistertable.CompetitionID=scorestable.CompetitionID WHERE competitionregistertable.CompetitionID=' + CompetitionID +' ORDER BY Times DESC';
     try{
         pool.query(sql,(error,result)=>{
             if(!error){
@@ -119,12 +144,13 @@ const Login = (un) => new Promise((resolve,reject) => {
 })
 
 const SelectCompetitionID =(dates) => new Promise((resolve,reject) => {
-    console.log("<----    THIS IS ON DB MODULES    ---->\n<---- START SELECT COMPETITION ID ---->")
+    console.log("<---- START SELECT COMPETITION ID ---->\n")
     let sql = 'SELECT CompetitionID FROM CompetitionTable ORDER BY CompetitionID DESC LIMIT 1 ';
     console.log('DATE INPUT : '+dates)
     pool.query(sql,[dates],(err,result) => {
         if(err){
-            return reject(err)
+            console.log('<---- ERROR ---->');
+            return reject(err)  
         }else{
             console.log(result)
             console.log('<---- SUCCESS ---->');
@@ -137,6 +163,7 @@ const InsertData = (TableName,Datas) => new Promise((resolve,reject) => {
     const SqlInsert = 'INSERT INTO '+TableName+' SET ?';
     pool.query(SqlInsert,Datas,(error,result) => {
         if(error){
+            console.log(error)
             return reject(error)
         }else{
             return resolve(result)
@@ -144,24 +171,14 @@ const InsertData = (TableName,Datas) => new Promise((resolve,reject) => {
     })
 })
 
-const InsertScore = (TableName,Datas,cid) => new Promise((resolve,reject) => {
-    const SqlInsert = 'INSERT INTO '+TableName+' SET ? WHERE CompetitionID='+cid;
-    pool.query(SqlInsert,Datas,(error,result) => {
-        if(error){
-            return reject(error)
-        }else{
-            return resolve(result)
-        }
-    })
-})
-
-const InsertCompetitionData = ( CompetitionID, CompetitionType,CompetitionTypeName, CompetitionTotalReward) => new Promise((resolve,reject) => {
+const InsertCompetitionData = ( CompetitionID, CompetitionType,CompetitionTypeName, CompetitionTotalReward,CompetitionWeight) => new Promise((resolve,reject) => {
     const Datas = {
         CompetitionID : CompetitionID,
         CompetitionType: CompetitionType,
         CompetitionTypeKey: CompetitionType+'_'+CompetitionID,
         CompetitionTypeName:CompetitionTypeName,
-        CompetitionTotalReward:CompetitionTotalReward
+        CompetitionTotalReward:CompetitionTotalReward,
+        CompetitionTypeWeight:CompetitionWeight
     }
     const SqlInsert = 'INSERT INTO CompetitionDetailTable SET ?';
     pool.query(SqlInsert,Datas,(error,result) => {
@@ -240,8 +257,8 @@ const UpdateCompetitionRewardPrice = (CompetitionID,RewardType,RewardPrice) => n
 })
 
 const DeleteCompetition = (CompetitionID) => new Promise((resolve,reject) => {
-    const Sql = 'DELETE FROM `competitiontable`,`competitiondetailtable`,`competitionreward` WHERE (`CompetitionID`='+CompetitionID+');'
-    pool.query(SqlInsert,Datas,(error,result) => {
+    const SqlDel = 'DELETE FROM `competitiontable`,`competitiondetailtable`,`competitionreward` WHERE (`CompetitionID`='+CompetitionID+');'
+    pool.query(SqlDel,Datas,(error,result) => {
         if(error){
             return reject(error)
         }else{
@@ -250,15 +267,43 @@ const DeleteCompetition = (CompetitionID) => new Promise((resolve,reject) => {
     })
 })
 
-const TruncateTable = () => new Promise((resolve,reject) => {
-    const column = []
+const GetCompetitionWeight = (CompetitionID) => new Promise((resolve,reject) => {
+    const report = 'SELECT CompetitionTypeName,CompetitionTypeWeight,CompetitionTotalReward FROM CompetitionDetailTable WHERE CompetitionID='+CompetitionID
+    pool.query(report,(error,result) => {
+        if(error){
+            return reject(error)
+        }else{
+            return resolve(result)
+        }
+    })
+})
 
-    let sql = ""
-    return resolve
-}) 
+const GetReportCompetition = (CompetitionID,Weight,totalreward) => new Promise((resolve,reject) => {
+    const report = 'SELECT FishWeight,FishType,registerName,registerNumber,competitionregistertable.CompetitionID,scorestable.Times FROM scorestable INNER JOIN competitionregistertable ON scorestable.Number=competitionregistertable.registerNumber AND competitionregistertable.CompetitionID=scorestable.CompetitionID WHERE FishWeight<='+Weight+' AND competitionregistertable.CompetitionID='+CompetitionID+' ORDER BY FishWeight DESC LIMIT '+totalreward
+    pool.query(report,(error,result) => {
+        if(error){
+            return reject(error)
+        }else{
+            return resolve(result)
+        }
+    })
+})
+
+const getMaxReportCompetition = (CompetitionID,totalreward) => new Promise((resolve,reject) => {
+    const report = 'SELECT FishWeight,FishType,registerName,registerNumber,competitionregistertable.CompetitionID,scorestable.Times FROM scorestable INNER JOIN competitionregistertable ON scorestable.Number=competitionregistertable.registerNumber AND competitionregistertable.CompetitionID=scorestable.CompetitionID WHERE competitionregistertable.CompetitionID='+CompetitionID+' ORDER BY FishWeight DESC LIMIT '+totalreward
+    pool.query(report,(error,result) => {
+        if(error){
+            return reject(error)
+        }else{
+            return resolve(result)
+        }
+    })
+})
+
 module.exports = {TestDBConn,InsertData,SelectData,SelectCompetitionData,
                     Login,SelectCompetitionID,InsertCompetitionData, 
                     InsertCompetitionRewardPrice, UpdateCompetition,
                     UpdateCompetitionData, UpdateCompetitionRewardPrice,
                     DeleteCompetition,SelectStarted,GetCompetitionScore,
-                    RemoveCompetitionScore};
+                    RemoveCompetitionScore, SelectNotEnd,SelectEnded,
+                    GetReportCompetition,GetCompetitionWeight,getMaxReportCompetition};

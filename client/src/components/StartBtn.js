@@ -93,7 +93,7 @@ const StartBtn =({apiserver,CompetitionID,CompetitionStatus})=>{
             <></>
         )
     }
-    if((CompetitionStatus === 'plan')){
+    else if((CompetitionStatus === 'plan')){
         return(
             <>
                 <div className="container contents-end">
@@ -101,15 +101,14 @@ const StartBtn =({apiserver,CompetitionID,CompetitionStatus})=>{
                 </div>
             </>
             )
-        }else{
-            return(
-                <div className="container contents-end">
-                    <input type="button" className="cancle-btn text-right" value='ยกเลิกแข่งขัน' onClick={cancle}/>
-                    <input type="button" className="warnning-btn text-right" value='สิ้นสุดการแข่งขัน' onClick={end}/>
-                </div>
-            )
-
-        }
+    }else{
+        return(
+            <div className="container contents-end">
+                <input type="button" className="cancle-btn text-right" value='ยกเลิกแข่งขัน' onClick={cancle}/>
+                <input type="button" className="warnning-btn text-right" value='สิ้นสุดการแข่งขัน' onClick={end}/>
+            </div>
+        )
     }
+}
 
 export default StartBtn;

@@ -2,6 +2,7 @@ import { useState,useEffect } from "react";
 import './CSS/Table.css'
 import Loader from "./Loader";
 import RemoveScoreBtn from "./RemoveScoreBtn";
+//import EditScoreBtn from "./EditScoreBtn";
 
 const CompetitionScore = (props) => {
     const [datas, setDatas] = useState([]);
@@ -52,7 +53,6 @@ const CompetitionScore = (props) => {
                         <td>ทีมงาน</td>
                         <td>ชนิดปลา</td>
                         <td>น้ำหนักปลา</td>
-                        <td>แก้ไข</td>
                         <td>ลบ</td>
                     </tr> 
                 </thead>
@@ -60,12 +60,12 @@ const CompetitionScore = (props) => {
                     {datas.map((item) => (
                         <tr key={"ScoresID"+item.ScoresID}>
                             <td>{new Date(item.Times).toLocaleTimeString()}</td>
-                            <td>{item.Number}</td>
-                            <td>{item.TeamName}</td>
+                            <td>{item.registerNumber}</td>
+                            <td>{item.registerName}</td>
                             <td>{item.FishType}</td>
                             <td>{item.FishWeight}</td>
-                            <td>{item.ScoresID}</td>
-                            <td><RemoveScoreBtn Sid={item.ScoresID} apiserver={server}/></td>
+                            
+                            <td><RemoveScoreBtn Sid={item.ScoresID} apiserver={server} key={'remove-'+item.ScoresID}/></td>
                         </tr>
                     ))}
                 </tbody>

@@ -1,4 +1,4 @@
-import ContentCompetition from '../components/ContentCompetition';
+import AllCompetition from '../components/AllCompetition';
 import DashHeaders from '../components/DashHeader'
 import SideBar from '../components/SideBar';
 import AddCompetitionForm from '../components/form/AddCompetitionForm';
@@ -35,13 +35,13 @@ const CompetitionManage = (props) => {
                 <div className='section pt-0'>
                     <h1 className='section-header mb-0'>การแข่งขัน</h1>
                     <h4 className='section-header-text'>จัดการการแข่งขัน</h4>
-                        <ContentCompetition apiserver={props.apiserver}/>
+                        <AllCompetition apiserver={props.apiserver}/>
                 </div>
                 <div className='section'>
                     <h3 className='section-header mb-0'>กำหนดการแข่งขันใหม่</h3>
                     <h4 className='section-header-text'>เพิ่มกำหนดการแข่งขันใหม่</h4>
                     <div className='container-full-width'> 
-                        <AddCompetitionForm />
+                        <AddCompetitionForm apiserver={props.apiserver} />
                     </div>
                 </div>
             </main>

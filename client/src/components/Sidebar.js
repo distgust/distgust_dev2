@@ -2,7 +2,7 @@ import './CSS/Sidebar.css';
 import Menu from './Nav-Menu';
 
 //
-const SideBar = ({menu_arr,pagetitle}) => {
+const SideBar = ({menu_arr,pagetitle,adminLogged}) => {
     const selectmenu_arr = [
         {
             label:'การแข่งขัน',
@@ -27,17 +27,18 @@ const SideBar = ({menu_arr,pagetitle}) => {
                     <Menu label={menu_props.label} link={menu_props.link} key={menu_props.link} status={menu_props.status} />
                 )
             })}
-            
-            <ul className="sidebar-select-menu">
-            <div className="selecter-menu">การจัดการ</div>
-                <div className="selecter-menu-content">
-                    {selectmenu_arr.map((selectmenu_props)=>{
+            {
+                adminLogged?<ul className="sidebar-select-menu">
+                    <div className="selecter-menu">การจัดการ</div>
+                        <div className="selecter-menu-content">
+                        {selectmenu_arr.map((selectmenu_props)=>{
                         return(
                             <Menu label={selectmenu_props.label} link={selectmenu_props.link} key={selectmenu_props.link} status={selectmenu_props.status}/>
                         )
                     })}
                 </div>
-            </ul>
+            </ul>:null
+            }
         </ul>      
     );
 }

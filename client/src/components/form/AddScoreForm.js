@@ -47,7 +47,7 @@ const AddScoresForm= ({competitionid, apiserver, CompetitionDate}) =>{
         )
     }
     return(
-        <div className='container-full-width'>
+        <div className='container-full-width' key={'score-form-container'+competitionid}>
             <div className='form-container'>
                 <form className='form-control' onSubmit={HandleSubmit}>
                     <div className='form-row' >
@@ -60,18 +60,13 @@ const AddScoresForm= ({competitionid, apiserver, CompetitionDate}) =>{
                     </div>
                     <p className='small-text text-right'>กรอกตัวเลขพร้อมทศนิยมสองตำแหน่ง</p>
                     <div className='form-row'>
-                        <label>ชื่อทีม-ชื่อนักกีฬา</label>
-                        <input type='text' name='TeamName' onChange={handleChange} placeholder='ทีมงาน'/>
-                    </div>
-                    <div className='form-row'>
                         <label>ชนิดปลา</label>
                         <input type='text' name='FishType' onChange={handleChange} placeholder='ชนิดปลา'/>
-
                     </div>
                     <p className='small-text text-right'>ปลานิล ปลายี่สก นวลจันท์ ตะเพียน จีน สวาย ฯลฯ</p>
                     <div className='form-row'>
                         <input className='btn-submit' disabled={((scores.RodNumber === '') || (scores.FishWeight === '')
-                            || (scores.TeamName === '') || (scores.FishTypes === '')) || (Object.keys(scores).length !== 4)} 
+                            || (scores.FishTypes === '')) || (Object.keys(scores).length !== 3)} 
                             type='submit' value='จัดเก็บ'/>
                     </div>
                 </form>
@@ -81,7 +76,7 @@ const AddScoresForm= ({competitionid, apiserver, CompetitionDate}) =>{
                     <h2 className='section-header-text'>ตารางคะแนน</h2>
                     <p className="section-header-date">{CompetitionDate}</p>
                 </div>
-                    <CompetitionScore competitionid={competitionid} apiserver={apiserver}/>
+                    <CompetitionScore competitionid={competitionid} apiserver={apiserver} key={'score-table-'+competitionid}/>
             </div>
         </div>
     )

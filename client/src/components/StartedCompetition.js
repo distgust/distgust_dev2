@@ -43,15 +43,15 @@ const StartedCompetition = (props) => {
 
     if(CompetitionDatas.length >= 1){
         return (
-            <div className='container-full-width pt-0 pb-0' >
+            <div className='container-full-width pt-0 pb-0'>
                 <div className='row'>
                     <div className='container-full-width col-4 text-right pt-0 pb-0'>
-                        <button className="primary-btn" onClick={() => setLoading(true)}>รีเฟรช</button>
+                        <button key={'refresh-competition-card-btn'} className="primary-btn" onClick={() => setLoading(true)}>รีเฟรช</button>
                     </div>
                 </div>
                 <div className='row-1 pt-0'>
                     {CompetitionDatas.map((Props)=>{
-                        const date = Props.CompetitionDate.split("-")
+                        const date = Props.CompetitionDate.split("-/")
                         const da = new Date(date)
                         return(
                             <>
@@ -60,17 +60,19 @@ const StartedCompetition = (props) => {
                                 CompetitionDate={da.toDateString()} CompetitionDetail={Props.CompetitionDetail} key={Props.CompetitionID} 
                                 Cid={Props.CompetitionID} apiserver={props.apiserver} CompetitionStatus={props.CompetitionStatus}/>
                             </div>
-                            <div className='container-full-width card'>
+                            {props.adminLogged?
+                                <div className='container-full-width card'>
                                 <div className="card-header">
                                     <p className='card-heading'>บันทึกคะแนน</p>
                                 </div>
-                                <AddScoresForm apiserver={props.apiserver} competitionid={Props.CompetitionID}/>
-                            </div>
+                                <AddScoresForm apiserver={props.apiserver} competitionid={Props.CompetitionID} key={'score-form-'+props.CompetitionID}/>
+                            </div>:null
+                            }
+                            
                             </>
                             )
                         })}
                 </div>
-                
             </div>             
         )
     }

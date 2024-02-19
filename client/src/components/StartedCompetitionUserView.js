@@ -52,10 +52,15 @@ const StartedCompetitionUserView = (props) => {
                 </div>
                 <div className='row-1 pt-0'>
                     {CompetitionDatas.map((Props)=>{
-                        const date = Props.CompetitionDate.split("-")
+                        const date = Props.CompetitionDate.split("-/")
                         const da = new Date(date)
                         return(
                         <>
+                            <div className='container-full-width'>
+                                <CompetitionCard CompetitionTitle={Props.CompetitionTitle} CompetitionLocation={Props.CompetitionLocation} 
+                                CompetitionDate={da.toDateString()} CompetitionDetail={Props.CompetitionDetail} key={Props.CompetitionID} 
+                                Cid={Props.CompetitionID} apiserver={props.apiserver} CompetitionStatus={props.CompetitionStatus}/>
+                            </div>
                             <div className='container-full-width p-2'>
                                 <div className="section-header">
                                     <h2 className='section-header-text'>ตารางคะแนน</h2>
@@ -63,11 +68,7 @@ const StartedCompetitionUserView = (props) => {
                                 </div>
                                 <CompetitionScoreUserView competitionid={Props.CompetitionID} apiserver={props.apiserver}/>
                             </div>
-                            <div className='container-full-width'>
-                                <CompetitionCard CompetitionTitle={Props.CompetitionTitle} CompetitionLocation={Props.CompetitionLocation} 
-                                CompetitionDate={da.toDateString()} CompetitionDetail={Props.CompetitionDetail} key={Props.CompetitionID} 
-                                Cid={Props.CompetitionID} apiserver={props.apiserver} CompetitionStatus={props.CompetitionStatus}/>
-                            </div>
+                            
                         </>
                             )
                         })}

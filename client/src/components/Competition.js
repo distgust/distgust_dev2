@@ -1,9 +1,12 @@
-import CompetitionScore from './CompetitionScore'
+import CompetitionScoreUserView from './CompetitionScoreUserView'
 import CompetitionReward from './CompetitionReward';
+import CompetitionReport from './pdfreport';
 import AddScoresForm from './form/AddScoreForm';
 import StartBtn from './StartBtn';
+import CompetitionRegister from './form/CompetitionRegisterForm';
+import NumberTable from './NumberTable';
 
-const Competition = ({CompetitionTitle,CompetitionLocation,CompetitionDate,CompetitionDetail,CompetitionStatus,Cid,apiserver}) => {
+const Competition = ({CompetitionTitle,CompetitionLocation,CompetitionDate,CompetitionDetail,CompetitionStatus,CompetitionCost,Cid,apiserver}) => {
     
     const goBack = () => {
         window.history.back();
@@ -29,20 +32,32 @@ const Competition = ({CompetitionTitle,CompetitionLocation,CompetitionDate,Compe
                 <div className='competition-content mt-0'>
                     {
                         CompetitionStatus === 'start'?
-                        <>
+                        <>  <div className='container-full-width p-2 pb-0'>
+                                <div className="section-header">
+                                    <h2 className='section-header-text'>ผลอันดับปัจจุบัน</h2>
+                                </div>
+                                <CompetitionReport competitionid={Cid} apiserver={apiserver}/>
+                            </div>
+                            <div className='container-full-width p-2 pb-0'>
+                                <div className="section-header">
+                                    <h2 className='section-header-text'>ลงทะเบียนแข่งขัน</h2>
+                                </div>
+                                <CompetitionRegister competitionid={Cid} apiserver={apiserver} CompetitionCost={CompetitionCost}/>
+                            </div>
+                            <div className='container-full-width p-2 pb-0'>
+                                <div className="section-header">
+                                    <h2 className='section-header-text'>เบอร์ที่ลงทะเบียน</h2>
+                                </div>
+                                <NumberTable key={'NumberTable'+Cid} competitionid={Cid} apiserver={apiserver}  itemsPerPage={5}/>
+                            </div>
                             <div className='container-full-width p-2'>
                                 <div className="section-header">
                                     <h2 className='section-header-text'>บันทึกน้ำหนักปลา</h2>
                                 </div>
-                                <AddScoresForm competitionid={Cid} apiserver={apiserver} CompetitionDate={CompetitionDate}/>
+                                <AddScoresForm competitionid={Cid} apiserver={apiserver}  CompetitionDate={CompetitionDate}/>
                             </div>
-                            <div className='container-full-width p-2'>
-                                <div className="section-header">
-                                    <h2 className='section-header-text'>รางวัล</h2>
-                                </div>
-                                    <CompetitionReward competitionid={Cid} apiserver={apiserver}/>
-                            </div>
-                        </>:CompetitionStatus === 'plan'?
+                        </>
+                        :CompetitionStatus === 'plan'?
                         <div className='container-full-width p-2 text-center'>
                                 <div className="section-header ">
                                     <h2 className='section-header-text'>ยังไม่เริ่มแข่งขัน</h2>
@@ -51,22 +66,26 @@ const Competition = ({CompetitionTitle,CompetitionLocation,CompetitionDate,Compe
                                     <h3 className='card-heading'>คลิกที่ปุ่มเริ่มการแข่งขันเพื่อเริ่มบันทึกคะแนน</h3>
                                     <CompetitionReward competitionid={Cid} apiserver={apiserver}/>                                           
                                 </div>
-                            </div>:CompetitionStatus === 'end'?
+                            </div>
+                            :CompetitionStatus === 'end'?
                         <>
-                            <div className='container-full-width p-2'>
-                                <div className="section-header">
+                            <div className='container-full-width p-2 text-center'>
+                                <div className="section-header ">
+                                    <h1 className='section-header-text'>การแข่งขันจบแล้ว</h1>
+                                    
                                     <h2 className='section-header-text'>สรุปผลการแข่งขัน</h2>
                                 </div>
-                                    <CompetitionReward competitionid={Cid} apiserver={apiserver}/> 
+                                <CompetitionReport competitionid={Cid} apiserver={apiserver}/>
                             </div>
                             <div className='container-full-width p-2'>
                                 <div className="section-header">
                                     <h2 className='section-header-text'>ตารางคะแนน</h2>
                                     <p className="section-header-date">{CompetitionDate}</p>
                                 </div>
-                                    <CompetitionScore competitionid={Cid} apiserver={apiserver}/>
+                                    <CompetitionScoreUserView competitionid={Cid} apiserver={apiserver}/>
                             </div>
-                        </>:null
+                        </>
+                        :null
                     }                   
 
                 </div>

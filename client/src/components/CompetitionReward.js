@@ -37,8 +37,7 @@ const CompetitionReward = (props) =>{
         fetchdatas()
     },[server,cid])
 
-    const sortedreward = Reward.sort((a, b) => b.CompetitionRewardPrice - a.CompetitionRewardPrice);
-    console.log(sortedreward)
+
     if(loading){
         return(
             <Loader/>

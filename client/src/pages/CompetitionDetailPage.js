@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { useEffect,useState } from 'react'
-import Headers from '../components/Header'
+import DashHeaders from '../components/DashHeader';
 import Loader from '../components/Loader'
 import CompetitionDetail from '../components/CompetitionDetail'
 
@@ -47,7 +47,7 @@ const CompetitionDetailPage = (props) => {
     }
     return(
             <>
-                <Headers pagetitle={pagetitle}/>
+                <DashHeaders pagetitle={pagetitle}/>
                 <main className='no-topnav col-12'>
                     {fetchDatas.map((Props)=>{
                         const date = Props.CompetitionDate.split("-")
@@ -55,7 +55,8 @@ const CompetitionDetailPage = (props) => {
                         return(
                             <CompetitionDetail CompetitionTitle={Props.CompetitionTitle} CompetitionLocation={Props.CompetitionLocation} 
                                 CompetitionDate={da.toDateString()} CompetitionDetail={Props.CompetitionDetail} key={Props.CompetitionID} 
-                                Cid={Props.CompetitionID} apiserver={props.apiserver}/>
+                                Cid={Props.CompetitionID} CompetitionStatus={Props.CompetitionStatus} apiserver={props.apiserver}       
+                            />
                         )
                     })}
                 </main>

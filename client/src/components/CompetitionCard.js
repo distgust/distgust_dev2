@@ -21,7 +21,7 @@ const CompetitionCard = ({CompetitionTitle,CompetitionLocation,CompetitionDate,C
                 return
             }else{
                 token = result.decode.data
-                console.log(token)
+
                 if(token.userRole === 'admin'){
                     setRole(true)
                 }

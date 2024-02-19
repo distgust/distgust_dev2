@@ -21,7 +21,7 @@ const ScoresTable = (props) => {
                 const result = await response.json();
                 setDatas(result.data);
             }catch(error){
-                console.error()
+                return
             }finally{
                 setLoading(false)
             }   

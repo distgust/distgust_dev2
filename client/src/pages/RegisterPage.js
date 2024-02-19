@@ -25,7 +25,7 @@ import RegisterForm from '../components/form/RegisterForm';
             element.status += " active"
         }
     });
-const RegisterPage = () =>{
+const RegisterPage = ({apiserver}) =>{
 
     return(
         <>
@@ -37,7 +37,7 @@ const RegisterPage = () =>{
                         <div className="section-header">
                             <h1 className='section-heder-text'>สมัครสมาชิก</h1>
                         </div>
-                        <RegisterForm/>
+                        <RegisterForm apiserver={apiserver}/>
                     </div> 
                 </div>
             </main>

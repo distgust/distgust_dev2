@@ -67,12 +67,13 @@ input[type=submit].btn-submit {
     font-family: Anuphan;
     font-weight: 500;
     color: white;
-    padding: 12px 20px;
+    padding: 1rem .5rem 1.rem .5rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     float: right;
     width: 50%;
+    text-align: center;
 }
 input[type=button].btn-clear {
     text-align: center;
@@ -93,12 +94,26 @@ input[type=button].btn-remove{
     font-family: Anuphan;
     font-weight: 500;
     color: white;
-    padding: 12px 20px;
+    padding: .5rem 1rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    width: 50%;
+    width: 70%;
 }
+input[type=button].edit-btn {
+    text-align: center;
+    background-color: #FFd8b0;
+    font-family: Anuphan;
+    font-weight: 500;
+    color: white;
+    padding: .5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 70%;
+}
+
+
 .form-control input[type=button].btn-type {
     text-align: center;
     background-color: #FFd8b0;
@@ -115,6 +130,11 @@ input[type=button].btn-remove{
 }
 .form-control .text-small{
     width: 100%;
+}
+
+input[type=button].edit-btn:hover{
+    background-color: #ebc59f;
+    box-shadow: 0 4px 8px 0  rgba(0,0,0,0.2), 0 6px 10px 0  rgba(0,0,0,0.2);
 }
 input[type=button].btn-clear:hover{
     background-color: #a94848;

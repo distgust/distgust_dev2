@@ -8,14 +8,6 @@ const TopNav = ({Li}) => {
                     <li className={nav_props.status} key={nav_props.link}><Link to={nav_props.link} className='link' key={nav_props.link}>{nav_props.label}</Link></li>
                 )
             })}
-            <li className="dropdown">
-            <div className="dropbtn">Dropdown</div>
-                <div className="dropdown-content">
-                    <Link>mn1</Link>
-                    <Link>mn2</Link>
-                    <Link>mn3</Link>
-                </div>
-            </li>
         </ul>
     );
 }

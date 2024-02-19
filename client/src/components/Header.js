@@ -1,5 +1,6 @@
 import '../components/CSS/Header.css';
-import { useNavigate } from 'react-router-dom';
+
+import { Link } from "react-router-dom";
 
 function LogoutButton() {
     function LogoutButtonClick() {
@@ -12,13 +13,9 @@ function LogoutButton() {
 }
 
 function LoginButton() {
-    const navigate = useNavigate();
-  
-    function LoginButtonClick() {
-      navigate("login");
-    }
+
     return (
-      <button className='header-button' onClick={LoginButtonClick}>ลงชื่อเข้าใช้</button>
+      <Link className='header-button' to={'/login'} >ลงชื่อเข้าใช้</Link>
     );
 }
 

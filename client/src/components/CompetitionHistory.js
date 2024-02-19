@@ -3,7 +3,7 @@ import CompetitionCard from "./CompetitionCard";
 import { useEffect } from "react";
 import Loader from "./Loader";
 
-const ContentCompetition = (props) => {
+const CompetitionHistory = (props) => {
     const [CompetitionDatas, setCompetitionDatas] = useState([]);
     const [loading, setLoading] = useState(true);
     
@@ -12,7 +12,7 @@ const ContentCompetition = (props) => {
         //fetch newstable
         const FetchData = async () =>{
             try{
-                const request = await fetch(props.apiserver+'/api/notendcompetitions', {
+                const request = await fetch(props.apiserver+'/api/endedcompetitions', {
                     method: 'GET',
                     mode: 'cors',
                     headers:{
@@ -36,6 +36,7 @@ const ContentCompetition = (props) => {
             <Loader/>
         )
     }
+    
     return (
         <div className='container-full-width pt-0 pb-0'>
             <div className='row'>
@@ -43,7 +44,7 @@ const ContentCompetition = (props) => {
                     <button className="primary-btn" onClick={() => setLoading(true)}>รีเฟรช</button>
                 </div>
             </div>
-            <div className='row-3 '>
+            <div className='row-2'>
                 {CompetitionDatas.map((Props)=>{
                     const date = Props.CompetitionDate.split("-/")
                     const da = new Date(date)
@@ -57,4 +58,4 @@ const ContentCompetition = (props) => {
         </div>             
     )
 }
-export default ContentCompetition;
+export default CompetitionHistory;

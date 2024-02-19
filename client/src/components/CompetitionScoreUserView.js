@@ -57,8 +57,8 @@ const CompetitionScoreUserView = (props) => {
                     {datas.map((item) => (
                         <tr key={"ScoresID"+item.ScoresID}>
                             <td>{new Date(item.Times).toLocaleTimeString()}</td>
-                            <td>{item.Number}</td>
-                            <td>{item.TeamName}</td>
+                            <td>{item.registerNumber}</td>
+                            <td>{item.registerName}</td>
                             <td>{item.FishType}</td>
                             <td>{item.FishWeight}</td>
                         </tr>

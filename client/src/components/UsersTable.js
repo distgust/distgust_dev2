@@ -40,7 +40,6 @@ const UsersTable = (props) => {
                 {datas.map((item) => (
                     <tr key={"User"+item.UserID}>
                         <td>{item.UserUN}</td>
-                        <td>{item.UserPW}</td>
                         <td>{item.UserR}</td>
                     </tr>
                 ))}

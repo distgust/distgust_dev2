@@ -3,6 +3,7 @@ import LoginForm from "../components/form/LoginForm";
 import Headers from '../components/Header';
 import TopNav from '../components/TopNav';
 let pagetitle = 'เข้าสู่ระบบ';
+
     const TopNavLi = [
         {
             label:'หน้าหลัก',
@@ -25,7 +26,7 @@ let pagetitle = 'เข้าสู่ระบบ';
             element.status += " active"
         }
     });
-const LoginPage = (props) =>{
+const LoginPage = (props) =>{;
 
     return(
         <>

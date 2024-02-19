@@ -32,6 +32,7 @@ header-brand:hover{
     background-color: #EFEEEE;
     color: #325D79;
     font-family: Anuphan;
+    text-decoration: none;
 }
 .header-button:hover{
     box-shadow: 0 0px 20px 0 rgba(251, 255, 245, 0.8);
