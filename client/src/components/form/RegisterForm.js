@@ -1,7 +1,7 @@
 
 import './form.css';
 import { useState } from 'react';
-const RegisterForm = () =>{
+const RegisterForm = ({apiserver}) =>{
     let [inputs, setInputs] = useState({username:""});
 
     const handleChange = (event) => {
@@ -9,16 +9,18 @@ const RegisterForm = () =>{
         let value = event.target.value;
         setInputs(values => ({...values, [name]: value}));
     };
-   
+    
     const handleSubmit = async (event) => {
         //console.log(inputs);
         //console.log(inputs.username)
         event.preventDefault();
         try{
-            const req = await fetch('http://localhost:3001/api/register', {
+            const req = await fetch(apiserver+'/api/register', {
                 method: 'POST',
+                mode: 'cors',
                 headers: {
-                    'Content-type': 'application/json'
+                    'Content-type': 'application/json',
+                    'ngrok-skip-browser-warning': 'any',
                 },
                 body: JSON.stringify(inputs),
             });
@@ -46,6 +48,7 @@ const RegisterForm = () =>{
             console.error("There has been a problem with your fetch operation:", error);
         }
     }
+    
     return(
         <div className='form-container'>
         <form className="form-control" onSubmit={handleSubmit}>

@@ -1,0 +1,154 @@
+.section{
+  width: 100%;
+  padding: 30px;
+  margin: 0;
+  border-bottom: .5px solid #CE5A67;
+  animation: slideIn 0.5s ease-out;
+}
+.section-header{
+  color: #325D79;
+  font-family: Chonburi;
+  display: inline-block;
+}
+.section-header-date{
+  margin-top: 5px;
+  font-size: 15px;
+  color: #325D79;
+  text-align: right;
+}
+.section-header-text{
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+.fish-bg{
+  background-image: url(../images/bg-fish.png);
+  background-size: 40% 40%;
+  background-attachment: fixed;
+  background-repeat:no-repeat;
+  background-position:initial;
+  background-position-x: right;
+  background-position-y:bottom;
+}
+.card{
+  padding: 20px;
+  padding-bottom: 0px;
+  border-radius: 10px;
+  border: .5px solid #EFEEEE ;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  animation: slideIn 0.5s ease-out;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+.card:hover{
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.card .card-header{
+  font-style: italic;
+  font-weight: 100;
+  margin:0;
+  border-bottom: .5px solid #CE5A67;
+  display: block;
+}
+.card .card-header .card-heading{
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 25px;
+  font-weight: 600;
+}
+.card .card-header .sub-heading{
+  margin: 0;
+  font-weight: 100;
+}
+.card .news-content{
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: 100;
+}
+.card .card-date{
+  font-style: italic;
+  font-weight: 100;
+  margin:0;
+}
+
+.card .see-full{
+  font-style: italic;
+  font-weight: 200;
+  font-size: 12px;
+  text-align: right;
+  color: #2c516a;
+  padding-bottom: 10px;
+
+}
+.cardmenu-link{
+  text-align: left;
+  text-decoration: none;
+  display: inline-block;
+  width: 100%;
+  padding: 9px 9px;
+  color: black;
+
+}
+.cardmenu-link.active {
+  background-color: #FFd8b0;
+  color: black;
+}
+.cardmenu-link.active:hover {
+  background-color: #FFd8b0;
+  color: black;
+  cursor: default;
+}
+ul.card-select-menu {
+  display: block;
+  padding: 0;
+  list-style: none;
+  margin-bottom: 0px;
+  
+}
+.card-menu {
+  color: black;
+  display: inline-block;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 0px;
+  text-decoration: none;
+  width: 30%;
+  font-size: 12px;
+}
+  
+.card-select-menu:hover .card-menu {
+  /*background-color: #FFd8b0;*/
+  background-color: #555;
+  color: white;
+}
+  
+.card-menu-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  margin-top: 10px;
+  animation: slideIn 0.5s ease-out; /* Add animation to the dropdown */
+  width: 25%;
+}
+  
+.card-menu-content li {
+  color: black;
+  text-decoration: none;
+  display: block;
+  text-align: right;
+  
+}
+  
+.card-menu-content a:hover {
+  background-color: #f1f1f1;
+}
+  
+.card-select-menu:hover .card-menu-content {
+  display: block;
+}
+ul.reward-list{
+  list-style: none;
+  padding: 0;
+  padding-left: 2rem;
+}

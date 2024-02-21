@@ -3,18 +3,19 @@ import './form.css';
 
 const AddNewsForm= () =>{
     let [newsform,setNewsform] = useState({});
-
     const handleChange = (event) => {
         let name = event.target.name;
         let value = event.target.value;
         setNewsform(values => ({...values,[name]: value}));
     }
     const HandleSubmit = (event) => new Promise ((resolve,reject) => {
-        fetch('http://localhost:3001/api/addnewspost',{
+        fetch('https://2414-49-228-171-180.ngrok-free.app/api/addnewspost',{
             method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
+            mode: 'cors',
+                headers: {
+                    'Content-type': 'application/json',
+                    'ngrok-skip-browser-warning': 'any',
+                },
             body: JSON.stringify(newsform),
         })    
         .then((res) => {
@@ -33,7 +34,7 @@ const AddNewsForm= () =>{
 
     return(
         <div className='form-container'>
-        <form className='form-control form-w-700' onSubmit={HandleSubmit}>
+        <form className='form-control' onSubmit={HandleSubmit}>
             <div className='form-row' >
                 <label>หัวข้อ</label>
                 <input type='text' name='NewsHeader' onChange={handleChange} placeholder='แมทท์แสนสองหัว บ่อตัวอย่าง ชิงหลิว,สายยาว,โอเพ่น ค่าลงเบ็ด 999 บาท'/>

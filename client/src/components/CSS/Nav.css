@@ -1,12 +1,10 @@
 nav {
     min-height: 100vh;
-    height: 100%; /* only for demonstration, should be removed */
+    height: auto;/* only for demonstration, should be removed */
     background-color: #F4BF96;
-    margin-right: 0;
-    position: fixed;
     width: 200px;
-    top: 69px;
-    position: absolute;
+    margin-top: 69px;
+    position: fixed;
 }
 
 /* Style the list inside the menu */

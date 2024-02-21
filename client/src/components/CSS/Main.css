@@ -1,20 +1,171 @@
 main{
     min-height: 100vh;
     background-color: #F5F2ED;
+    margin-top: 108px;
+    background-image: url(../images/bg-fish.png);
+    background-size: 40% 40%;
+    background-attachment: fixed;
+    background-repeat:no-repeat;
+    background-position:initial;
+    background-position-x: right;
+    background-position-y:bottom;
 }
 main.dashboard{
     background-color: #F5F2ED;
     min-height: 100vh;
     height: auto;
-    margin-right: 0;
     margin-left: 8.33%;
     margin-top: 69px;
     margin-bottom: 0;
 }
-
-bg-primary{
+main.no-topnav{
+    min-height: 100vh;
+    background-color: #F5F2ED;
+    margin-top: 69px;
+}
+.bg-primary{
     background-color: #FCF5ED;
 }
+.bg-light{
+    background-color: #fcfcfc;
+}
+.primary-btn{
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #4a80a4;
+    font-family: Anuphan;
+    font-weight: 500;
+    color: #fcfcfc;
+    border-radius: 5px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2),0 2px 2px 0 rgba(0,0,0,0.2);
+    border: 0;
+}
+.primary-btn:hover{
+    background-color: #325D79;
+    box-shadow: 0px 8px 8px 0 rgba(0,0,0,0.2),0px 8px 8px 0 rgba(0,0,0,0.2);
+
+}
+.back-btn{
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #4a80a4;
+    font-family: Anuphan;
+    font-weight: 500;
+    color: #fcfcfc;
+    border-radius: 5px;
+    box-shadow: 0px 2px 2px 0 rgba(0,0,0,0.2),0 2px 2px 0 rgba(0,0,0,0.2);
+    border: 0;
+    margin: 0;
+    margin-left: 2rem;
+}
+.back-btn:hover{
+    background-color: #325D79;
+    box-shadow: 0px 8px 8px 0 rgba(0,0,0,0.2),0px 8px 8px 0 rgba(0,0,0,0.2);
+}
+
+.start-btn{
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: rgb(92, 203, 95);
+    font-family: Anuphan;
+    font-weight: 500;
+    color: #fcfcfc;
+    border-radius: 5px;
+    box-shadow: 0px 2px 2px 0 rgba(0,0,0,0.2),0 2px 2px 0 rgba(0,0,0,0.2);
+    border: 0;
+    margin: 0;
+    margin-right: 2rem;
+}
+.start-btn:hover{
+    background-color: #419544;
+    box-shadow: 0px 8px 8px 0 rgba(0,0,0,0.2),0px 8px 8px 0 rgba(0,0,0,0.2);
+
+}
+
+input[type=button].cancle-btn {
+    text-align: center;
+    background-color: #b44747;
+    font-family: Anuphan;
+    font-weight: 500;
+    color: white;
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 0;
+    margin: 0;
+    margin-right: 2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    float: right;
+}
+
+input[type=button].cancle-btn:hover{
+    background-color: #a94848;
+    box-shadow: 0 4px 8px 0  rgba(0,0,0,0.2), 0 6px 10px 0  rgba(0,0,0,0.2);
+}
+
+input[type=button].warnning-btn {
+    text-align: center;
+    background-color: #FFd8b0;
+    font-family: Anuphan;
+    font-weight: 500;
+    color: white;
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 0;
+    margin: 0;
+    margin-right: 2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    float: right;
+}
+
+input[type=button].warnning-btn:hover{
+    background-color: #ebc59f;
+    box-shadow: 0 4px 8px 0  rgba(0,0,0,0.2), 0 6px 10px 0  rgba(0,0,0,0.2);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700&family=Chonburi&display=swap');
+* {
+  box-sizing: border-box;
+}
+.row{
+    width: 100;
+}
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+[class*="col-"] {
+  float: left;
+}
+
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;padding: 40px;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+
+@media screen and (max-width: 600px) {
+  .col-25, .col-75 {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
 .container-title{
     color: #325D79;
     margin-bottom: 5px;
@@ -26,12 +177,34 @@ bg-primary{
 .mt-1{
     margin-top: 10px;
 }
+.mb-0{
+    margin-bottom: 0;
+}
+.ml-1{
+    margin-left: 1rem;
+}
+.ml-2{
+    margin-left: 2rem;
+}
+.mx-0{
+    margin-left: 0px;
+    margin-right: 0px;
+}
+.px-0{
+    padding-left: 0;
+    padding-right: 0;
+}
 .small-text{
     font-size: 12px;
     font-weight: 200;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 .text-right{
     text-align: right;
+}
+.text-center{
+    text-align: center;
 }
 .link-decor-none{
     text-decoration: none;
@@ -40,21 +213,23 @@ bg-primary{
 .row-3{
     display: grid;
     grid-template-columns: auto auto auto;
-    align-content: center;
+    align-items: center;
     padding: 10px;
     gap: 20px;
 }
 .row-2{
     display: grid;
     grid-template-columns: auto auto;
+    align-items: center;
+    padding: 20px;
+    gap: 5%;
+}
+.row-1{
+    display: grid;
+    grid-template-columns: auto;
     align-content: center;
     padding: 10px;
     gap: 20px;
-}
-.row-1{
-    display: flex;
-    justify-content: center;
-    padding: 50px;
 }
 
 .card-row > .card {
@@ -67,39 +242,85 @@ bg-primary{
 }
 
 .container {
-    text-align: center;
-    justify-content: center;
     display: flex;
 }
-
+.competition-content{
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    min-height: 70vh;
+    margin: 30px;
+    background-color: #fcfcfc;
+    border-radius: 14px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    animation: slideIn 0.5s ease-out;
+}
 .container-border-0 {
     padding: 10px;
     margin: 0;
     display: grid;
 }
 .contents-center{
-    text-align: center;
     justify-content: center;
+}
+.contents-end{
+    justify-content: end;
+}
+.align-center{
+    text-align: center;
+}
+.align-right{
+    text-align: end;
 }
 .contents-center h4{
     justify-content: left ;
 }
 .container-full-width {
     width: 100%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: rgba(0,0,0,0);
 }
 .mt-100{
     margin-top: 100px;
+}
+.mt-39{
+    margin-top: 39px;
+}
+.mt-0{
+    margin-top: 0;
+}
+.mb-2{
+    margin-bottom: 2rem;
+}
+.mb-1{
+    margin-bottom: 1rem;
+
+}
+.px-2{
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+.p-2{
+    padding: 2rem;
+}
+.p-0{
+    padding: 0px;
+}
+.pt-0{
+    padding-top: 0px;
+}
+.pb-0{
+    padding-bottom: 0px;
+}
+.pl-3{
+    padding-left: 2rem;
 }
 @media screen and (max-width: 600px) {
     .col-6 {
       width: 100%;
     }
 }
-@media screen and (max-width: 1024px) {
-    main.dashboard {
-        width: 100%;
-        margin-left: 0;
-    }
+@media screen and (max-width: 600px) {
     .row-2{
         display: grid;
         grid-template-columns: auto;

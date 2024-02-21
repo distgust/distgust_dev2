@@ -1,6 +1,6 @@
 import '../components/CSS/Dashboard.css'
 import DashHeaders from '../components/DashHeader';
-import Sidebar from '../components/Sidebar';
+import Sidebar from '../components/SideBar';
 import AddNewsForm from '../components/form/AddNewsForm';
 const NewDash = () => {
     const pagetitle = 'แดชบอร์ดใหม่';
