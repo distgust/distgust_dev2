@@ -30,7 +30,7 @@ import CompetitionStartPage from './pages/CompetitionStart';
                 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const apiserver ='http://localhost:3001'
+const apiserver ='https://70b4-49-228-170-176.ngrok-free.app'
 
 root.render(
   

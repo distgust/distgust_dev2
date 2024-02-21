@@ -32,7 +32,7 @@ const UsersTable = (props) => {
             <thead>
                 <tr>
                 <td className="username">Username</td>
-                <td className="password">Password</td>
+                
                 <td>Role</td>
                 </tr> 
             </thead>

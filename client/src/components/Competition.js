@@ -1,6 +1,6 @@
 import CompetitionScoreUserView from './CompetitionScoreUserView'
 import CompetitionReward from './CompetitionReward';
-import CompetitionReport from './pdfreport';
+import CompetitionReport from './CompetitionReport';
 import AddScoresForm from './form/AddScoreForm';
 import StartBtn from './StartBtn';
 import CompetitionRegister from './form/CompetitionRegisterForm';
